@@ -1,0 +1,119 @@
+/* ================================
+   RESET & BASE SETUP
+================================== */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  line-height: 1.5; /* vertical rhythm baseline: 1.5rem */
+  background-color: #002b36; /* Solarized Dark base */
+  color: #fdf6e3; /* Solarized Light text */
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+body {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 1.5rem;
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 3rem 1.5rem;
+  min-height: 100vh;
+}
+
+/* Content column (centered) */
+main {
+  grid-column: 2 / span 10;
+}
+
+/* ================================
+   TYPOGRAPHY
+================================== */
+h1, h2, h3 {
+  font-weight: 600;
+  margin-top: 3rem;
+  margin-bottom: 1rem;
+}
+
+h1 {
+  font-size: 2rem;
+  border-bottom: 2px solid #586e75;
+  padding-bottom: 0.5rem;
+}
+
+h2 {
+  font-size: 1.5rem;
+}
+
+p, ul, ol, pre, blockquote {
+  margin-bottom: 1.5rem;
+  max-width: 65ch;
+}
+
+ul {
+  list-style: disc;
+  padding-left: 1.5rem;
+}
+
+code {
+  font-family: Menlo, Monaco, 'Courier New', monospace;
+  background-color: #073642;
+  color: #b58900;
+  padding: 0.2em 0.4em;
+  border-radius: 3px;
+}
+
+pre code {
+  display: block;
+  overflow-x: auto;
+  padding: 1rem;
+  border-radius: 4px;
+  background-color: #002b36;
+}
+
+/* ================================
+   LINKS & HR
+================================== */
+a {
+  color: #268bd2;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+hr {
+  border: none;
+  height: 1px;
+  background-color: #586e75;
+  margin: 3rem 0;
+}
+
+/* ================================
+   IMAGES
+================================== */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 1.5rem 0;
+}
+
+/* ================================
+   MEDIA QUERIES
+================================== */
+@media (max-width: 768px) {
+  body {
+    grid-template-columns: 1fr;
+    padding: 2rem 1rem;
+  }
+
+  main {
+    grid-column: 1 / -1;
+  }
+}
