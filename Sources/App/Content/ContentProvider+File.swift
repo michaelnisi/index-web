@@ -2,14 +2,14 @@ import Foundation
 
 extension ContentProvider {
     static let file: ContentProvider = .init(
-        dependencies: .init(posts: loadPosts)
+        dependencies: .init(posts: getPosts)
     )
 }
 
-private func loadPosts() async throws -> [Post] {
+private func getPosts() async throws -> [Post] {
     let hello = try File(filename: "hello.md")
     let post = try await loadFile(hello)
-    
+
     return [post]
 }
 
@@ -24,7 +24,7 @@ struct File {
         case notFound
         case encoding
     }
-    
+
     let string: String
 
     init(filename: String) throws {
@@ -35,13 +35,8 @@ struct File {
             throw Failure.notFound
         }
 
-        let fs = FileManager()
-
-        fs.changeCurrentDirectoryPath(directory)
-        print(fs.fileExists(atPath: filename))
-
-        let d = try Data(contentsOf: url)
-        guard let string = String(data: d, encoding: .utf8) else {
+        let data = try Data(contentsOf: url)
+        guard let string = String(data: data, encoding: .utf8) else {
             throw Failure.encoding
         }
 

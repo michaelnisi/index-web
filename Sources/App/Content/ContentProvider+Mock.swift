@@ -1,13 +1,20 @@
 import Foundation
 
 extension ContentProvider {
-    private static let html = MarkdownHTMLTransformer.html(from: markdownSource)
     static let mock: ContentProvider = .init(
-        dependencies: .init(
-            posts: {
-                [.init(date: .now, html: html, category: .swiftserver)]
-            }
-        )
+        dependencies: .init(posts: getPosts)
+    )
+}
+
+private func getPosts() async throws -> [Post] {
+    [.mock]
+}
+
+extension Post {
+    static let mock: Post = .init(
+        date: .now,
+        html: MarkdownHTMLTransformer.html(from: markdownSource),
+        category: .swiftserver
     )
 }
 
@@ -65,3 +72,4 @@ private let markdownSource = """
 
     This is an example of the `WebsiteController` that renders this site.
     """
+

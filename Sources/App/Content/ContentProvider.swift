@@ -5,7 +5,7 @@ struct ContentProvider: Sendable {
         let posts: @Sendable () async throws -> [Post]
     }
 
-    private let dependencies: Dependencies
+    let dependencies: Dependencies
 
     init(dependencies: Dependencies) {
         self.dependencies = dependencies
