@@ -1,13 +1,13 @@
 import Foundation
 
-enum Category: Sendable, CaseIterable {
+enum Category: String, Sendable, CaseIterable {
     case personal
     case swiftui
     case swiftserver
     case quote
 }
 
-struct Post: Sendable {
+struct HTMLPartial: Sendable {
     let date: Date
     let html: String
     let category: Category
@@ -16,6 +16,6 @@ struct Post: Sendable {
 // Not sure about Identifiable yet. Might be
 // useful, especially once posts are stored
 // in a database.
-extension Post: Hashable, Identifiable {
+extension HTMLPartial: Hashable, Identifiable {
     var id: Int { hashValue }
 }

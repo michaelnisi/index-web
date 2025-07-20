@@ -2,16 +2,16 @@ import Foundation
 
 extension ContentProvider {
     static let mock: ContentProvider = .init(
-        dependencies: .init(posts: getPosts)
+        dependencies: .init(partial: getPartial)
     )
 }
 
-private func getPosts() async throws -> [Post] {
-    [.mock]
+private func getPartial(path: String) async throws -> HTMLPartial {
+    .mock
 }
 
-extension Post {
-    static let mock: Post = .init(
+extension HTMLPartial {
+    static let mock: HTMLPartial = .init(
         date: .now,
         html: MarkdownHTMLTransformer.html(from: markdownSource),
         category: .swiftserver
@@ -72,4 +72,3 @@ private let markdownSource = """
 
     This is an example of the `WebsiteController` that renders this site.
     """
-

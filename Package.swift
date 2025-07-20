@@ -25,7 +25,10 @@ let package = Package(
                 .product(name: "Mustache", package: "swift-mustache"),
                 .product(name: "Markdown", package: "swift-markdown")
             ],
-            resources: [.process("Resources")],
+            resources: [
+                .process("Resources"),
+                .copy("Partials")
+            ],
             swiftSettings: swiftSettings
         ),
         .testTarget(name: "AppTests",

@@ -1,25 +1,26 @@
 import Foundation
+import System
 
 extension ContentProvider {
     static let file: ContentProvider = .init(
-        dependencies: .init(posts: getPosts)
+        dependencies: .init(partial: getPartial)
     )
 }
 
-private func getPosts() async throws -> [Post] {
-    let hello = try File(filename: "hello.md")
-    let post = try await loadFile(hello)
+private func getPartial(matching path: String) async throws -> HTMLPartial {
+    let markdownFile = try MarkdownFile(path: path)
+    let post = try await htmlPartial(markdownFile)
 
-    return [post]
+    return post
 }
 
-private func loadFile(_ file: File) async throws -> Post {
+private func htmlPartial(_ file: MarkdownFile) async throws -> HTMLPartial {
     let html = MarkdownHTMLTransformer.html(from: file.string)
 
     return .init(date: .now, html: html, category: .swiftserver)
 }
 
-struct File {
+struct MarkdownFile {
     enum Failure: Error {
         case notFound
         case encoding
@@ -27,10 +28,10 @@ struct File {
 
     let string: String
 
-    init(filename: String) throws {
+    init(path: String) throws {
         guard
-            let directory = Bundle.module.resourcePath,
-            let url = URL(filePath: .init("\(directory)/\(filename)"))
+            let filePath = path.filePath,
+            let url = URL(filePath: filePath, directoryHint: .notDirectory)
         else {
             throw Failure.notFound
         }
@@ -41,5 +42,22 @@ struct File {
         }
 
         self.string = string
+    }
+}
+
+extension String {
+    fileprivate var filePath: FilePath? {
+        guard let resourcePath = Bundle.module.resourcePath else {
+            return nil
+        }
+
+        guard let withoutPosts = self.split(separator: "/posts/").first else {
+            return nil
+        }
+
+        let path = "\(resourcePath)/Partials/posts/\(withoutPosts.replacingOccurrences(of: "/", with: "-")).md"
+        let filePath = FilePath(path)
+
+        return filePath
     }
 }

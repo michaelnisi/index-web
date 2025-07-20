@@ -6,12 +6,16 @@ struct WebsiteController {
     let mustacheLibrary: MustacheLibrary
 
     func addRoutes(to router: Router<some RequestContext>) {
-        router.get("/", use: indexHandler)
+        router.get("/", use: postHandler)
+        router.get("/posts/*/**", use: postHandler)
     }
 
-    @Sendable func indexHandler(request: Request, context: some RequestContext) async throws -> HTML {
-        let html = try await ContentProvider.file.posts().first!.html
+    @Sendable func postHandler(request: Request, context: some RequestContext) async throws -> HTML {
+        let html = try await ContentProvider.file.partial(matching: request.uri.path).html
         let data = ["post": html]
+
+        print(request.uri.path)
+        print(request.uri.queryParameters)
 
         guard let html = mustacheLibrary.render(data, withTemplate: "index") else {
             throw HTTPError(.internalServerError, message: "Failed to render template.")

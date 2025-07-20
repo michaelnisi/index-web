@@ -2,16 +2,16 @@ import Foundation
 
 struct ContentProvider: Sendable {
     struct Dependencies: Sendable {
-        let posts: @Sendable () async throws -> [Post]
+        let partial: @Sendable (String) async throws -> HTMLPartial
     }
 
-    let dependencies: Dependencies
+    private let dependencies: Dependencies
 
     init(dependencies: Dependencies) {
         self.dependencies = dependencies
     }
 
-    func posts() async throws -> [Post] {
-        try await dependencies.posts()
+    func partial(matching path: String) async throws -> HTMLPartial {
+        try await dependencies.partial(path)
     }
 }
