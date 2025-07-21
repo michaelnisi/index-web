@@ -10,6 +10,8 @@ struct WebsiteController {
         router.get("/posts/*/**", use: postHandler)
     }
 
+    // TODO: Implement one handler per mustache template
+
     @Sendable func postHandler(request: Request, context: some RequestContext) async throws -> HTML {
         let html = try await ContentProvider.file.partial(matching: request.uri.path).html
         let data = ["post": html]
