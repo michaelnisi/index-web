@@ -8,34 +8,38 @@ extension ContentProvider {
 }
 
 private func getPartial(matching path: String) async throws -> HTMLPartial {
-    let markdown = try MarkdownFile(path: path)
-    let html = MarkdownHTMLTransformer.html(from: markdown.string)
+    let markdown = try await makePostFlow(string: path).handle()
+    let html = MarkdownHTMLTransformer.html(from: markdown)
     let partial = HTMLPartial(date: .now, html: html, category: .swiftserver)
 
     return partial
 }
 
-struct MarkdownFile {
-    enum Failure: Error {
-        case notFound
-        case encoding
+func buildFileTree(at url: URL) throws -> FileNode {
+    var isDirectory: ObjCBool = false
+    guard FileManager.default.fileExists(atPath: url.path, isDirectory: &isDirectory) else {
+        throw NSError(domain: "FileNodeError", code: 1, userInfo: [NSLocalizedDescriptionKey: "Path does not exist"])
     }
 
-    let string: String
+    if isDirectory.boolValue {
+        let contents = try FileManager.default.contentsOfDirectory(at: url, includingPropertiesForKeys: nil, options: [.skipsHiddenFiles])
+        let children = try contents.map { try buildFileTree(at: $0) }
+        return .directory(name: url.lastPathComponent, children: children)
+    } else {
+        return .file(name: url.lastPathComponent)
+    }
+}
 
-    init(path: String) throws {
-        guard
-            let postFlow = makePostFlow(string: path) as? PostFile,
-            let url = URL(filePath: postFlow.filePath, directoryHint: .notDirectory)
-        else {
-            throw Failure.notFound
-        }
+func printTree(at filePath: FilePath) {
+    guard let url = URL(filePath: filePath) else {
+        print("no URL")
+        return
+    }
 
-        let data = try Data(contentsOf: url)
-        guard let string = String(data: data, encoding: .utf8) else {
-            throw Failure.encoding
-        }
-
-        self.string = string
+    do {
+        let tree = try buildFileTree(at: url)
+        print(tree)
+    } catch {
+        print(error)
     }
 }

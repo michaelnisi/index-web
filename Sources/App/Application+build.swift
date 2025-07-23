@@ -2,6 +2,7 @@ import Foundation
 import Hummingbird
 import Logging
 import Mustache
+import System
 
 public protocol AppArguments {
     var hostname: String { get }
@@ -56,6 +57,8 @@ private func buildTemplates() async throws -> MustacheLibrary {
     guard let directory = Bundle.module.resourcePath else {
         fatalError("no resource path")
     }
+
+    printTree(at: FilePath(directory))
 
     let templates = try await MustacheLibrary(
         directory: directory,

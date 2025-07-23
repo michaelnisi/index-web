@@ -22,7 +22,7 @@ final class FilePathTests: XCTestCase {
         ]
 
         for path in paths {
-            let postFlow: PostFlow = makePostFlow(string: path.0)
+            let postFlow: PostHandler = makePostFlow(string: path.0)
 
             XCTAssertEqual(postFlow.filePath.lastComponent, FilePath.Component(path.1))
         }

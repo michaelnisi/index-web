@@ -13,11 +13,10 @@ struct WebsiteController {
     // TODO: Implement one handler per mustache template
 
     @Sendable func postHandler(request: Request, context: some RequestContext) async throws -> HTML {
+        // TODO: Encapsulate all in try await PostHandler
+        // try await PostHandler(request, context: context).respond()
         let html = try await ContentProvider.file.partial(matching: request.uri.path).html
         let data = ["post": html]
-
-        print(request.uri.path)
-        print(request.uri.queryParameters)
 
         guard let html = mustacheLibrary.render(data, withTemplate: "index") else {
             throw HTTPError(.internalServerError, message: "Failed to render template.")
