@@ -8,7 +8,7 @@ extension ContentProvider {
 }
 
 private func getPartial(matching path: String) async throws -> HTMLPartial {
-    let markdown = try await makePostFlow(string: path).handle()
+    let markdown = try await PostFile(string: path).handle()
     let html = MarkdownHTMLTransformer.html(from: markdown)
     let partial = HTMLPartial(date: .now, html: html, category: .swiftserver)
 
@@ -30,7 +30,7 @@ func buildFileTree(at url: URL) throws -> FileNode {
     }
 }
 
-func printTree(at filePath: FilePath) {
+func printFileTree(at filePath: FilePath) {
     guard let url = URL(filePath: filePath) else {
         print("no URL")
         return

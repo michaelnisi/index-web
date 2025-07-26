@@ -45,27 +45,42 @@ private func buildRouter() async throws -> Router<AppRequestContext> {
         FileMiddleware()
     }
 
-    let templates = try await buildTemplates()
-
-    WebsiteController(mustacheLibrary: templates)
-        .addRoutes(to: router)
-
-    return router
-}
-
-private func buildTemplates() async throws -> MustacheLibrary {
     guard let directory = Bundle.module.resourcePath else {
         fatalError("no resource path")
     }
-
-    printTree(at: FilePath(directory))
 
     let templates = try await MustacheLibrary(
         directory: directory,
         withExtension: "html"
     )
 
-    assert(templates.getTemplate(named: "page") != nil)
+    let markdownFiles = try FileNode(directory: directory)
 
-    return templates
+    WebsiteController(
+        markdownTree: markdownFiles,
+        mustacheLibrary: templates
+    )
+    .addRoutes(to: router)
+
+    return router
+}
+
+extension FileNode {
+    enum Failure: Error {
+        case noResourcePath(String)
+        case noURL(FilePath)
+    }
+
+    init(directory: String) throws {
+        guard let directory = Bundle.module.resourcePath else {
+            throw Failure.noResourcePath(directory)
+        }
+
+        let filePath = FilePath(directory)
+        guard let url = URL(filePath: filePath) else {
+            throw Failure.noURL(filePath)
+        }
+
+        self = try buildFileTree(at: url)
+    }
 }

@@ -1,45 +1,67 @@
 import Foundation
 
+struct SlugComponents {
+    let year: Int
+    let month: Int
+    let slug: String
+}
+
+extension String {
+    func slugComponents() -> SlugComponents? {
+        let path = self.trimmingCharacters(in: CharacterSet(charactersIn: "/"))
+
+        let components = path.split(separator: "/")
+        guard components.count == 4, components[0] == "posts" else {
+            return nil
+        }
+
+        guard
+            let year = Int(components[1]), components[1].count == 4,
+            let month = Int(components[2]), (1...12).contains(month)
+        else {
+            return nil
+        }
+
+        let slug = String(components[3].split(separator: ".").first ?? "")
+        return SlugComponents(year: year, month: month, slug: slug)
+    }
+}
+
 extension String {
     func markdownPath() -> String {
-        // Remove leading slash
-        var path = trimmingCharacters(in: CharacterSet(charactersIn: "/"))
-        
-        // Handle root or index
+        let path = self.trimmingCharacters(in: CharacterSet(charactersIn: "/"))
+
+        // Root or index
         if path.isEmpty || path == "index" || path.hasPrefix("index.") {
             return "index.md"
         }
-        
-        // Strip .html or .htm extension
-        if path.hasSuffix(".html") || path.hasSuffix(".htm") {
-            if let dotIndex = path.lastIndex(of: ".") {
-                path = String(path[..<dotIndex])
-            }
+
+        // If already ends in .md, return as-is
+        if path.hasSuffix(".md") {
+            return path
         }
-        
-        // Match /posts/<year>/<month>/<slug>
-        let components = path.split(separator: "/")
-        if components.count == 4, components[0] == "posts" {
-            let year = components[1]
-            let rawMonth = components[2]
-            let slug = components[3]
-            
-            // Validate year = exactly 4 digits
-            let yearString = String(year)
-            let isValidYear = yearString.count == 4 && yearString.allSatisfy(\.isNumber)
-            
-            // Normalize and validate month
-            if isValidYear, let monthInt = Int(rawMonth), (1...12).contains(monthInt) {
-                let month = String(format: "%02d", monthInt)
-                return "posts/\(yearString)-\(month)-\(slug).md"
-            }
+
+        // Try extracting slug components
+        if let slug = self.slugComponents() {
+            let month = String(format: "%02d", slug.month)
+            return "posts/\(slug.year)-\(month)-\(slug.slug).md"
         }
-        
-        // Default fallback
-        if !path.hasSuffix(".md") {
-            path += ".md"
+
+        // Fallback: strip .html/.htm and add .md
+        var base = path
+        if path.hasSuffix(".html") || path.hasSuffix(".htm"),
+            let dotIndex = path.lastIndex(of: ".")
+        {
+            base = String(path[..<dotIndex])
         }
-        
-        return path
+
+        return base + ".md"
+    }
+}
+
+extension SlugComponents {
+    func markdownPath() -> String {
+        let month = String(format: "%02d", month)
+        return "posts/\(year)-\(month)-\(slug).md"
     }
 }
