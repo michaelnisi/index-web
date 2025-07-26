@@ -16,7 +16,7 @@ public func buildApplication(_ arguments: some AppArguments) async throws -> som
     let environment = Environment()
 
     let logger = {
-        var logger = Logger(label: "TestHummingbird")
+        var logger = Logger(label: "Index")
         logger.logLevel = arguments.logLevel ?? environment.get("LOG_LEVEL").flatMap { Logger.Level(rawValue: $0) } ?? .info
 
         return logger
@@ -31,7 +31,7 @@ public func buildApplication(_ arguments: some AppArguments) async throws -> som
                 arguments.hostname,
                 port: arguments.port
             ),
-            serverName: "TestHummingbird"
+            serverName: "Index"
         ),
         logger: logger
     )
