@@ -6,3 +6,9 @@ build: format
 
 run: format
 		swift run
+
+docker-build:
+		docker build -t my-website .
+
+docker-run:
+		docker run --rm -it -p 8080:8080 my-website
