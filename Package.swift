@@ -36,7 +36,7 @@ let package = Package(
         .testTarget(name: "AppTests",
             dependencies: [
                 .byName(name: "App"),
-                .product(name: "HummingbirdTesting", package: "hummingbird")
+                .product(name: "HummingbirdTesting", package: "hummingbird"),
             ],
             path: "Tests/AppTests"
         )

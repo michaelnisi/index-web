@@ -1,23 +1,23 @@
-import Hummingbird
-import HummingbirdTesting
+import Testing
 import Logging
-import XCTest
+import HummingbirdTesting
 
 @testable import App
 
-final class AppTests: XCTestCase {
+struct AppTests {
     struct TestArguments: AppArguments {
         let hostname = "127.0.0.1"
         let port = 0
         let logLevel: Logger.Level? = .trace
     }
-
-    func testApp() async throws {
+    
+    @Test func index() async throws {
         let args = TestArguments()
         let app = try await buildApplication(args)
+        
         try await app.test(.router) { client in
             try await client.execute(uri: "/", method: .get) { response in
-                XCTAssertTrue(true)
+                #expect(true)
             }
         }
     }
