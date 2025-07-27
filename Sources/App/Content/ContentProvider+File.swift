@@ -9,7 +9,7 @@ extension ContentProvider {
 private func getPartial(matching path: String) async throws -> HTMLPartial {
     let markdown = try await PostFile(string: path).handle()
     let html = MarkdownHTMLTransformer.html(from: markdown)
-    let partial = HTMLPartial(date: .now, html: html, category: .swiftserver)
+    let partial = HTMLPartial(html: html)
 
     return partial
 }
