@@ -15,7 +15,7 @@ let package = Package(
         .package(url: "https://github.com/hummingbird-project/hummingbird.git", from: "2.0.0"),
         .package(url: "https://github.com/apple/swift-argument-parser.git", from: "1.3.0"),
         .package(url: "https://github.com/hummingbird-project/swift-mustache.git", from: "2.0.0"),
-        .package(url: "https://github.com/apple/swift-markdown", from: "0.4.0")
+        .package(url: "https://github.com/apple/swift-markdown", from: "0.4.0"),
     ],
     targets: [
         .executableTarget(name: "App",
@@ -23,9 +23,14 @@ let package = Package(
                 .product(name: "ArgumentParser", package: "swift-argument-parser"),
                 .product(name: "Hummingbird", package: "hummingbird"),
                 .product(name: "Mustache", package: "swift-mustache"),
-                .product(name: "Markdown", package: "swift-markdown")
+                .product(name: "Markdown", package: "swift-markdown"),
             ],
-            resources: [.process("Resources")],
+            resources: [
+                .process("Resources"),
+                // The Partials directory contains data that could live
+                // somewhere else, in a database, another server, etc.
+                .copy("Partials")
+            ],
             swiftSettings: swiftSettings
         ),
         .testTarget(name: "AppTests",

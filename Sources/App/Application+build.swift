@@ -15,7 +15,7 @@ public func buildApplication(_ arguments: some AppArguments) async throws -> som
     let environment = Environment()
 
     let logger = {
-        var logger = Logger(label: "TestHummingbird")
+        var logger = Logger(label: "Index")
         logger.logLevel = arguments.logLevel ?? environment.get("LOG_LEVEL").flatMap { Logger.Level(rawValue: $0) } ?? .info
 
         return logger
@@ -30,7 +30,7 @@ public func buildApplication(_ arguments: some AppArguments) async throws -> som
                 arguments.hostname,
                 port: arguments.port
             ),
-            serverName: "TestHummingbird"
+            serverName: "Index"
         ),
         logger: logger
     )
@@ -44,15 +44,6 @@ private func buildRouter() async throws -> Router<AppRequestContext> {
         FileMiddleware()
     }
 
-    let templates = try await buildTemplates()
-
-    WebsiteController(mustacheLibrary: templates)
-        .addRoutes(to: router)
-
-    return router
-}
-
-private func buildTemplates() async throws -> MustacheLibrary {
     guard let directory = Bundle.module.resourcePath else {
         fatalError("no resource path")
     }
@@ -62,7 +53,29 @@ private func buildTemplates() async throws -> MustacheLibrary {
         withExtension: "html"
     )
 
-    assert(templates.getTemplate(named: "page") != nil)
+    let markdownFiles = try FileNode(directory: directory)
 
-    return templates
+    WebsiteController(
+        markdownTree: markdownFiles,
+        mustacheLibrary: templates
+    )
+    .addRoutes(to: router)
+
+    return router
+}
+
+extension FileNode {
+    enum Failure: Error {
+        case noResourcePath(String)
+    }
+
+    init(directory: String) throws {
+        guard let directory = Bundle.module.resourcePath else {
+            throw Failure.noResourcePath(directory)
+        }
+        
+        let url = URL(fileURLWithPath: directory)
+
+        self = try buildFileTree(at: url)
+    }
 }

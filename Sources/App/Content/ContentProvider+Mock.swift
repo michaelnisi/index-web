@@ -1,13 +1,18 @@
 import Foundation
 
 extension ContentProvider {
-    private static let html = MarkdownHTMLTransformer.html(from: markdownSource)
     static let mock: ContentProvider = .init(
-        dependencies: .init(
-            posts: {
-                [.init(date: .now, html: html, category: .swiftserver)]
-            }
-        )
+        dependencies: .init(partial: getPartial)
+    )
+}
+
+private func getPartial(path: String) async throws -> HTMLPartial {
+    .mock
+}
+
+extension HTMLPartial {
+    static let mock: HTMLPartial = .init(
+        html: MarkdownHTMLTransformer.html(from: markdownSource)
     )
 }
 
