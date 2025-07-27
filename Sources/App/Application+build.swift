@@ -2,7 +2,6 @@ import Foundation
 import Hummingbird
 import Logging
 import Mustache
-import System
 
 public protocol AppArguments {
     var hostname: String { get }
@@ -68,18 +67,14 @@ private func buildRouter() async throws -> Router<AppRequestContext> {
 extension FileNode {
     enum Failure: Error {
         case noResourcePath(String)
-        case noURL(FilePath)
     }
 
     init(directory: String) throws {
         guard let directory = Bundle.module.resourcePath else {
             throw Failure.noResourcePath(directory)
         }
-
-        let filePath = FilePath(directory)
-        guard let url = URL(filePath: filePath) else {
-            throw Failure.noURL(filePath)
-        }
+        
+        let url = URL(fileURLWithPath: directory)
 
         self = try buildFileTree(at: url)
     }

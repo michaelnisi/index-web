@@ -1,5 +1,4 @@
 import Foundation
-import System
 
 extension ContentProvider {
     static let file: ContentProvider = .init(
@@ -15,39 +14,29 @@ private func getPartial(matching path: String) async throws -> HTMLPartial {
     return partial
 }
 
-private protocol PostHandler {
-    var filePath: FilePath { get }
-    func handle() async throws -> String
-}
-
-extension PostHandler {
-    func handle() async throws -> String {
-        "No-op: conditions not met."
-    }
-}
-
-private struct PostFile: PostHandler {
+private struct PostFile {
     enum Failure: Error {
+        case noResourcePath
         case notFound
         case encoding
     }
+    
+    let url: URL
 
-    let filePath: FilePath
-
-    init(string: String) {
+    init(string: String) throws {
         guard let resourcePath = Bundle.module.resourcePath else {
-            fatalError("***")
+            throw Failure.noResourcePath
         }
 
         let path = "\(resourcePath)/\(string)"
 
-        self.filePath = FilePath(path)
+        self.url = URL(fileURLWithPath: path)
     }
 
     func handle() async throws -> String {
-        guard let url = URL(filePath: filePath, directoryHint: .notDirectory) else {
+        guard FileManager.default.fileExists(atPath: url.path) else {
             throw Failure.notFound
-        }
+         }
 
         let data = try Data(contentsOf: url)
         guard let string = String(data: data, encoding: .utf8) else {
@@ -61,7 +50,7 @@ private struct PostFile: PostHandler {
 func buildFileTree(at url: URL) throws -> FileNode {
     var isDirectory: ObjCBool = false
     guard FileManager.default.fileExists(atPath: url.path, isDirectory: &isDirectory) else {
-        throw NSError(domain: "FileNodeError", code: 1, userInfo: [NSLocalizedDescriptionKey: "Path does not exist"])
+        throw PostFile.Failure.notFound
     }
 
     if isDirectory.boolValue {
@@ -70,19 +59,5 @@ func buildFileTree(at url: URL) throws -> FileNode {
         return .directory(name: url.lastPathComponent, children: children)
     } else {
         return .file(name: url.lastPathComponent)
-    }
-}
-
-func printFileTree(at filePath: FilePath) {
-    guard let url = URL(filePath: filePath) else {
-        print("no URL")
-        return
-    }
-
-    do {
-        let tree = try buildFileTree(at: url)
-        print(tree)
-    } catch {
-        print(error)
     }
 }

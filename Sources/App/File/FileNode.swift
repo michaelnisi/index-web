@@ -129,7 +129,7 @@ extension FileNode {
         case .file:
             return nil
 
-        case .directory(_ , let children):
+        case .directory(_, let children):
             for child in children {
                 let childName: String
                 switch child {
