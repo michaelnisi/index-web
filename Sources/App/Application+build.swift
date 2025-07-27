@@ -73,7 +73,7 @@ extension FileNode {
         guard let directory = Bundle.module.resourcePath else {
             throw Failure.noResourcePath(directory)
         }
-        
+
         let url = URL(fileURLWithPath: directory)
 
         self = try buildFileTree(at: url)

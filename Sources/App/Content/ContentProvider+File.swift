@@ -20,7 +20,7 @@ private struct PostFile {
         case notFound
         case encoding
     }
-    
+
     let url: URL
 
     init(string: String) throws {
@@ -36,7 +36,7 @@ private struct PostFile {
     func handle() async throws -> String {
         guard FileManager.default.fileExists(atPath: url.path) else {
             throw Failure.notFound
-         }
+        }
 
         let data = try Data(contentsOf: url)
         guard let string = String(data: data, encoding: .utf8) else {
