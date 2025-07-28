@@ -8,8 +8,6 @@ struct WebsiteController {
 
     func addRoutes(to router: Router<some RequestContext>) {
         router.get("/", use: indexHandler)
-        router.get("/*", use: indexHandler)
-
         router.get("/posts/**", use: postHandler)
     }
 
