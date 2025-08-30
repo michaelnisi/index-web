@@ -27,8 +27,6 @@ let package = Package(
             ],
             resources: [
                 .process("Resources"),
-                // The Partials directory contains data that could live
-                // somewhere else, in a database, another server, etc.
                 .copy("Partials")
             ],
             swiftSettings: swiftSettings

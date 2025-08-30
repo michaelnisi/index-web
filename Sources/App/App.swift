@@ -2,6 +2,8 @@ import ArgumentParser
 import Hummingbird
 import Logging
 
+let environment = Environment()
+
 @main
 struct AppCommand: AsyncParsableCommand, AppArguments {
     @Option(name: .shortAndLong)
@@ -11,7 +13,10 @@ struct AppCommand: AsyncParsableCommand, AppArguments {
     var port: Int = 8080
 
     @Option(name: .shortAndLong)
-    var logLevel: Logger.Level?
+    var logLevel: Logger.Level =
+        environment.get("LOG_LEVEL").flatMap {
+            Logger.Level(rawValue: $0)
+        } ?? .info
 
     func run() async throws {
         let app = try await buildApplication(self)

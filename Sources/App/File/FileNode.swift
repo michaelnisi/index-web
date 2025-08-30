@@ -31,6 +31,7 @@ extension FileNode {
             path
             .split(separator: "/")
             .map(String.init)
+
         return find(pathComponents: components)
     }
 
@@ -90,10 +91,11 @@ extension FileNode {
     func prettyDescription(indent: String = "") -> String {
         switch self {
         case .file(let name):
-            return "\(indent) \(name)"
+            return "\(indent)\(name)"
         case .directory(let name, let children):
-            let header = "\(indent) \(name)"
+            let header = "\(indent)\(name)"
             let childDescriptions = children.map { $0.prettyDescription(indent: indent + "  ") }
+
             return ([header] + childDescriptions).joined(separator: "\n")
         }
     }
@@ -188,5 +190,30 @@ extension FileNode {
             }
             return nil
         }
+    }
+}
+
+extension FileNode {
+    func allNodes(matching name: String, path: String = "") -> [(path: String, node: FileNode)] {
+        var results: [(String, FileNode)] = []
+
+        switch self {
+        case .file(let fileName):
+            let fullPath = path.isEmpty ? fileName : "\(path)/\(fileName)"
+            if fileName == name {
+                results.append((fullPath, self))
+            }
+
+        case .directory(let dirName, let children):
+            let currentPath = path.isEmpty ? dirName : "\(path)/\(dirName)"
+            if dirName == name {
+                results.append((currentPath, self))
+            }
+            for child in children {
+                results += child.allNodes(matching: name, path: currentPath)
+            }
+        }
+
+        return results
     }
 }

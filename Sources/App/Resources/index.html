@@ -1,10 +1,12 @@
 {{<page}}
 {{$body}}
 <main>
-    <h1>codes.ink</h1>
-    <p>Clarity over duplication</p>
+  {{#posts}}
+    <p>
+<h2>{{{ title }}}</h2>
+    </p>
+  {{/posts}}
+  {{> footer}}
 </main>
 {{/body}}
 {{/page}}
-
-
