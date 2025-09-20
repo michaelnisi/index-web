@@ -56,6 +56,7 @@ func buildFileTree(at url: URL) throws -> FileNode {
     if isDirectory.boolValue {
         let contents = try FileManager.default.contentsOfDirectory(at: url, includingPropertiesForKeys: nil, options: [.skipsHiddenFiles])
         let children = try contents.map { try buildFileTree(at: $0) }
+
         return .directory(name: url.lastPathComponent, children: children)
     } else {
         return .file(name: url.lastPathComponent)

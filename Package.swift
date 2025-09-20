@@ -3,8 +3,6 @@
 
 import PackageDescription
 
-let swiftSettings: [SwiftSetting] = [.enableExperimentalFeature("StrictConcurrency=complete")]
-
 let package = Package(
     name: "Index",
     platforms: [.macOS(.v14), .iOS(.v17), .tvOS(.v17)],
@@ -27,11 +25,8 @@ let package = Package(
             ],
             resources: [
                 .process("Resources"),
-                // The Partials directory contains data that could live
-                // somewhere else, in a database, another server, etc.
                 .copy("Partials")
-            ],
-            swiftSettings: swiftSettings
+            ]
         ),
         .testTarget(name: "AppTests",
             dependencies: [
