@@ -7,6 +7,9 @@ build: format
 run: format
 		swift run
 
+test: format
+		swift test
+
 docker-build:
 		docker build -t my-website .
 
