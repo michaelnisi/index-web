@@ -3,8 +3,6 @@
 
 import PackageDescription
 
-let swiftSettings: [SwiftSetting] = [.enableExperimentalFeature("StrictConcurrency=complete")]
-
 let package = Package(
     name: "Index",
     platforms: [.macOS(.v14), .iOS(.v17), .tvOS(.v17)],
@@ -28,8 +26,7 @@ let package = Package(
             resources: [
                 .process("Resources"),
                 .copy("Partials")
-            ],
-            swiftSettings: swiftSettings
+            ]
         ),
         .testTarget(name: "AppTests",
             dependencies: [
