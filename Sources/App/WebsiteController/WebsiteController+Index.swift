@@ -11,9 +11,12 @@ extension WebsiteController {
 
     @Sendable func indexHandler(request: Request, context: some RequestContext) async throws -> HTML {
         let results: [String] = try await withThrowingTaskGroup(of: String.self) { group in
-            guard let posts = markdownTree
-                .allNodes(matching: "posts")
-                .first?.node.allFiles() else {
+            guard
+                let posts =
+                    markdownTree
+                    .allNodes(matching: "posts")
+                    .first?.node.allFiles()
+            else {
                 return []
             }
 
@@ -24,7 +27,7 @@ extension WebsiteController {
                         .html
                 }
             }
-            
+
             var collected: [String] = []
 
             for try await result in group {
@@ -34,7 +37,12 @@ extension WebsiteController {
             return collected
         }
 
-        let posts = results.map(IndexData.Post.init(title:))
+        let posts = results.map(IndexData.Post.init(title:)).sorted {
+            $0.title > $1.title
+        }
+
+        context.logger.debug("posts \(posts.map(\.title))")
+
         let data = IndexData(posts: posts)
 
         guard let html = mustacheLibrary.render(data, withTemplate: "index") else {
