@@ -22,16 +22,11 @@ public func buildApplication(_ arguments: some AppArguments) async throws -> som
     }()
 
     let router = try await buildRouter(logger: logger)
+    let address = BindAddress.hostname(arguments.hostname, port: arguments.port)
 
     return Application(
         router: router,
-        configuration: .init(
-            address: .hostname(
-                arguments.hostname,
-                port: arguments.port
-            ),
-            serverName: serverName
-        ),
+        configuration: .init(address: address, serverName: serverName),
         logger: logger
     )
 }
@@ -40,8 +35,8 @@ private func buildRouter(logger: Logger) async throws -> Router<AppRequestContex
     let router = Router(context: AppRequestContext.self)
 
     router.addMiddleware {
-        LogRequestsMiddleware(.info)
-        FileMiddleware()
+        LogRequestsMiddleware(logger.logLevel)
+        FileMiddleware(logger: logger)
     }
 
     guard let directory = Bundle.module.resourcePath else {
@@ -55,10 +50,11 @@ private func buildRouter(logger: Logger) async throws -> Router<AppRequestContex
 
     let markdownFiles = try FileNode(directory: directory)
 
-    logger.debug(
-        "Initializing WebsiteController",
-        metadata: { ["files": .array(markdownFiles.flattenedPaths().map { .string($0) })] }()
-    )
+    let paths = markdownFiles.flattenedPaths()
+    typealias MetadataValue = Logger.MetadataValue
+    let files = MetadataValue.array(paths.map(MetadataValue.string))
+
+    logger.debug("Using file tree", metadata: { ["files": files] }())
 
     WebsiteController(
         markdownTree: markdownFiles,
