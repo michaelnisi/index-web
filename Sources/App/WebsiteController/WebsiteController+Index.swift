@@ -4,15 +4,22 @@ import Hummingbird
 extension WebsiteController {
     struct IndexData {
         struct Post {
-            let title: String
+            let content: String
             let date: Date
+            let link: String
+
+            init(partial: HTMLPartial) {
+                self.content = partial.html
+                self.date = partial.date
+                self.link = "/some/link"  // TODO: Pass link with partial
+            }
         }
 
         let posts: [Post]
     }
 
     @Sendable func indexHandler(request: Request, context: some RequestContext) async throws -> HTML {
-        let results: [HTMLPartial] = try await withThrowingTaskGroup(of: HTMLPartial.self) { group in
+        let partials: [HTMLPartial] = try await withThrowingTaskGroup(of: HTMLPartial.self) { group in
             guard
                 let posts = markdownTree.allNodes(matching: "posts")
                     .first?.node.allFiles()
@@ -36,10 +43,7 @@ extension WebsiteController {
             return collected
         }
 
-        let posts = results.map {
-            IndexData.Post(title: $0.html, date: $0.date)
-        }
-        .sorted {
+        let posts = partials.map(IndexData.Post.init(partial:)).sorted {
             $0.date > $1.date
         }
 
