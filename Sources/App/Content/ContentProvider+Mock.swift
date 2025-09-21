@@ -12,7 +12,8 @@ private func getPartial(path: String) async throws -> HTMLPartial {
 
 extension HTMLPartial {
     static let mock: HTMLPartial = .init(
-        html: MarkdownHTMLTransformer.html(from: markdownSource)
+        html: MarkdownHTMLTransformer.html(from: markdownSource),
+        date: .now
     )
 }
 

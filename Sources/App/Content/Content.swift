@@ -2,6 +2,7 @@ import Foundation
 
 struct HTMLPartial: Sendable {
     let html: String
+    let date: Date
 }
 
 // Not sure about Identifiable yet. Might be

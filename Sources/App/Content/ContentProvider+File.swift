@@ -7,11 +7,45 @@ extension ContentProvider {
 }
 
 private func getPartial(matching path: String) async throws -> HTMLPartial {
-    let markdown = try await PostFile(string: path).handle()
+    let file = try PostFile(string: path)
+    let markdown = try await file.handle()
     let html = MarkdownHTMLTransformer.html(from: markdown)
-    let partial = HTMLPartial(html: html)
+    let partial = HTMLPartial(html: html, date: file.date)
 
     return partial
+}
+
+extension String {
+    func ISO8601() -> Date? {
+        var tokens = Array(self.split(separator: "-").reversed())
+        var dateComponents = DateComponents()
+
+        while !tokens.isEmpty {
+            if let token = tokens.popLast(), let candidate = Int(token) {
+                if dateComponents.year == nil {
+                    dateComponents.year = candidate
+                }
+                if dateComponents.month == nil {
+                    dateComponents.month = candidate
+                }
+                if dateComponents.day == nil {
+                    dateComponents.day = candidate
+                }
+            }
+        }
+
+        return Calendar.current.date(from: dateComponents)
+    }
+}
+
+extension Date {
+    init?(ISO8601 string: String) {
+        guard let date = string.ISO8601() else {
+            return nil
+        }
+
+        self = date
+    }
 }
 
 private struct PostFile {
@@ -19,9 +53,11 @@ private struct PostFile {
         case noResourcePath
         case notFound
         case encoding
+        case invalidPath(String)
     }
 
     let url: URL
+    let date: Date
 
     init(string: String) throws {
         guard let resourcePath = Bundle.module.resourcePath else {
@@ -31,6 +67,12 @@ private struct PostFile {
         let path = "\(resourcePath)/\(string)"
 
         self.url = URL(fileURLWithPath: path)
+
+        guard let date = string.ISO8601() else {
+            throw Failure.invalidPath(string)
+        }
+
+        self.date = date
     }
 
     func handle() async throws -> String {

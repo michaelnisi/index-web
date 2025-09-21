@@ -50,11 +50,7 @@ private func buildRouter(logger: Logger) async throws -> Router<AppRequestContex
 
     let markdownFiles = try FileNode(directory: directory)
 
-    let paths = markdownFiles.flattenedPaths()
-    typealias MetadataValue = Logger.MetadataValue
-    let files = MetadataValue.array(paths.map(MetadataValue.string))
-
-    logger.debug("Using file tree", metadata: { ["files": files] }())
+    markdownFiles.logPaths(logger: logger)
 
     WebsiteController(
         markdownTree: markdownFiles,
@@ -79,5 +75,13 @@ extension FileNode {
         let url = URL(fileURLWithPath: directory)
 
         self = try buildFileTree(at: url)
+    }
+
+    func logPaths(logger: Logger) {
+        let paths = flattenedPaths()
+        typealias MetadataValue = Logger.MetadataValue
+        let files = MetadataValue.array(paths.map(MetadataValue.string))
+
+        logger.debug("Using file tree", metadata: { ["files": files] }())
     }
 }
