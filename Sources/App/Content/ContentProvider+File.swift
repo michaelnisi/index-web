@@ -15,39 +15,6 @@ private func getPartial(matching path: String) async throws -> HTMLPartial {
     return partial
 }
 
-extension String {
-    func ISO8601() -> Date? {
-        var tokens = Array(self.split(separator: "-").reversed())
-        var dateComponents = DateComponents()
-
-        while !tokens.isEmpty {
-            if let token = tokens.popLast(), let candidate = Int(token) {
-                if dateComponents.year == nil {
-                    dateComponents.year = candidate
-                }
-                if dateComponents.month == nil {
-                    dateComponents.month = candidate
-                }
-                if dateComponents.day == nil {
-                    dateComponents.day = candidate
-                }
-            }
-        }
-
-        return Calendar.current.date(from: dateComponents)
-    }
-}
-
-extension Date {
-    init?(ISO8601 string: String) {
-        guard let date = string.ISO8601() else {
-            return nil
-        }
-
-        self = date
-    }
-}
-
 private struct PostFile {
     enum Failure: Error {
         case noResourcePath
@@ -68,7 +35,7 @@ private struct PostFile {
 
         self.url = URL(fileURLWithPath: path)
 
-        guard let date = string.ISO8601() else {
+        guard let date = url.leadingISO8601DateFromFilename() else {
             throw Failure.invalidPath(string)
         }
 
@@ -102,5 +69,40 @@ func buildFileTree(at url: URL) throws -> FileNode {
         return .directory(name: url.lastPathComponent, children: children)
     } else {
         return .file(name: url.lastPathComponent)
+    }
+}
+
+extension URL {
+    /// Parses a leading `YYYY-MM-DD-` from the last path component and returns a Date (midnight UTC).
+    ///
+    /// ```swift
+    /// "Partials/posts/2025-06-06-troubled.md" -> 2025-06-06 00:00:00 +0000
+    /// "2025-06-06-foo.md" -> valid
+    /// "foo-2025-06-06.md" -> nil (date not at start)
+    /// "2025-13-01-foo.md" -> nil (invalid month)
+    func leadingISO8601DateFromFilename() -> Date? {
+        let last = lastPathComponent
+        let pattern = #"^(\d{4})-(\d{2})-(\d{2})-"#
+        guard let regex = try? NSRegularExpression(pattern: pattern),
+            let m = regex.firstMatch(in: last, range: NSRange(last.startIndex..., in: last)),
+            let yRange = Range(m.range(at: 1), in: last),
+            let mRange = Range(m.range(at: 2), in: last),
+            let dRange = Range(m.range(at: 3), in: last),
+            let year = Int(last[yRange]),
+            let month = Int(last[mRange]),
+            let day = Int(last[dRange])
+        else {
+            return nil
+        }
+
+        var comps = DateComponents()
+        comps.calendar = Calendar(identifier: .iso8601)
+        comps.timeZone = TimeZone(secondsFromGMT: 0)  // midnight UTC
+        comps.year = year
+        comps.month = month
+        comps.day = day
+
+        // Invalid dates (e.g., 2025-02-30) yield nil
+        return comps.calendar?.date(from: comps)
     }
 }
