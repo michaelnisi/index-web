@@ -15,6 +15,8 @@ struct FilenameTests {
         let strings = [
             "2025-06-06.md",
             "troubled-2025-06-06.md",
+            "2025-13-06-troubled.md",
+            "2025-06-32-troubled.md",
         ]
 
         for url in strings.map(URL.init(string:)) {

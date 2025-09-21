@@ -90,7 +90,9 @@ extension URL {
             let dRange = Range(m.range(at: 3), in: last),
             let year = Int(last[yRange]),
             let month = Int(last[mRange]),
-            let day = Int(last[dRange])
+            let day = Int(last[dRange]),
+            (1...12).contains(month),
+            (1...31).contains(day)
         else {
             return nil
         }
