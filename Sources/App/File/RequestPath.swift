@@ -53,17 +53,14 @@ extension String {
     func markdownPath() -> String {
         let path = self.trimmingCharacters(in: CharacterSet(charactersIn: "/"))
 
-        // Root or index
         if path.isEmpty || path == "index" || path.hasPrefix("index.") {
             return "index.md"
         }
 
-        // If already ends in .md, return as-is
         if path.hasSuffix(".md") {
             return path
         }
 
-        // Try extracting slug components
         if let slug = self.slugComponents() {
             let month = String(format: "%02d", slug.month)
             let day = String(format: "%02d", slug.day)
@@ -71,7 +68,6 @@ extension String {
             return "posts/\(slug.year)-\(month)-\(day)-\(slug.slug).md"
         }
 
-        // Fallback: strip .html/.htm and add .md
         var base = path
         if path.hasSuffix(".html") || path.hasSuffix(".htm"),
             let dotIndex = path.lastIndex(of: ".")
