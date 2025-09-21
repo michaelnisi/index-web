@@ -14,9 +14,7 @@ extension WebsiteController {
     @Sendable func indexHandler(request: Request, context: some RequestContext) async throws -> HTML {
         let results: [HTMLPartial] = try await withThrowingTaskGroup(of: HTMLPartial.self) { group in
             guard
-                let posts =
-                    markdownTree
-                    .allNodes(matching: "posts")
+                let posts = markdownTree.allNodes(matching: "posts")
                     .first?.node.allFiles()
             else {
                 return []
@@ -38,14 +36,12 @@ extension WebsiteController {
             return collected
         }
 
-        let posts =
-            results
-            .map {
-                return IndexData.Post(title: $0.html, date: $0.date)
-            }
-            .sorted {
-                $0.date > $1.date
-            }
+        let posts = results.map {
+            IndexData.Post(title: $0.html, date: $0.date)
+        }
+        .sorted {
+            $0.date > $1.date
+        }
 
         let data = IndexData(posts: posts)
 

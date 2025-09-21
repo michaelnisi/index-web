@@ -102,7 +102,6 @@ extension URL {
         comps.month = month
         comps.day = day
 
-        // Invalid dates (e.g., 2025-02-30) yield nil
         return comps.calendar?.date(from: comps)
     }
 }
