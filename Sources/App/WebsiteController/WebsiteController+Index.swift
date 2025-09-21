@@ -7,12 +7,6 @@ extension WebsiteController {
             let content: String
             let date: Date
             let link: String
-
-            init(partial: HTMLPartial) {
-                self.content = partial.html
-                self.date = partial.date
-                self.link = "/some/link"  // TODO: Pass link with partial
-            }
         }
 
         let posts: [Post]
@@ -43,10 +37,7 @@ extension WebsiteController {
             return collected
         }
 
-        let posts = partials.map(IndexData.Post.init(partial:)).sorted {
-            $0.date > $1.date
-        }
-
+        let posts = partials.map(IndexData.Post.init(partial:)).sorted()
         let data = IndexData(posts: posts)
 
         guard let html = mustacheLibrary.render(data, withTemplate: "index") else {
@@ -54,5 +45,17 @@ extension WebsiteController {
         }
 
         return HTML(html: html)
+    }
+}
+
+extension WebsiteController.IndexData.Post: Comparable {
+    init(partial: HTMLPartial) {
+        self.content = partial.html
+        self.date = partial.date
+        self.link = "/some/link"  // TODO: Pass link with partial
+    }
+
+    static func < (lhs: Self, rhs: Self) -> Bool {
+        lhs.date > rhs.date
     }
 }
