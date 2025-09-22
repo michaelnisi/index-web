@@ -13,7 +13,7 @@ extension WebsiteController {
     }
 
     @Sendable func indexHandler(request: Request, context: some RequestContext) async throws -> HTML {
-        let partials: [HTMLPartial] = try await withThrowingTaskGroup(of: HTMLPartial.self) { group in
+        let posts: [IndexData.Post] = try await withThrowingTaskGroup(of: IndexData.Post.self) { group in
             guard
                 let posts = markdownTree.allNodes(matching: "posts")
                     .first?.node.allFiles()
@@ -23,21 +23,26 @@ extension WebsiteController {
 
             for post in posts {
                 group.addTask {
-                    try await ContentProvider.file
+                    let partial = try await ContentProvider.file
                         .partial(matching: .partialsPath(post.path))
+
+                    return IndexData.Post(
+                        content: partial.html,
+                        date: partial.date,
+                        link: post.path.toDirectoryPath()
+                    )
                 }
             }
 
-            var collected: [HTMLPartial] = []
+            var acc: [IndexData.Post] = []
 
             for try await result in group {
-                collected.append(result)
+                acc.append(result)
             }
 
-            return collected
+            return acc.sorted()
         }
 
-        let posts = partials.map(IndexData.Post.init(partial:)).sorted()
         let data = IndexData(posts: posts)
 
         guard let html = mustacheLibrary.render(data, withTemplate: "index") else {
@@ -49,12 +54,6 @@ extension WebsiteController {
 }
 
 extension WebsiteController.IndexData.Post: Comparable {
-    init(partial: HTMLPartial) {
-        self.content = partial.html
-        self.date = partial.date
-        self.link = "/some/link"  // TODO: Pass link with partial
-    }
-
     static func < (lhs: Self, rhs: Self) -> Bool {
         lhs.date > rhs.date
     }

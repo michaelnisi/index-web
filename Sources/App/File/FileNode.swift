@@ -14,6 +14,17 @@ enum FileNode {
 }
 
 extension FileNode {
+    var name: String {
+        switch self {
+        case let .file(name):
+            return name
+        case let .directory(name, _):
+            return name
+        }
+    }
+}
+
+extension FileNode {
     func flattenedPaths(prefix: String = "") -> [String] {
         switch self {
         case .file(let name):

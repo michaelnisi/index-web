@@ -22,9 +22,3 @@ struct HTML: ResponseGenerator {
         return .init(status: .ok, headers: [.contentType: "text/html"], body: .init(byteBuffer: buffer))
     }
 }
-
-extension String {
-    static func partialsPath(_ path: String) -> String {
-        "Partials/\(path)"
-    }
-}

@@ -15,6 +15,14 @@ extension SlugComponents {
 
         self = me
     }
+}
+
+extension SlugComponents {
+    func markdownPath() -> String {
+        let month = String(format: "%02d", month)
+
+        return "posts/\(year)-\(month)-\(slug).md"
+    }
 
     func date() -> Date? {
         var dateComponents = DateComponents()
@@ -76,12 +84,5 @@ extension String {
         }
 
         return base + ".md"
-    }
-}
-
-extension SlugComponents {
-    func markdownPath() -> String {
-        let month = String(format: "%02d", month)
-        return "posts/\(year)-\(month)-\(slug).md"
     }
 }

@@ -1,6 +1,6 @@
 import Foundation
 
-struct HTMLPartial: Sendable {
+struct HTMLPartial {
     let html: String
     let date: Date
 }

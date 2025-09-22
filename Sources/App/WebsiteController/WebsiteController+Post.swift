@@ -16,3 +16,9 @@ extension WebsiteController {
         return HTML(html: html)
     }
 }
+
+extension String {
+    static func partialsPath(_ path: String) -> String {
+        "Partials/\(path)"
+    }
+}
