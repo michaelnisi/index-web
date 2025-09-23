@@ -17,23 +17,6 @@ extension SlugComponents {
     }
 }
 
-extension SlugComponents {
-    func markdownPath() -> String {
-        let month = String(format: "%02d", month)
-
-        return "posts/\(year)-\(month)-\(slug).md"
-    }
-
-    func date() -> Date? {
-        var dateComponents = DateComponents()
-        dateComponents.year = year
-        dateComponents.month = month
-        dateComponents.day = day
-
-        return Calendar.current.date(from: dateComponents)
-    }
-}
-
 extension String {
     func slugComponents() -> SlugComponents? {
         let path = self.trimmingCharacters(in: CharacterSet(charactersIn: "/"))
