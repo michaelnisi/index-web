@@ -2,9 +2,8 @@
 {{$body}}
 <main>
   {{#posts}}
-    <p>
-<h2>{{{ title }}}</h2>
-    </p>
+    {{{ content }}}
+    <a href="{{link}}">{{link}}</a>
   {{/posts}}
   {{> footer}}
 </main>

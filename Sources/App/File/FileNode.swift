@@ -14,6 +14,17 @@ enum FileNode {
 }
 
 extension FileNode {
+    var name: String {
+        switch self {
+        case let .file(name):
+            return name
+        case let .directory(name, _):
+            return name
+        }
+    }
+}
+
+extension FileNode {
     func flattenedPaths(prefix: String = "") -> [String] {
         switch self {
         case .file(let name):
@@ -77,17 +88,6 @@ extension FileNode {
 }
 
 extension FileNode {
-    func walk(_ visit: (FileNode) -> Void) {
-        visit(self)
-        if case .directory(_, let children) = self {
-            for child in children {
-                child.walk(visit)
-            }
-        }
-    }
-}
-
-extension FileNode {
     func prettyDescription(indent: String = "") -> String {
         switch self {
         case .file(let name):
@@ -116,39 +116,6 @@ extension FileNode: Equatable {
             return aName == bName && aChildren == bChildren
         default:
             return false
-        }
-    }
-}
-
-extension FileNode {
-    func path(of target: FileNode, currentPath: String = "") -> String? {
-        // Identity match (reference equality for files)
-        if self == target {
-            return currentPath.isEmpty ? "/" : currentPath
-        }
-
-        switch self {
-        case .file:
-            return nil
-
-        case .directory(_, let children):
-            for child in children {
-                let childName: String
-                switch child {
-                case .file(let name): childName = name
-                case .directory(let name, _): childName = name
-                }
-
-                let newPath =
-                    currentPath.isEmpty
-                    ? childName
-                    : "\(currentPath)/\(childName)"
-
-                if let match = child.path(of: target, currentPath: newPath) {
-                    return match
-                }
-            }
-            return nil
         }
     }
 }

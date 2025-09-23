@@ -7,9 +7,10 @@ extension ContentProvider {
 }
 
 private func getPartial(matching path: String) async throws -> HTMLPartial {
-    let markdown = try await PostFile(string: path).handle()
+    let file = try PostFile(string: path)
+    let markdown = try await file.handle()
     let html = MarkdownHTMLTransformer.html(from: markdown)
-    let partial = HTMLPartial(html: html)
+    let partial = HTMLPartial(html: html, date: file.date)
 
     return partial
 }
@@ -19,9 +20,11 @@ private struct PostFile {
         case noResourcePath
         case notFound
         case encoding
+        case invalidPath(String)
     }
 
     let url: URL
+    let date: Date
 
     init(string: String) throws {
         guard let resourcePath = Bundle.module.resourcePath else {
@@ -31,6 +34,12 @@ private struct PostFile {
         let path = "\(resourcePath)/\(string)"
 
         self.url = URL(fileURLWithPath: path)
+
+        guard let date = url.leadingISO8601DateFromFilename() else {
+            throw Failure.invalidPath(string)
+        }
+
+        self.date = date
     }
 
     func handle() async throws -> String {
@@ -60,5 +69,41 @@ func buildFileTree(at url: URL) throws -> FileNode {
         return .directory(name: url.lastPathComponent, children: children)
     } else {
         return .file(name: url.lastPathComponent)
+    }
+}
+
+extension URL {
+    /// Parses a leading `YYYY-MM-DD-` from the last path component and returns a Date (midnight UTC).
+    ///
+    /// ```swift
+    /// "Partials/posts/2025-06-06-troubled.md" -> 2025-06-06 00:00:00 +0000
+    /// "2025-06-06-foo.md" -> valid
+    /// "foo-2025-06-06.md" -> nil (date not at start)
+    /// "2025-13-01-foo.md" -> nil (invalid month)
+    func leadingISO8601DateFromFilename() -> Date? {
+        let last = lastPathComponent
+        let pattern = #"^(\d{4})-(\d{2})-(\d{2})-"#
+        guard let regex = try? NSRegularExpression(pattern: pattern),
+            let m = regex.firstMatch(in: last, range: NSRange(last.startIndex..., in: last)),
+            let yRange = Range(m.range(at: 1), in: last),
+            let mRange = Range(m.range(at: 2), in: last),
+            let dRange = Range(m.range(at: 3), in: last),
+            let year = Int(last[yRange]),
+            let month = Int(last[mRange]),
+            let day = Int(last[dRange]),
+            (1...12).contains(month),
+            (1...31).contains(day)
+        else {
+            return nil
+        }
+
+        var comps = DateComponents()
+        comps.calendar = Calendar(identifier: .iso8601)
+        comps.timeZone = TimeZone(secondsFromGMT: 0)  // midnight UTC
+        comps.year = year
+        comps.month = month
+        comps.day = day
+
+        return comps.calendar?.date(from: comps)
     }
 }
