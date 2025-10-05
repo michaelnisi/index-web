@@ -64,6 +64,22 @@ main {
   grid-column: 1 / span 4;
 }
 
+header {
+  grid-column: 1 / span 4;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+  font-size: 0.875rem;
+  color: var(--muted-color);
+}
+
+header h3 {
+  font-size: 1rem;
+  color: var(--heading-color);
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
 footer {
   grid-column: 1 / span 4;
   display: grid;
@@ -78,8 +94,9 @@ footer {
 
 footer h3 {
   font-size: 1rem;
-  margin-bottom: 0.75rem;
   color: var(--heading-color);
+  margin-top: 0;
+  padding-top: 0;
 }
 
 footer ul {
@@ -99,13 +116,6 @@ footer a {
 
 footer a:hover {
   text-decoration: underline;
-}
-
-@media (max-width: 768px) {
-  footer {
-    grid-template-columns: 1fr;
-    gap: 2rem;
-  }
 }
 
 h1, h2, h3 {
@@ -171,6 +181,16 @@ img {
 
   main {
     grid-column: 1 / -1;
+  }
+  
+  header {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  
+  footer {
+    grid-template-columns: 1fr;
+    gap: 2rem;
   }
 }
 
