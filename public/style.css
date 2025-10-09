@@ -19,6 +19,8 @@
   --inline-code-bg: #073642;
   --inline-code-fg: #b58900;
   --block-code-bg: #002b36;
+  
+  --accent-color: #cb4b16
 }
 
 :root.light {
@@ -33,6 +35,8 @@
   --inline-code-bg: #eee8d5;
   --inline-code-fg: #d33682;
   --block-code-bg: #fdf6e3;
+  
+  --accent-color: #d33682
 }
 
 * {
@@ -62,6 +66,7 @@ body {
 
 main {
   grid-column: 1 / span 4;
+  display: grid;
 }
 
 header {
@@ -75,7 +80,7 @@ header {
 
 header h3 {
   font-size: 1rem;
-  color: var(--heading-color);
+  color: var(--accent-color);
   margin-top: 0;
   margin-bottom: 0;
 }
@@ -137,7 +142,7 @@ h2 {
 
 p, ul, ol, pre, blockquote {
   margin-bottom: 1.5rem;
-  max-width: 65ch;
+/*  max-width: 65ch;*/
 }
 
 blockquote {
@@ -171,6 +176,14 @@ img {
   height: auto;
   display: block;
   margin: 1.5rem 0;
+
+}
+
+.inline_image {
+    aspect-ratio: 3 / 1;
+    overflow: hidden;
+    object-fit: cover;
+    border-radius: 3px;
 }
 
 @media (max-width: 768px) {
