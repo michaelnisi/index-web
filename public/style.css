@@ -179,7 +179,7 @@ img {
 }
 
 .inline_image {
-    aspect-ratio: 3 / 1;
+    aspect-ratio: 4 / 2;
     overflow: hidden;
     object-fit: cover;
     border-radius: 3px;
