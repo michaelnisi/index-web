@@ -52,12 +52,25 @@ private struct HTMLVisitor: MarkupVisitor {
         return "<a href=\"\(d)\"\(t)>\(body)</a>"
     }
 
+    mutating func visitImage(_ i: Image) -> String {
+        let src = escape(i.source ?? "")
+        let titleAttr = i.title.map { " title=\"\(escape($0))\"" } ?? ""
+        let altText = escape(plainText(i))
+        return "<img class=\"inline_image\" src=\"\(src)\" alt=\"\(altText)\"\(titleAttr)>"
+    }
+
     mutating func visitThematicBreak(_ _: ThematicBreak) -> String { "<hr>" }
     mutating func visitBlockQuote(_ q: BlockQuote) -> String {
         "<blockquote>\(q.children.map { visit($0) }.joined())</blockquote>"
     }
 
     // --- helper ---
+    private func plainText(_ markup: any Markup) -> String {
+        if let t = markup as? Text {
+            return t.string
+        }
+        return markup.children.map { plainText($0) }.joined()
+    }
     private func escape(_ s: String) -> String {
         s.replacingOccurrences(of: "&", with: "&amp;")
             .replacingOccurrences(of: "<", with: "&lt;")

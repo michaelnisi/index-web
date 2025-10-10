@@ -19,6 +19,8 @@
   --inline-code-bg: #073642;
   --inline-code-fg: #b58900;
   --block-code-bg: #002b36;
+  
+  --accent-color: #cb4b16
 }
 
 :root.light {
@@ -33,6 +35,8 @@
   --inline-code-bg: #eee8d5;
   --inline-code-fg: #d33682;
   --block-code-bg: #fdf6e3;
+  
+  --accent-color: #d33682
 }
 
 * {
@@ -64,6 +68,60 @@ main {
   grid-column: 1 / span 4;
 }
 
+header {
+  grid-column: 1 / span 4;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+  font-size: 0.875rem;
+  color: var(--muted-color);
+}
+
+header h3 {
+  font-size: 1rem;
+  color: var(--accent-color);
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+footer {
+  grid-column: 1 / span 4;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--border-color);
+  font-size: 0.875rem;
+  color: var(--muted-color);
+}
+
+footer h3 {
+  font-size: 1rem;
+  color: var(--heading-color);
+  margin-top: 0;
+  padding-top: 0;
+}
+
+footer ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+footer ul li {
+  margin-bottom: 0.5rem;
+}
+
+footer a {
+  color: var(--link-color);
+  text-decoration: none;
+}
+
+footer a:hover {
+  text-decoration: underline;
+}
+
 h1, h2, h3 {
   font-weight: 600;
   margin-top: 3rem;
@@ -83,7 +141,7 @@ h2 {
 
 p, ul, ol, pre, blockquote {
   margin-bottom: 1.5rem;
-  max-width: 65ch;
+/*  max-width: 65ch;*/
 }
 
 blockquote {
@@ -117,6 +175,14 @@ img {
   height: auto;
   display: block;
   margin: 1.5rem 0;
+
+}
+
+.inline_image {
+    aspect-ratio: 4 / 2;
+    overflow: hidden;
+    object-fit: cover;
+    border-radius: 3px;
 }
 
 @media (max-width: 768px) {
@@ -127,6 +193,16 @@ img {
 
   main {
     grid-column: 1 / -1;
+  }
+  
+  header {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  
+  footer {
+    grid-template-columns: 1fr;
+    gap: 2rem;
   }
 }
 
