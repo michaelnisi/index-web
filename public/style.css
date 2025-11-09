@@ -59,7 +59,7 @@ body {
     width: 100%;
     max-width: 100%;
     margin: 0 auto;
-    padding: 1rem;
+    padding: 2rem;
     min-height: 100vh;
 }
 
@@ -67,20 +67,20 @@ main {
     grid-column: 1 / span 4;
 }
 
-@media (min-width: 480px) {
+@media (min-width: 900px) {
     body {
-        padding: 1.5rem;
+        padding: 3rem;
     }
 }
 
-@media (min-width: 769px) {
+@media (min-width: 1200px) {
     body {
         font-size: 16px;
         line-height: 1.5;
         grid-template-columns: repeat(4, 1fr);
-        padding-left: 1em;
+        padding-left: 4rem;
         max-width: 1024px;
-        padding-right: 8em;
+        padding-right: 8rem;
     }
 }
 
