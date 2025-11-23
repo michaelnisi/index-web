@@ -6,7 +6,7 @@ extension WebsiteController {
             throw HTTPError(.notFound)
         }
 
-        let html = try await ContentProvider.file.partial(matching: path).html
+        let html = try await ContentProvider.file.post(matching: path).html
         let data = ["post": html]
 
         guard let html = mustacheLibrary.render(data, withTemplate: "article") else {
