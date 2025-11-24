@@ -2,11 +2,18 @@ import Foundation
 
 extension ContentProvider {
     static let mock: ContentProvider = .init(
-        dependencies: .init(partial: getPartial)
+        dependencies: .init(
+            post: getPost,
+            page: getPage
+        )
     )
 }
 
-private func getPartial(path: String) async throws -> HTMLPartial {
+private func getPost(path: String) async throws -> HTMLPartial {
+    .mock
+}
+
+private func getPage(path: String) async throws -> HTMLPartial {
     .mock
 }
 

@@ -2,17 +2,63 @@ import Foundation
 
 extension ContentProvider {
     static let file: ContentProvider = .init(
-        dependencies: .init(partial: getPartial)
+        dependencies: .init(
+            post: getPostPartial,
+            page: getPagePartial
+        )
     )
 }
 
-private func getPartial(matching path: String) async throws -> HTMLPartial {
+private func getPagePartial(matching path: String) async throws -> HTMLPartial {
+    let file = try PageFile(string: path)
+    let markdown = try await file.handle()
+    let html = MarkdownHTMLTransformer.html(from: markdown)
+    let partial = HTMLPartial(html: html, date: .distantPast)
+
+    return partial
+}
+
+private func getPostPartial(matching path: String) async throws -> HTMLPartial {
     let file = try PostFile(string: path)
     let markdown = try await file.handle()
     let html = MarkdownHTMLTransformer.html(from: markdown)
     let partial = HTMLPartial(html: html, date: file.date)
 
     return partial
+}
+
+private struct PageFile {
+    enum Failure: Error {
+        case noResourcePath
+        case notFound
+        case encoding
+        case invalidPath(String)
+    }
+
+    let url: URL
+
+    init(string: String) throws {
+        guard let resourcePath = Bundle.module.resourcePath else {
+            throw Failure.noResourcePath
+        }
+
+        let path = "\(resourcePath)/\(string)"
+
+        self.url = URL(fileURLWithPath: path)
+    }
+
+    func handle() async throws -> String {
+        guard FileManager.default.fileExists(atPath: url.path) else {
+            throw Failure.notFound
+        }
+
+        let data = try Data(contentsOf: url)
+        guard let string = String(data: data, encoding: .utf8) else {
+            throw Failure.encoding
+        }
+
+        return string
+    }
 }
 
 private struct PostFile {

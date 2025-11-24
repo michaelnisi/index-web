@@ -37,6 +37,7 @@ private func buildRouter(logger: Logger) async throws -> Router<AppRequestContex
     router.addMiddleware {
         LogRequestsMiddleware(logger.logLevel)
         FileMiddleware(logger: logger)
+        LogErrorsMiddleware()
     }
 
     guard let directory = Bundle.module.resourcePath else {
