@@ -1,6 +1,6 @@
 # Now
 
-Updated November 15th, 2025, from my little attic overlooking the beach in San Vicente de la Barquera, Cantabria, Northern Spain.
+*Updated November 15th, 2025, from my little attic overlooking the beach in San Vicente de la Barquera, Cantabria, Northern Spain.*
 
 ## Surfing
 
