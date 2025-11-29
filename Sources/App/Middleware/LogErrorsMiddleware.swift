@@ -10,13 +10,19 @@ struct LogErrorsMiddleware<Context: RequestContext>: RouterMiddleware {
         do {
             return try await next(request, context)
         } catch {
-            let metadata: Logger.Metadata = [
-                "path": .string(request.uri.path),
-                "error": .string(error.localizedDescription),
-            ]
-
-            context.logger.error("Error in route", metadata: metadata)
-            throw error
+            switch error {
+            case let httpError as HTTPError where httpError.status == .notFound:
+                throw error
+            default:
+                let metadata: Logger.Metadata = [
+                    "path": .string(request.uri.path),
+                    "error": .string(error.localizedDescription),
+                ]
+                
+                context.logger.error("Error in route", metadata: metadata)
+                
+                throw error
+            }
         }
     }
 }
