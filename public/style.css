@@ -14,7 +14,6 @@
     --heading-color: #eee8d5;
     --muted-color: #93a1a1;
     --link-color: #268bd2;
-    --border-color: color-mix(in srgb, #839496 60%, transparent);
     
     --inline-code-bg: #073642;
     --inline-code-fg: #b58900;
@@ -30,7 +29,6 @@
     --heading-color: #073642;
     --muted-color: #586e75;
     --link-color: #268bd2;
-    --border-color: color-mix(in srgb, #93a1a1 75%, transparent);
     
     --inline-code-bg: #eee8d5;
     --inline-code-fg: #d33682;
@@ -93,7 +91,7 @@ h1, h2, h3 {
 
 h1 {
     font-size: 2rem;
-    border-bottom: 0.5px solid var(--border-color);
+    border-bottom: 0.1em solid var(--muted-color);
     padding-bottom: 0.5rem;
 }
 
@@ -231,12 +229,6 @@ footer img {
         grid-template-columns: 1fr;
         gap: 2rem;
     }
-}
-
-hr {
-    border: none;
-    height: 0.5px;
-    background-color: var(--border-color);
 }
 
 @media (prefers-color-scheme: light) {
