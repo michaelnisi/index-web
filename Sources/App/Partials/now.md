@@ -1,13 +1,11 @@
 # Now
 
-*Updated November 15th, 2025, from my little attic overlooking the beach in San Vicente de la Barquera, Cantabria, Northern Spain.*
+*Updated December 6th, 2025, from my little attic overlooking the beach in San Vicente de la Barquera, Cantabria.*
 
 ## Surfing
-
-The surf has been good these past couple of weeks since I’ve been back. The weather is still very mild — this summer doesn’t seem to want to end. My favorite board at the moment is my new 10’ Garmendia pin tail. I’m learning a lot as I adapt to its faster, more flowing style.
+Winter is here. Shorter days, storms, and big swells make it harder to find those clean longboard sessions. I surf when I can — and when I can’t, I let the ocean do its thing and spend the extra time on everything else.
 
 ## Programming
+The last releases of the year are out the door. I like this quieter stretch: maintenance, tidying up loose ends, regrouping, and sketching plans for the new year.
 
-At EDEKA we’re preparing for prime time — the holiday season. May the checkout always run smoothly!
-
-On the personal side, I’m building this website in Swift. It feels refreshing to apply the language outside of the usual app-context. I’m following Swift Server developments closely and can imagine myself working more in that domain in the future.
+Tracing has fascinated me since my Erlang days. Mobile apps are distributed systems, but observability tooling rarely reflects that. This holiday season I’m diving deeper into OpenTelemetry and Datadog to improve day-to-day visibility. Maintaining mobile apps still involves far too much inference and not enough data.
