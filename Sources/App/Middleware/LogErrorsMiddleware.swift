@@ -18,9 +18,9 @@ struct LogErrorsMiddleware<Context: RequestContext>: RouterMiddleware {
                     "path": .string(request.uri.path),
                     "error": .string(error.localizedDescription),
                 ]
-                
+
                 context.logger.error("Error in route", metadata: metadata)
-                
+
                 throw error
             }
         }
