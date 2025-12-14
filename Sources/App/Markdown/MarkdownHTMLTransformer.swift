@@ -81,8 +81,9 @@ private struct HTMLVisitor: MarkupVisitor {
 
 public enum MarkdownHTMLTransformer {
     public static func html(from markdown: String) -> String {
-        var v = HTMLVisitor()
-        let doc = Document(parsing: markdown)
-        return v.visit(doc)
+        var visitor = HTMLVisitor()
+        let document = Document(parsing: markdown)
+        
+        return visitor.visit(document)
     }
 }
