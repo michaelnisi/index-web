@@ -83,7 +83,7 @@ public enum MarkdownHTMLTransformer {
     public static func html(from markdown: String) -> String {
         var visitor = HTMLVisitor()
         let document = Document(parsing: markdown)
-        
+
         return visitor.visit(document)
     }
 }

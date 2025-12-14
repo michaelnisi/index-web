@@ -2,7 +2,7 @@ import Foundation
 import Hummingbird
 
 extension WebsiteController {
-    struct IndexData {
+    fileprivate struct IndexData {
         struct Post {
             let content: String
             let date: Date
@@ -54,7 +54,7 @@ extension WebsiteController {
 }
 
 extension WebsiteController.IndexData.Post: Comparable {
-    static func < (lhs: Self, rhs: Self) -> Bool {
+    static fileprivate func < (lhs: Self, rhs: Self) -> Bool {
         lhs.date > rhs.date
     }
 }
