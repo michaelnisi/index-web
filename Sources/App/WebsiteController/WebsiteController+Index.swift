@@ -2,28 +2,6 @@ import Foundation
 import Hummingbird
 
 extension WebsiteController {
-    struct IndexData {
-        struct Post {
-            let content: String
-            let date: Date
-            let link: String
-        }
-
-        let posts: [Post]
-        let ld = """
-        {
-            "@context": "https://schema.org",
-            "@type": "WebSite",
-            "name": "Michael Nisi",
-            "url": "https://michaelnisi.com",
-            "publisher": {
-            "@type": "Person",
-                "name": "Michael Nisi"
-            }
-        }
-        """
-    }
-
     @Sendable func indexHandler(request: Request, context: some RequestContext) async throws -> HTML {
         let posts: [IndexData.Post] = try await withThrowingTaskGroup(of: IndexData.Post.self) { group in
             guard
@@ -65,8 +43,28 @@ extension WebsiteController {
     }
 }
 
-extension WebsiteController.IndexData.Post: Comparable {
-    static func < (lhs: Self, rhs: Self) -> Bool {
-        lhs.date > rhs.date
+private struct IndexData {
+    struct Post: Comparable {
+        let content: String
+        let date: Date
+        let link: String
+
+        static func < (lhs: Self, rhs: Self) -> Bool {
+            lhs.date > rhs.date
+        }
     }
+
+    let posts: [Post]
+    let ld = """
+        {
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            "name": "Michael Nisi",
+            "url": "https://michaelnisi.com",
+            "publisher": {
+            "@type": "Person",
+                "name": "Michael Nisi"
+            }
+        }
+        """
 }

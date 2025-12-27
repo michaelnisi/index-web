@@ -1,4 +1,9 @@
+import Foundation
 import Hummingbird
+
+#if canImport(FoundationNetworking)
+import FoundationNetworking
+#endif
 
 extension WebsiteController {
     @Sendable func postHandler(request: Request, context: some RequestContext) async throws -> HTML {
@@ -7,7 +12,7 @@ extension WebsiteController {
         }
 
         let html = try await ContentProvider.file.post(matching: path).html
-        let data = ["post": html]
+        let data = PostData(post: html, url: .init(partialURL: request.uri.path))
 
         guard let html = mustacheLibrary.render(data, withTemplate: "article") else {
             throw HTTPError(.internalServerError, message: "Failed to render template.")
@@ -17,8 +22,47 @@ extension WebsiteController {
     }
 }
 
+private struct PostData {
+    let post: String
+    let ld: String
+
+    init(post: String, url: String) {
+        self.post = post
+        self.ld = """
+            {
+              "@context": "https://schema.org",
+              "@type": "WebPage",
+              "@id": "\(url)#webpage",
+              "url": "\(url)",
+              "name": "Now — Michael Nisi",
+              "isPartOf": "https://michaelnisi.com#website",
+              "mainEntity": {
+                "@type": "Person",
+                "@id": "https://michaelnisi.com#person"
+              }
+            }    
+            """
+    }
+}
+
+
 extension String {
     static func partialsPath(_ path: String) -> String {
         "Partials/\(path)"
+    }
+}
+
+extension String {
+    init(partialURL: String) {
+        var components = URLComponents(string: partialURL) ?? URLComponents()
+        if components.host == nil && components.path.isEmpty {
+            components.path = partialURL
+        }
+        components.scheme = "https"
+        components.host = "michaelnisi.com"
+        if !components.path.hasPrefix("/") {
+            components.path = "/" + components.path
+        }
+        self = components.url?.absoluteString ?? "https://michaelnisi.com" + components.path
     }
 }

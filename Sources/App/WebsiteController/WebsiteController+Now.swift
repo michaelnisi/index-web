@@ -8,7 +8,7 @@ extension WebsiteController {
         }
 
         let html = try await ContentProvider.file.page(matching: path).html
-        let data = ["post": html]
+        let data = NowData(post: html)
 
         guard let html = mustacheLibrary.render(data, withTemplate: "article") else {
             throw HTTPError(.internalServerError, message: "Failed to render template.")
@@ -16,4 +16,22 @@ extension WebsiteController {
 
         return HTML(html: html)
     }
+}
+
+private struct NowData {
+    let post: String
+    let ld = """
+        {
+          "@context": "https://schema.org",
+          "@type": "WebPage",
+          "@id": "https://michaelnisi.com/now#webpage",
+          "url": "https://michaelnisi.com/now",
+          "name": "Now — Michael Nisi",
+          "isPartOf": "https://michaelnisi.com#website",
+          "mainEntity": {
+            "@type": "Person",
+            "@id": "https://michaelnisi.com#person"
+          }
+        }    
+        """
 }
