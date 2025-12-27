@@ -10,7 +10,18 @@ extension WebsiteController {
         }
 
         let posts: [Post]
-        let ld = LinkedData().string
+        let ld = """
+        {
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            "name": "Michael Nisi",
+            "url": "https://michaelnisi.com",
+            "publisher": {
+            "@type": "Person",
+                "name": "Michael Nisi"
+            }
+        }
+        """
     }
 
     @Sendable func indexHandler(request: Request, context: some RequestContext) async throws -> HTML {
