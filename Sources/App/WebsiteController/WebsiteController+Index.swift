@@ -10,6 +10,7 @@ extension WebsiteController {
         }
 
         let posts: [Post]
+        let ld = LinkedData().string
     }
 
     @Sendable func indexHandler(request: Request, context: some RequestContext) async throws -> HTML {
