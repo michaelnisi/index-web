@@ -12,7 +12,7 @@ extension WebsiteController {
         }
 
         let html = try await ContentProvider.file.post(matching: path).html
-        let data = PostData(post: html, url: .init(partialURL: request.uri.path))
+        let data = PostData(post: html, url: .init(urlString: request.uri.path))
 
         guard let html = mustacheLibrary.render(data, withTemplate: "article") else {
             throw HTTPError(.internalServerError, message: "Failed to render template.")
@@ -53,10 +53,10 @@ extension String {
 }
 
 extension String {
-    init(partialURL: String) {
-        var components = URLComponents(string: partialURL) ?? URLComponents()
+    init(urlString: String) {
+        var components = URLComponents(string: urlString) ?? URLComponents()
         if components.host == nil && components.path.isEmpty {
-            components.path = partialURL
+            components.path = urlString
         }
         components.scheme = "https"
         components.host = "michaelnisi.com"
