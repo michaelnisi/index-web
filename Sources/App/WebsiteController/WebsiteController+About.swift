@@ -7,8 +7,8 @@ extension WebsiteController {
             throw HTTPError(.notFound)
         }
 
-        let html = try await ContentProvider.file.page(matching: path).html
-        let data = AboutData(post: html)
+        let content = try await ContentProvider.file.page(matching: path)
+        let data = AboutData(title: "Michael Nisi – About", post: content.html)
 
         guard let html = mustacheLibrary.render(data, withTemplate: "article") else {
             throw HTTPError(.internalServerError, message: "Failed to render template.")
@@ -19,6 +19,7 @@ extension WebsiteController {
 }
 
 private struct AboutData {
+    let title: String
     let post: String
     let ld = """
         {

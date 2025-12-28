@@ -19,10 +19,12 @@ extension WebsiteController {
 }
 
 private struct PostData {
+    let title: String
     let post: String
     let ld: String
 
     init(content: Content) {
+        self.title = "Michael Nisi – \(content.title)"
         self.post = content.html
         self.ld = """
             {
@@ -30,7 +32,7 @@ private struct PostData {
               "@type": "WebPage",
               "@id": "\(content.absoluteURL)#webpage",
               "url": "\(content.absoluteURL)",
-              "name": "\(content.title) | Michael Nisi",
+              "name": "Michael Nisi – \(content.title)",
               "isPartOf": "https://michaelnisi.com#website",
               "mainEntity": {
                 "@type": "Person",

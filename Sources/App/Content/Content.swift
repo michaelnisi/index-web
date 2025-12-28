@@ -10,7 +10,7 @@ struct Content {
 extension String {
     /// Creates absolute URL String from potential `urlString`.
     init(urlString: String) {
-        var components = URLComponents(string: urlString) ?? URLComponents()
+        var components = URLComponents(string: urlString) ?? .init()
         if components.host == nil && components.path.isEmpty {
             components.path = urlString
         }

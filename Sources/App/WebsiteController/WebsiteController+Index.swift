@@ -33,7 +33,7 @@ extension WebsiteController {
             return acc.sorted()
         }
 
-        let data = IndexData(posts: posts)
+        let data = IndexData(title: "Michael Nisi — Software Engineer", posts: posts)
 
         guard let html = mustacheLibrary.render(data, withTemplate: "index") else {
             throw HTTPError(.internalServerError, message: "Failed to render template.")
@@ -54,6 +54,7 @@ private struct IndexData {
         }
     }
 
+    let title: String
     let posts: [Post]
     let ld = """
         {
