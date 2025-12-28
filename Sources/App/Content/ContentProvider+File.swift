@@ -12,19 +12,29 @@ extension ContentProvider {
 private func getPagePartial(matching path: String) async throws -> HTMLPartial {
     let file = try PageFile(string: path)
     let markdown = try await file.handle()
-    let html = MarkdownHTMLTransformer.html(from: markdown)
-    let partial = HTMLPartial(html: html, date: .distantPast)
+    let html = MarkdownHTMLTransformer.htmlAndTitle(from: markdown)
+    let absoluteURL: String = .init(urlString: path)
 
-    return partial
+    return .init(
+        html: html.html,
+        date: .distantPast,
+        title: html.title,
+        absoluteURL: absoluteURL
+    )
 }
 
 private func getPostPartial(matching path: String) async throws -> HTMLPartial {
     let file = try PostFile(string: path)
     let markdown = try await file.handle()
-    let html = MarkdownHTMLTransformer.html(from: markdown)
-    let partial = HTMLPartial(html: html, date: file.date)
+    let html = MarkdownHTMLTransformer.htmlAndTitle(from: markdown)
+    let absoluteURL: String = .init(urlString: path)
 
-    return partial
+    return .init(
+        html: html.html,
+        date: file.date,
+        title: html.title,
+        absoluteURL: absoluteURL
+    )
 }
 
 private struct PageFile {

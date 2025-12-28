@@ -11,8 +11,8 @@ extension WebsiteController {
             throw HTTPError(.notFound)
         }
 
-        let html = try await ContentProvider.file.post(matching: path).html
-        let data = PostData(post: html, url: .init(urlString: request.uri.path))
+        let content = try await ContentProvider.file.post(matching: path)
+        let data = PostData(content: content)
 
         guard let html = mustacheLibrary.render(data, withTemplate: "article") else {
             throw HTTPError(.internalServerError, message: "Failed to render template.")
@@ -26,15 +26,15 @@ private struct PostData {
     let post: String
     let ld: String
 
-    init(post: String, url: String) {
-        self.post = post
+    init(content: HTMLPartial) {
+        self.post = content.html
         self.ld = """
             {
               "@context": "https://schema.org",
               "@type": "WebPage",
-              "@id": "\(url)#webpage",
-              "url": "\(url)",
-              "name": "Now — Michael Nisi",
+              "@id": "\(content.absoluteURL)#webpage",
+              "url": "\(content.absoluteURL)",
+              "name": "\(content.title) | Michael Nisi",
               "isPartOf": "https://michaelnisi.com#website",
               "mainEntity": {
                 "@type": "Person",
@@ -44,7 +44,6 @@ private struct PostData {
             """
     }
 }
-
 
 extension String {
     static func partialsPath(_ path: String) -> String {

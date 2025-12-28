@@ -18,10 +18,16 @@ private func getPage(path: String) async throws -> HTMLPartial {
 }
 
 extension HTMLPartial {
-    static let mock: HTMLPartial = .init(
-        html: MarkdownHTMLTransformer.html(from: markdownSource),
-        date: .now
-    )
+    static let mock: HTMLPartial = {
+        let html = MarkdownHTMLTransformer.htmlAndTitle(from: markdownSource)
+
+        return .init(
+            html: html.html,
+            date: .now,
+            title: html.title,
+            absoluteURL: "https://michaelnisi.com/example"
+        )
+    }()
 }
 
 private let markdownSource = """
