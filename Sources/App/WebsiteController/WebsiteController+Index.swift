@@ -13,12 +13,11 @@ extension WebsiteController {
 
             for post in posts {
                 group.addTask {
-                    let partial = try await ContentProvider.file
+                    let content = try await ContentProvider.file
                         .post(matching: .partialsPath(post.path))
 
                     return IndexData.Post(
-                        content: partial.html,
-                        date: partial.date,
+                        content: content,
                         link: post.path.toDirectoryPath()
                     )
                 }
@@ -47,16 +46,20 @@ private struct IndexData {
     struct Post: Comparable {
         let content: String
         let date: Date
+        let title: String
+        let url: String
         let link: String
-
-        static func < (lhs: Self, rhs: Self) -> Bool {
-            lhs.date > rhs.date
-        }
     }
 
     let title: String
     let posts: [Post]
-    let ld = """
+    let ld: String
+    
+    init(title: String, posts: [Post]) {
+        self.title = title
+        self.posts = posts
+        
+        ld = """
         {
             "@context": "https://schema.org",
             "@type": "WebSite",
@@ -68,4 +71,21 @@ private struct IndexData {
             }
         }
         """
+        
+        // TODO: Append all posts
+    }
+}
+
+extension IndexData.Post {
+    init(content: Content, link: String) {
+        self.content = content.html
+        date = content.date
+        title = content.title
+        url = content.absoluteURL
+        self.link = link
+    }
+
+    fileprivate static func < (lhs: Self, rhs: Self) -> Bool {
+        lhs.date > rhs.date
+    }
 }
