@@ -2,8 +2,8 @@ import Foundation
 
 struct ContentProvider: Sendable {
     struct Dependencies: Sendable {
-        let post: @Sendable (String) async throws -> HTMLPartial
-        let page: @Sendable (String) async throws -> HTMLPartial
+        let post: @Sendable (String) async throws -> Content
+        let page: @Sendable (String) async throws -> Content
     }
 
     private let dependencies: Dependencies
@@ -12,11 +12,11 @@ struct ContentProvider: Sendable {
         self.dependencies = dependencies
     }
 
-    func post(matching path: String) async throws -> HTMLPartial {
+    func post(matching path: String) async throws -> Content {
         try await dependencies.post(path)
     }
 
-    func page(matching path: String) async throws -> HTMLPartial {
+    func page(matching path: String) async throws -> Content {
         try await dependencies.page(path)
     }
 }

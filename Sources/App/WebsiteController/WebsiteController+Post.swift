@@ -1,10 +1,6 @@
 import Foundation
 import Hummingbird
 
-#if canImport(FoundationNetworking)
-import FoundationNetworking
-#endif
-
 extension WebsiteController {
     @Sendable func postHandler(request: Request, context: some RequestContext) async throws -> HTML {
         guard let (_, path) = markdownTree.findWithPath(path: .partialsPath(request.uri.path.markdownPath())) else {
@@ -26,7 +22,7 @@ private struct PostData {
     let post: String
     let ld: String
 
-    init(content: HTMLPartial) {
+    init(content: Content) {
         self.post = content.html
         self.ld = """
             {
@@ -48,20 +44,5 @@ private struct PostData {
 extension String {
     static func partialsPath(_ path: String) -> String {
         "Partials/\(path)"
-    }
-}
-
-extension String {
-    init(urlString: String) {
-        var components = URLComponents(string: urlString) ?? URLComponents()
-        if components.host == nil && components.path.isEmpty {
-            components.path = urlString
-        }
-        components.scheme = "https"
-        components.host = "michaelnisi.com"
-        if !components.path.hasPrefix("/") {
-            components.path = "/" + components.path
-        }
-        self = components.url?.absoluteString ?? "https://michaelnisi.com" + components.path
     }
 }

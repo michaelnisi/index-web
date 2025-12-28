@@ -9,7 +9,7 @@ extension ContentProvider {
     )
 }
 
-private func getPagePartial(matching path: String) async throws -> HTMLPartial {
+private func getPagePartial(matching path: String) async throws -> Content {
     let file = try PageFile(string: path)
     let markdown = try await file.handle()
     let html = MarkdownHTMLTransformer.htmlAndTitle(from: markdown)
@@ -23,7 +23,7 @@ private func getPagePartial(matching path: String) async throws -> HTMLPartial {
     )
 }
 
-private func getPostPartial(matching path: String) async throws -> HTMLPartial {
+private func getPostPartial(matching path: String) async throws -> Content {
     let file = try PostFile(string: path)
     let markdown = try await file.handle()
     let html = MarkdownHTMLTransformer.htmlAndTitle(from: markdown)
