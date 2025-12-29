@@ -21,18 +21,22 @@ extension WebsiteController {
 private struct NowData {
     let title: String
     let post: String
-    let ld = """
+    let ld: String
+    
+    init(title: String, post: String) {
+        self.title = title
+        self.post = post
+        
+        ld = """
         {
-          "@context": "https://schema.org",
-          "@type": "WebPage",
-          "@id": "https://michaelnisi.com/now#webpage",
-          "url": "https://michaelnisi.com/now",
-          "name": "Now — Michael Nisi",
-          "isPartOf": "https://michaelnisi.com#website",
-          "mainEntity": {
-            "@type": "Person",
-            "@id": "https://michaelnisi.com#person"
-          }
-        }    
+            "@context": "https://schema.org",
+            "@type": "WebPage",
+            "@id": "https://michaelnisi.com/now#webpage",
+            "url": "https://michaelnisi.com/now",
+            "name": "\(title)",
+            "isPartOf": { "@id": "https://michaelnisi.com#website" },
+            "mainEntity": { "@id": "https://michaelnisi.com#person" }
+        }  
         """
+    }
 }

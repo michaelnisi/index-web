@@ -26,20 +26,18 @@ private struct PostData {
     init(content: Content) {
         self.title = "Michael Nisi – \(content.title)"
         self.post = content.html
-        self.ld = """
-            {
-              "@context": "https://schema.org",
-              "@type": "WebPage",
-              "@id": "\(content.absoluteURL)#webpage",
-              "url": "\(content.absoluteURL)",
-              "name": "Michael Nisi – \(content.title)",
-              "isPartOf": "https://michaelnisi.com#website",
-              "mainEntity": {
-                "@type": "Person",
-                "@id": "https://michaelnisi.com#person"
-              }
-            }    
-            """
+        
+        ld = """
+        {
+            "@context": "https://schema.org",
+            "@type": "WebPage",
+            "@id": "\(content.absoluteURL)#webpage",
+            "url": "\(content.absoluteURL)",
+            "name": "Michael Nisi – \(content.title)",
+            "isPartOf": { "@id": "https://michaelnisi.com#website" },
+            "mainEntity": { "@id": "https://michaelnisi.com#person" }   
+        }
+        """
     }
 }
 
