@@ -54,56 +54,56 @@ private struct IndexData {
     let title: String
     let posts: [Post]
     let ld: String
-    
+
     init(title: String, posts: [Post]) {
         self.title = title
         self.posts = posts
-        
+
         ld = """
-        {
-           "@context": "https://schema.org",
-           "@graph": [
-             {
-               "@type": "WebSite",
-               "@id": "https://michaelnisi.com#website",
-               "url": "https://michaelnisi.com",
-               "name": "Michael Nisi",
-               "inLanguage": "en"
-             },
-             {
-               "@type": "WebPage",
-               "@id": "https://michaelnisi.com#webpage",
-               "url": "https://michaelnisi.com",
-               "name": "\(title)",
-               "isPartOf": { "@id": "https://michaelnisi.com#website" },
-               "primaryImageOfPage": {
-                 "@type": "ImageObject",
-                 "url": "https://res.cloudinary.com/duiiv2f8o/image/upload/v1762078766/IMG_0126_xws0m4.jpg"
-               }
-             },
-             {
-               "@type": "Person",
-               "@id": "https://michaelnisi.com#person",
-               "name": "Michael Nisi",
-               "url": "https://michaelnisi.com",
-               "image": "https://res.cloudinary.com/duiiv2f8o/image/upload/v1762078766/IMG_0126_xws0m4.jpg",
-               "description": "Michael Nisi is a seasoned Apple-platform software engineer, Swift maximalist, type-driven design enthusiast, and full-time romantic about the personal web — currently balancing strict Swift 6 concurrency, Solarized color systems, Swiss-grid typography, and single-fin longboard sessions between Cantabria, Thy, and the rest of Europe.",
-               "jobTitle": "Software Engineer",
-               "worksFor": {
-                 "@type": "Organization",
-                 "name": "apploft."
-               },
-               "sameAs": [
-                 "https://linktr.ee/michaelnisi",
-                 "https://github.com/michaelnisi",
-                 "https://www.instagram.com/podustle/"
-                 "https://michaelnisi.substack.com/"
-               ],
-               "knowsAbout": ["Apple", "iOS", "Swift", "Literature", "Music", "Surfing"]
-             }
-           ]
-        }
-        """
+            {
+               "@context": "https://schema.org",
+               "@graph": [
+                 {
+                   "@type": "WebSite",
+                   "@id": "https://michaelnisi.com#website",
+                   "url": "https://michaelnisi.com",
+                   "name": "Michael Nisi",
+                   "inLanguage": "en"
+                 },
+                 {
+                   "@type": "WebPage",
+                   "@id": "https://michaelnisi.com#webpage",
+                   "url": "https://michaelnisi.com",
+                   "name": "\(title)",
+                   "isPartOf": { "@id": "https://michaelnisi.com#website" },
+                   "primaryImageOfPage": {
+                     "@type": "ImageObject",
+                     "url": "https://res.cloudinary.com/duiiv2f8o/image/upload/v1762078766/IMG_0126_xws0m4.jpg"
+                   }
+                 },
+                 {
+                   "@type": "Person",
+                   "@id": "https://michaelnisi.com#person",
+                   "name": "Michael Nisi",
+                   "url": "https://michaelnisi.com",
+                   "image": "https://res.cloudinary.com/duiiv2f8o/image/upload/v1762078766/IMG_0126_xws0m4.jpg",
+                   "description": "Michael Nisi is a seasoned Apple-platform software engineer, Swift maximalist, type-driven design enthusiast, and full-time romantic about the personal web — currently balancing strict Swift 6 concurrency, Solarized color systems, Swiss-grid typography, and single-fin longboard sessions between Cantabria, Thy, and the rest of Europe.",
+                   "jobTitle": "Software Engineer",
+                   "worksFor": {
+                     "@type": "Organization",
+                     "name": "apploft."
+                   },
+                   "sameAs": [
+                     "https://linktr.ee/michaelnisi",
+                     "https://github.com/michaelnisi",
+                     "https://www.instagram.com/podustle/",
+                     "https://michaelnisi.substack.com/"
+                   ],
+                   "knowsAbout": ["Apple", "iOS", "Swift", "Literature", "Music", "Surfing"]
+                 }
+               ]
+            }
+            """
     }
 }
 

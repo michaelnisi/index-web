@@ -22,21 +22,22 @@ private struct NowData {
     let title: String
     let post: String
     let ld: String
-    
+
     init(title: String, post: String) {
         self.title = title
         self.post = post
-        
+
         ld = """
-        {
-            "@context": "https://schema.org",
-            "@type": "WebPage",
-            "@id": "https://michaelnisi.com/now#webpage",
-            "url": "https://michaelnisi.com/now",
-            "name": "\(title)",
-            "isPartOf": { "@id": "https://michaelnisi.com#website" },
-            "mainEntity": { "@id": "https://michaelnisi.com#person" }
-        }  
-        """
+            {
+                "@context": "https://schema.org",
+                "@type": "ProfilePage",
+                "@id": "https://michaelnisi.com/now#webpage",
+                "url": "https://michaelnisi.com/now",
+                "name": "\(title)",
+                "inLanguage": "en",
+                "isPartOf": { "@id": "https://michaelnisi.com#website" },
+                "mainEntity": { "@id": "https://michaelnisi.com#person" }
+            }  
+            """
     }
 }
