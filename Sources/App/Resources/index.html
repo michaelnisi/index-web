@@ -1,13 +1,9 @@
-{{<page}}
-{{$body}}
-{{> header}}
-<main>
-  {{#posts}}
-    {{{ content }}}
-    <a href="{{link}}">{{link}}</a>
-  {{/posts}}
-
-</main>
-{{> footer}}
-{{/body}}
-{{/page}}
+{{<page}} {{$body}} {{>
+    header}}
+    <main>
+        {{#posts}} {{{ content }}}
+        <a href="{{link}}">{{link}}</a>
+        {{/posts}}
+    </main>
+    {{> footer}} {{/body}} {{/page}}
+</page}}>

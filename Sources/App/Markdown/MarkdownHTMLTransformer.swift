@@ -79,10 +79,35 @@ private struct HTMLVisitor: MarkupVisitor {
     }
 }
 
+private func plainText(_ markup: any Markup) -> String {
+    if let t = markup as? Text { return t.string }
+    return markup.children.map { plainText($0) }.joined()
+}
+
 public enum MarkdownHTMLTransformer {
+    @available(*, deprecated, message: "use htmlAndTitle")
     public static func html(from markdown: String) -> String {
         var v = HTMLVisitor()
         let doc = Document(parsing: markdown)
+
         return v.visit(doc)
+    }
+
+    public struct HTMLAndTitle {
+        public let html: String
+        public let title: String
+        public init(html: String, title: String) {
+            self.html = html
+            self.title = title
+        }
+    }
+
+    public static func htmlAndTitle(from markdown: String) -> HTMLAndTitle {
+        var v = HTMLVisitor()
+        let doc = Document(parsing: markdown)
+        let html = v.visit(doc)
+        let firstTopLevelHeading = doc.children.compactMap { $0 as? Heading }.first
+        let title = firstTopLevelHeading.map { plainText($0) } ?? ""
+        return HTMLAndTitle(html: html, title: title)
     }
 }

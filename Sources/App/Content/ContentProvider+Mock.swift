@@ -9,19 +9,25 @@ extension ContentProvider {
     )
 }
 
-private func getPost(path: String) async throws -> HTMLPartial {
+private func getPost(path: String) async throws -> Content {
     .mock
 }
 
-private func getPage(path: String) async throws -> HTMLPartial {
+private func getPage(path: String) async throws -> Content {
     .mock
 }
 
-extension HTMLPartial {
-    static let mock: HTMLPartial = .init(
-        html: MarkdownHTMLTransformer.html(from: markdownSource),
-        date: .now
-    )
+extension Content {
+    static let mock: Content = {
+        let html = MarkdownHTMLTransformer.htmlAndTitle(from: markdownSource)
+
+        return .init(
+            html: html.html,
+            date: .now,
+            title: html.title,
+            absoluteURL: "https://michaelnisi.com/example"
+        )
+    }()
 }
 
 private let markdownSource = """
