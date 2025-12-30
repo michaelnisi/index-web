@@ -5,6 +5,8 @@ struct Content {
     let date: Date
     let title: String
     let absoluteURL: String
+    let description: String
+    let wordCount: Int
 }
 
 extension String {

@@ -34,7 +34,8 @@ private struct PostData {
                 "@id": "\(content.absoluteURL)#webpage",
                 "url": "\(content.absoluteURL)",
                 "name": "Michael Nisi – \(content.title)",
-                "description": "\(content.title)",
+                "description": "\(content.description)",
+                "wordCount": \(content.wordCount),
                 "inLanguage": "en",
                 "isPartOf": { "@id": "https://michaelnisi.com#website" },
                 "mainEntity": { "@id": "https://michaelnisi.com#person" }   

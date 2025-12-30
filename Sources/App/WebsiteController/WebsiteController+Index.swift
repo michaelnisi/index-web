@@ -96,10 +96,12 @@ private struct IndexData {
                    "sameAs": [
                      "https://linktr.ee/michaelnisi",
                      "https://github.com/michaelnisi",
-                     "https://www.instagram.com/podustle/",
-                     "https://michaelnisi.substack.com/"
+                     "https://instagram.com/podustle/",
+                     "https://michaelnisi.substack.com/",
+                     "https://flickr.com/people/michaelnisi/",
+                     "https://mubi.com/en/users/164590"
                    ],
-                   "knowsAbout": ["Apple", "iOS", "Swift", "Literature", "Music", "Surfing"]
+                   "knowsAbout": ["Apple", "iOS", "Swift", "Literature", "Music", "Movies", "Surfing"]
                  }
                ]
             }

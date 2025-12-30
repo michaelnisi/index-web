@@ -19,7 +19,9 @@ private func getPagePartial(matching path: String) async throws -> Content {
         html: html.html,
         date: .distantPast,
         title: html.title,
-        absoluteURL: absoluteURL
+        absoluteURL: absoluteURL,
+        description: html.description,
+        wordCount: html.wordCount
     )
 }
 
@@ -33,7 +35,9 @@ private func getPostPartial(matching path: String) async throws -> Content {
         html: html.html,
         date: file.date,
         title: html.title,
-        absoluteURL: absoluteURL
+        absoluteURL: absoluteURL,
+        description: html.description,
+        wordCount: html.wordCount
     )
 }
 
