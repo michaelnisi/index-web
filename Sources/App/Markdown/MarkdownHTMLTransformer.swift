@@ -85,28 +85,7 @@ private func plainText(_ markup: any Markup) -> String {
 }
 
 public enum MarkdownHTMLTransformer {
-    @available(*, deprecated, message: "use htmlAndTitle")
-    public static func html(from markdown: String) -> String {
-        var v = HTMLVisitor()
-        let doc = Document(parsing: markdown)
-
-        return v.visit(doc)
-    }
-
-    public struct HTMLAndTitle {
-        public let html: String
-        public let title: String
-        public let description: String
-        public let wordCount: Int
-        public init(html: String, title: String, description: String, wordCount: Int) {
-            self.html = html
-            self.title = title
-            self.description = description
-            self.wordCount = wordCount
-        }
-    }
-
-    public static func htmlAndTitle(from markdown: String) -> HTMLAndTitle {
+    static func content(from markdown: String, absoluteURL: String, date: Date) -> Content {
         var v = HTMLVisitor()
         let doc = Document(parsing: markdown)
         let html = v.visit(doc)
@@ -183,6 +162,13 @@ public enum MarkdownHTMLTransformer {
         let fullPlain = plainText(doc)
         let wordCount = fullPlain.split { $0.isWhitespace || $0.isNewline }.filter { !$0.isEmpty }.count
 
-        return HTMLAndTitle(html: html, title: title, description: description, wordCount: wordCount)
+        return .init(
+            html: html,
+            date: date,
+            title: title,
+            absoluteURL: absoluteURL,
+            description: description,
+            wordCount: wordCount
+        )
     }
 }
