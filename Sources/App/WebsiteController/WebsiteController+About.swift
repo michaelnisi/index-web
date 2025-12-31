@@ -30,20 +30,11 @@ private struct AboutData {
         self.post = post
         self.description = description
         self.wordCount = wordCount
-
-        ld = """
-            {
-                "@context": "https://schema.org",
-                "@type": "ProfilePage",
-                "@id": "https://michaelnisi.com/about#webpage",
-                "url": "https://michaelnisi.com/about",
-                "inLanguage": "en",
-                "name": "\(title)",
-                "description": "\(description)",
-                "wordCount": \(wordCount),
-                "isPartOf": { "@id": "https://michaelnisi.com#website" },
-                "mainEntity": { "@id": "https://michaelnisi.com#person" }
-            }  
-            """
+        self.ld = AboutLinkedData(
+            name: title,
+            description: description,
+            wordCount: wordCount
+        )
+        .json
     }
 }
