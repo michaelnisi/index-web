@@ -13,7 +13,7 @@ private func getPagePartial(matching path: String) async throws -> Content {
     let file = try PageFile(string: path)
     let markdown = try await file.handle()
     let absoluteURL: String = .init(urlString: path)
-    let date: Date = .distantPast  // TODO: Why this difference?
+    let date: Date = .now
 
     return MarkdownHTMLTransformer.content(from: markdown, absoluteURL: absoluteURL, date: date)
 }
