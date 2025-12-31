@@ -1,6 +1,6 @@
 import Foundation
 
-protocol LinkedData: Codable {
+protocol LinkedData: Encodable {
     var json: String { get }
 }
 

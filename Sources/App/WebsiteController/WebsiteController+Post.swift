@@ -27,20 +27,13 @@ private struct PostData {
         self.title = "Michael Nisi – \(content.title)"
         self.post = content.html
 
-        ld = """
-            {
-                "@context": "https://schema.org",
-                "@type": "WebPage",
-                "@id": "\(content.absoluteURL)#webpage",
-                "url": "\(content.absoluteURL)",
-                "name": "Michael Nisi – \(content.title)",
-                "description": "\(content.description)",
-                "wordCount": \(content.wordCount),
-                "inLanguage": "en",
-                "isPartOf": { "@id": "https://michaelnisi.com#website" },
-                "mainEntity": { "@id": "https://michaelnisi.com#person" }   
-            }
-            """
+        ld =
+            PostLinkedData(
+                absoluteURL: content.absoluteURL,
+                title: content.title,
+                description: content.description,
+                wordCount: content.wordCount
+            ).json
     }
 }
 
