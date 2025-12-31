@@ -4,6 +4,11 @@ protocol LinkedData: Encodable {
     var json: String { get }
 }
 
+struct LinkedDataReference: Codable {
+    let id: String
+    enum CodingKeys: String, CodingKey { case id = "@id" }
+}
+
 extension LinkedData {
     var json: String {
         let encoder = JSONEncoder()

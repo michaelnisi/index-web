@@ -9,8 +9,8 @@ struct PostLinkedData: LinkedData {
     let description: String
     let wordCount: Int
     let inLanguage: String = "en"
-    let isPartOf: Reference
-    let mainEntity: Reference
+    let isPartOf: LinkedDataReference
+    let mainEntity: LinkedDataReference
 
     enum CodingKeys: String, CodingKey {
         case context = "@context"
@@ -25,18 +25,13 @@ struct PostLinkedData: LinkedData {
         case mainEntity
     }
 
-    struct Reference: Codable {
-        let id: String
-        enum CodingKeys: String, CodingKey { case id = "@id" }
-    }
-
     init(absoluteURL: String, title: String, description: String, wordCount: Int) {
         self.id = "\(absoluteURL)#webpage"
         self.url = absoluteURL
         self.name = "Michael Nisi –\u{00A0}\(title)"
         self.description = description
         self.wordCount = wordCount
-        self.isPartOf = Reference(id: "https://michaelnisi.com#website")
-        self.mainEntity = Reference(id: "https://michaelnisi.com#person")
+        self.isPartOf = LinkedDataReference(id: "https://michaelnisi.com#website")
+        self.mainEntity = LinkedDataReference(id: "https://michaelnisi.com#person")
     }
 }

@@ -9,8 +9,8 @@ struct AboutLinkedData: LinkedData {
     let name: String
     let description: String
     let wordCount: Int
-    let isPartOf: ThingRef
-    let mainEntity: ThingRef
+    let isPartOf: LinkedDataReference
+    let mainEntity: LinkedDataReference
 
     private enum CodingKeys: String, CodingKey {
         case context = "@context"
@@ -25,14 +25,6 @@ struct AboutLinkedData: LinkedData {
         case mainEntity
     }
 
-    struct ThingRef: Codable {
-        let id: String
-
-        private enum CodingKeys: String, CodingKey {
-            case id = "@id"
-        }
-    }
-
     init(name: String, description: String, wordCount: Int) {
         self.context = "https://schema.org"
         self.type = "ProfilePage"
@@ -42,7 +34,7 @@ struct AboutLinkedData: LinkedData {
         self.name = name
         self.description = description
         self.wordCount = wordCount
-        self.isPartOf = ThingRef(id: "https://michaelnisi.com#website")
-        self.mainEntity = ThingRef(id: "https://michaelnisi.com#person")
+        self.isPartOf = LinkedDataReference(id: "https://michaelnisi.com#website")
+        self.mainEntity = LinkedDataReference(id: "https://michaelnisi.com#person")
     }
 }

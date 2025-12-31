@@ -9,18 +9,8 @@ struct NowLinkedData: LinkedData {
     let description: String
     let wordCount: Int
     let inLanguage: String
-    let isPartOf: PartOf
-    let mainEntity: MainEntity
-
-    struct PartOf: Codable {
-        let id: String
-        enum CodingKeys: String, CodingKey { case id = "@id" }
-    }
-
-    struct MainEntity: Codable {
-        let id: String
-        enum CodingKeys: String, CodingKey { case id = "@id" }
-    }
+    let isPartOf: LinkedDataReference
+    let mainEntity: LinkedDataReference
 
     enum CodingKeys: String, CodingKey {
         case context = "@context"
@@ -44,7 +34,7 @@ struct NowLinkedData: LinkedData {
         self.description = description
         self.wordCount = wordCount
         self.inLanguage = "en"
-        self.isPartOf = PartOf(id: "https://michaelnisi.com#website")
-        self.mainEntity = MainEntity(id: "https://michaelnisi.com#person")
+        self.isPartOf = LinkedDataReference(id: "https://michaelnisi.com#website")
+        self.mainEntity = LinkedDataReference(id: "https://michaelnisi.com#person")
     }
 }

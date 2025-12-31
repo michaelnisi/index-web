@@ -47,7 +47,7 @@ struct IndexLinkedData: LinkedData {
         let id: String
         let url: String
         let name: String
-        let isPartOf: Reference
+        let isPartOf: LinkedDataReference
         let primaryImageOfPage: ImageObject
 
         enum CodingKeys: String, CodingKey {
@@ -106,11 +106,6 @@ struct IndexLinkedData: LinkedData {
         }
     }
 
-    struct Reference: Codable {
-        let id: String
-        enum CodingKeys: String, CodingKey { case id = "@id" }
-    }
-
     init(title: String) {
         self.context = "https://schema.org"
         let imageURL = "https://res.cloudinary.com/duiiv2f8o/image/upload/v1762078766/IMG_0126_xws0m4.jpg"
@@ -126,7 +121,7 @@ struct IndexLinkedData: LinkedData {
             id: "https://michaelnisi.com#webpage",
             url: "https://michaelnisi.com",
             name: title,
-            isPartOf: Reference(id: "https://michaelnisi.com#website"),
+            isPartOf: LinkedDataReference(id: "https://michaelnisi.com#website"),
             primaryImageOfPage: ImageObject(type: "ImageObject", url: imageURL)
         )
         let person = Person(
