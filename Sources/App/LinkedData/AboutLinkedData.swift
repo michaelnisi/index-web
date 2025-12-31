@@ -1,6 +1,6 @@
 import Foundation
 
-struct AboutLinkedData: Codable {
+struct AboutLinkedData: LinkedData {
     let context: String
     let type: String
     let id: String
@@ -44,21 +44,5 @@ struct AboutLinkedData: Codable {
         self.wordCount = wordCount
         self.isPartOf = ThingRef(id: "https://michaelnisi.com#website")
         self.mainEntity = ThingRef(id: "https://michaelnisi.com#person")
-    }
-
-    var json: String {
-        let encoder = JSONEncoder()
-        encoder.outputFormatting = [.prettyPrinted, .sortedKeys]
-        if #available(macOS 13, iOS 16, *) {
-            encoder.outputFormatting.insert(.withoutEscapingSlashes)
-        }
-
-        do {
-            let data = try encoder.encode(self)
-            return String(data: data, encoding: .utf8) ?? "{}"
-        } catch {
-            assertionFailure("Failed to encode AboutLinkedData: \(error)")
-            return "{}"
-        }
     }
 }

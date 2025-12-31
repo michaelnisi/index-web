@@ -30,11 +30,12 @@ private struct AboutData {
         self.post = post
         self.description = description
         self.wordCount = wordCount
-        self.ld = AboutLinkedData(
-            name: title,
-            description: description,
-            wordCount: wordCount
-        )
-        .json
+        self.ld =
+            AboutLinkedData(
+                name: title,
+                description: description,
+                wordCount: wordCount
+            )
+            .json
     }
 }

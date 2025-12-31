@@ -30,20 +30,12 @@ private struct NowData {
         self.post = post
         self.description = description
         self.wordCount = wordCount
-
-        ld = """
-            {
-                "@context": "https://schema.org",
-                "@type": "ProfilePage",
-                "@id": "https://michaelnisi.com/now#webpage",
-                "url": "https://michaelnisi.com/now",
-                "name": "\(title)",
-                "description": "\(description)",
-                "wordCount": \(wordCount),
-                "inLanguage": "en",
-                "isPartOf": { "@id": "https://michaelnisi.com#website" },
-                "mainEntity": { "@id": "https://michaelnisi.com#person" }
-            }  
-            """
+        self.ld =
+            NowLinkedData(
+                name: title,
+                description: description,
+                wordCount: wordCount
+            )
+            .json
     }
 }
