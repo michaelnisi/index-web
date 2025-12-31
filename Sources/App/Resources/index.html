@@ -3,10 +3,14 @@
     {{> header}}
     <main>
       {{#posts}}
-      <article>
-        {{{content}}}
-        <a href="{{link}}">{{link}}</a>
-      </article>
+        <ul class="articles">
+          <li>
+            <article>
+              {{{content}}}
+              <a href="{{link}}">{{link}}</a>
+            </article>
+          </li>
+        </ul>
       {{/posts}}
     </main>
     {{> footer}}

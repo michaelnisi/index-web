@@ -65,6 +65,12 @@ main {
     grid-column: 1 / span 4;
 }
 
+.articles {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
 article {
     padding-bottom: 4rem;
 }
