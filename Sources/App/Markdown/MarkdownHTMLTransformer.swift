@@ -4,12 +4,10 @@ import Markdown
 private struct HTMLVisitor: MarkupVisitor {
     typealias Result = String
 
-    // Required fallback
     mutating func defaultVisit(_ markup: any Markup) -> String {
         markup.children.map { visit($0) }.joined()
     }
 
-    // Required overrides for node types we want to handle
     mutating func visitDocument(_ doc: Document) -> String {
         doc.children.map { visit($0) }.joined(separator: "\n")
     }
@@ -23,16 +21,17 @@ private struct HTMLVisitor: MarkupVisitor {
     }
 
     mutating func visitText(_ t: Text) -> String {
-        escape(t.string)
+        t.string.escape()
     }
 
     mutating func visitInlineCode(_ ic: InlineCode) -> String {
-        "<code>\(escape(ic.code))</code>"
+        "<code>\(ic.code.escape())</code>"
     }
 
     mutating func visitCodeBlock(_ cb: CodeBlock) -> String {
         let lang = cb.language.map { " class=\"language-\($0)\"" } ?? ""
-        return "<pre><code\(lang)>\(escape(cb.code))</code></pre>"
+
+        return "<pre><code\(lang)>\(cb.code.escape())</code></pre>"
     }
 
     mutating func visitSoftBreak(_ _: SoftBreak) -> String { "\n" }
@@ -46,16 +45,18 @@ private struct HTMLVisitor: MarkupVisitor {
     }
 
     mutating func visitLink(_ l: Link) -> String {
-        let d = escape(l.destination ?? "#")
-        let t = l.title.map { " title=\"\(escape($0))\"" } ?? ""
+        let d = l.destination?.escape() ?? "#"
+        let t = l.title.map { " title=\"\($0.escape())\"" } ?? ""
         let body = l.children.map { visit($0) }.joined()
+
         return "<a href=\"\(d)\"\(t)>\(body)</a>"
     }
 
     mutating func visitImage(_ i: Image) -> String {
-        let src = escape(i.source ?? "")
-        let titleAttr = i.title.map { " title=\"\(escape($0))\"" } ?? ""
-        let altText = escape(plainText(i))
+        let src = i.source?.escape() ?? ""
+        let titleAttr = i.title.map { " title=\"\($0.escape())\"" } ?? ""
+        let altText = i.plainText.escape()
+
         return "<img class=\"inline_image\" src=\"\(src)\" alt=\"\(altText)\"\(titleAttr)>"
     }
 
@@ -63,103 +64,17 @@ private struct HTMLVisitor: MarkupVisitor {
     mutating func visitBlockQuote(_ q: BlockQuote) -> String {
         "<blockquote>\(q.children.map { visit($0) }.joined())</blockquote>"
     }
-
-    // --- helper ---
-    private func plainText(_ markup: any Markup) -> String {
-        if let t = markup as? Text {
-            return t.string
-        }
-        return markup.children.map { plainText($0) }.joined()
-    }
-    private func escape(_ s: String) -> String {
-        s.replacingOccurrences(of: "&", with: "&amp;")
-            .replacingOccurrences(of: "<", with: "&lt;")
-            .replacingOccurrences(of: ">", with: "&gt;")
-            .replacingOccurrences(of: "\"", with: "&quot;")
-    }
 }
 
-private func plainText(_ markup: any Markup) -> String {
-    if let t = markup as? Text { return t.string }
-    return markup.children.map { plainText($0) }.joined()
-}
-
-public enum MarkdownHTMLTransformer {
+enum MarkdownHTMLTransformer {
     static func content(from markdown: String, absoluteURL: String, date: Date) -> Content {
-        var v = HTMLVisitor()
-        let doc = Document(parsing: markdown)
-        let html = v.visit(doc)
-        let firstTopLevelHeading = doc.children.compactMap { $0 as? Heading }.first
-        let title = firstTopLevelHeading.map { plainText($0) } ?? ""
-
-        // Description: find the first top-level paragraph that fills 160 characters
-        let paragraphs = doc.children.compactMap { $0 as? Paragraph }.map { plainText($0).trimmingCharacters(in: .whitespacesAndNewlines) }
-        var chosen: String = ""
-        for p in paragraphs {
-            if p.count >= 160 {
-                chosen = p
-                break
-            }
-            if chosen.isEmpty { chosen = p }
-        }
-        // If no single paragraph fills 160, consider combining consecutive paragraphs until reaching the limit
-        if chosen.count < 160 {
-            var combined = ""
-            for p in paragraphs {
-                if combined.isEmpty {
-                    combined = p
-                } else if !p.isEmpty {
-                    combined += " " + p
-                }
-                if combined.count >= 160 { break }
-            }
-            if !combined.isEmpty { chosen = combined }
-        }
-        // Truncate to 160 with sentence boundary preferred, fallback to word-boundary with ellipsis
-        let rawDescription = chosen
-        let description: String
-        if rawDescription.count > 160 {
-            let limitIndex = rawDescription.index(rawDescription.startIndex, offsetBy: 160)
-            let prefix = String(rawDescription[..<limitIndex])
-            // Try to find the last sentence terminator before the limit
-            let terminators: [Character] = [".", "!", "?"]
-            if let lastTerminatorIndex = prefix.lastIndex(where: { terminators.contains($0) }) {
-                let end = rawDescription.index(after: lastTerminatorIndex)
-                let sentence = rawDescription[..<end].trimmingCharacters(in: .whitespacesAndNewlines)
-                // If the sentence is reasonably long, use it; otherwise fall back to word-boundary truncation
-                if sentence.count >= 40 {  // heuristic minimum length
-                    description = String(sentence)
-                } else {
-                    // word-boundary fallback
-                    if let lastSpace = prefix.lastIndex(where: { $0.isWhitespace }) {
-                        let trimmed = prefix[..<lastSpace].trimmingCharacters(in: .whitespacesAndNewlines)
-                        description = trimmed + "…"
-                    } else {
-                        description = prefix + "…"
-                    }
-                }
-            } else {
-                // No sentence boundary found; fall back to word-boundary truncation with ellipsis
-                if let lastSpace = prefix.lastIndex(where: { $0.isWhitespace }) {
-                    let trimmed = prefix[..<lastSpace].trimmingCharacters(in: .whitespacesAndNewlines)
-                    description = trimmed + "…"
-                } else {
-                    description = prefix + "…"
-                }
-            }
-        } else {
-            // Already within limit; try to end at a sentence boundary if one exists
-            let terminators: [Character] = [".", "!", "?"]
-            if let lastTerminatorIndex = rawDescription.lastIndex(where: { terminators.contains($0) }) {
-                let end = rawDescription.index(after: lastTerminatorIndex)
-                description = String(rawDescription[..<end]).trimmingCharacters(in: .whitespacesAndNewlines)
-            } else {
-                description = rawDescription
-            }
-        }
-
-        // Word count over full plain text
-        let fullPlain = plainText(doc)
+        var visitor = HTMLVisitor()
+        let document = Document(parsing: markdown)
+        let html = visitor.visit(document)
+        let firstTopLevelHeading = document.children.compactMap { $0 as? Heading }.first
+        let title = firstTopLevelHeading.map(\.plainText) ?? ""
+        let description = document.description()
+        let fullPlain = document.plainText
         let wordCount = fullPlain.split { $0.isWhitespace || $0.isNewline }.filter { !$0.isEmpty }.count
 
         return .init(
