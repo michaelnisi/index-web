@@ -3,7 +3,7 @@ import Hummingbird
 
 extension WebsiteController {
     @Sendable func postHandler(request: Request, context: some RequestContext) async throws -> HTML {
-        guard let (_, path) = markdownTree.findWithPath(path: .partialsPath(request.uri.path.markdownPath())) else {
+        guard let (_, path) = markdownTree.findWithPath(path: request.uri.path.markdownPath().inPartialsDirectory) else {
             throw HTTPError(.notFound)
         }
 
@@ -34,11 +34,5 @@ private struct PostData {
                 description: content.description,
                 wordCount: content.wordCount
             ).json
-    }
-}
-
-extension String {
-    static func partialsPath(_ path: String) -> String {
-        "Partials/\(path)"
     }
 }

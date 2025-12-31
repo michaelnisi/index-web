@@ -14,7 +14,7 @@ extension WebsiteController {
             for post in posts {
                 group.addTask {
                     let content = try await ContentProvider.file
-                        .post(matching: .partialsPath(post.path))
+                        .post(matching: post.path.inPartialsDirectory)
 
                     return IndexData.Post(
                         content: content,

@@ -147,7 +147,7 @@ struct IndexLinkedData: LinkedData {
                 "https://michaelnisi.substack.com/",
                 "https://flickr.com/people/michaelnisi/",
                 "https://mubi.com/en/users/164590",
-                "https://forums.swift.org/u/mic"
+                "https://forums.swift.org/u/mic",
             ],
             knowsAbout: ["Apple", "iOS", "Swift", "Literature", "Music", "Movies", "Surfing"]
         )
