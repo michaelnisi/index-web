@@ -2,11 +2,14 @@
   {{$body}}
     {{> header}}
     <main>
-      {{#posts}}
-        <a href="{{link}}">{{link}}</a>
-      {{/posts}}
+        <ul>
+        {{#posts}}
+            <li>
+                <a href="{{link}}">{{link}}</a>
+            </li>
+        {{/posts}}
+        </ul>
     </main>
     {{> footer}}
   {{/body}}
 {{/page}}
-    /Users/michael/swift/Index/Sources/App/Resources/page.html
