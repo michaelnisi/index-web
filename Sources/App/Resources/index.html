@@ -2,16 +2,16 @@
   {{$body}}
     {{> header}}
     <main>
-      {{#posts}}
-        <ul class="articles">
+      <ul class="articles">
+        {{#posts}}
           <li>
             <article>
               {{{content}}}
               <a href="{{link}}">{{link}}</a>
             </article>
           </li>
-        </ul>
-      {{/posts}}
+        {{/posts}}
+      </ul>
     </main>
     {{> footer}}
   {{/body}}

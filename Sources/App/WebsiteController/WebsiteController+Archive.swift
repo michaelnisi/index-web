@@ -32,7 +32,7 @@ extension WebsiteController {
             return acc.sorted()
         }
 
-        let data = ArchiveData(title: "Michael Nisi — Archive", posts: posts)
+        let data = ArchiveData(title: "Michael Nisi – Archive", posts: posts)
 
         guard let html = mustacheLibrary.render(data, withTemplate: "archive") else {
             throw HTTPError(.internalServerError, message: "Failed to render template.")

@@ -3,7 +3,7 @@ import Foundation
 struct ArchiveLinkedData: LinkedData {
     let context: String = "https://schema.org"
     let type: String = "WebPage"
-    let id: String = "https://michaelnisi.com/archive)#webpage"
+    let id: String = "https://michaelnisi.com/archive#webpage"
     let url = "https://michaelnisi.com/archive"
     let name: String
     let inLanguage: String = "en"
