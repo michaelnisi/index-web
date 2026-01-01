@@ -3,7 +3,7 @@ import Hummingbird
 
 extension WebsiteController {
     @Sendable func archiveHandler(request: Request, context: some RequestContext) async throws -> HTML {
-        let posts: [IndexData.Post] = try await withThrowingTaskGroup(of: IndexData.Post.self) { group in
+        let posts: [ArchiveData.Post] = try await withThrowingTaskGroup(of: ArchiveData.Post.self) { group in
             guard
                 let posts = markdownTree.allNodes(matching: "posts")
                     .first?.node.allFiles()
@@ -16,14 +16,14 @@ extension WebsiteController {
                     let content = try await ContentProvider.file
                         .post(matching: post.path.inPartialsDirectory)
 
-                    return IndexData.Post(
+                    return ArchiveData.Post(
                         content: content,
                         link: post.path.toDirectoryPath()
                     )
                 }
             }
 
-            var acc: [IndexData.Post] = []
+            var acc: [ArchiveData.Post] = []
 
             for try await result in group {
                 acc.append(result)
@@ -32,7 +32,7 @@ extension WebsiteController {
             return acc.sorted()
         }
 
-        let data = IndexData(title: "Michael Nisi — Software Engineer", posts: posts)
+        let data = ArchiveData(title: "Michael Nisi — Archive", posts: posts)
 
         guard let html = mustacheLibrary.render(data, withTemplate: "archive") else {
             throw HTTPError(.internalServerError, message: "Failed to render template.")
@@ -42,9 +42,8 @@ extension WebsiteController {
     }
 }
 
-private struct IndexData {
+private struct ArchiveData {
     struct Post: Comparable {
-        let content: String
         let date: Date
         let title: String
         let url: String
@@ -73,9 +72,8 @@ private let dateFormatter: DateFormatter = {
     return formatter
 }()
 
-extension IndexData.Post {
+extension ArchiveData.Post {
     init(content: Content, link: String) {
-        self.content = content.html
         date = content.date
         title = content.title
         url = content.absoluteURL
