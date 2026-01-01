@@ -3,12 +3,12 @@ import Hummingbird
 
 extension WebsiteController {
     @Sendable func postHandler(request: Request, context: some RequestContext) async throws -> HTML {
-        guard let (_, path) = markdownTree.findWithPath(path: .partialsPath(request.uri.path.markdownPath())) else {
+        guard let (_, path) = markdownTree.findWithPath(path: request.uri.path.markdownPath().inPartialsDirectory) else {
             throw HTTPError(.notFound)
         }
 
         let content = try await ContentProvider.file.post(matching: path)
-        let data = PostData(content: content)
+        let data = PostData(title: .title(content.title), content: content)
 
         guard let html = mustacheLibrary.render(data, withTemplate: "article") else {
             throw HTTPError(.internalServerError, message: "Failed to render template.")
@@ -23,28 +23,15 @@ private struct PostData {
     let post: String
     let ld: String
 
-    init(content: Content) {
-        self.title = "Michael Nisi – \(content.title)"
+    init(title: String, content: Content) {
+        self.title = title
         self.post = content.html
-
-        ld = """
-            {
-                "@context": "https://schema.org",
-                "@type": "WebPage",
-                "@id": "\(content.absoluteURL)#webpage",
-                "url": "\(content.absoluteURL)",
-                "name": "Michael Nisi – \(content.title)",
-                "description": "\(content.title)",
-                "inLanguage": "en",
-                "isPartOf": { "@id": "https://michaelnisi.com#website" },
-                "mainEntity": { "@id": "https://michaelnisi.com#person" }   
-            }
-            """
-    }
-}
-
-extension String {
-    static func partialsPath(_ path: String) -> String {
-        "Partials/\(path)"
+        ld =
+            PostLinkedData(
+                absoluteURL: content.absoluteURL,
+                name: content.title,
+                description: content.description,
+                wordCount: content.wordCount
+            ).json
     }
 }

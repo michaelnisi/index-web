@@ -7,8 +7,8 @@ extension WebsiteController {
             throw HTTPError(.notFound)
         }
 
-        let html = try await ContentProvider.file.page(matching: path).html
-        let data = NowData(title: "Michael Nisi — Now", post: html)
+        let content = try await ContentProvider.file.page(matching: path)
+        let data = NowData(title: .title("Now"), post: content.html, description: content.description, wordCount: content.wordCount)
 
         guard let html = mustacheLibrary.render(data, withTemplate: "article") else {
             throw HTTPError(.internalServerError, message: "Failed to render template.")
@@ -21,23 +21,21 @@ extension WebsiteController {
 private struct NowData {
     let title: String
     let post: String
+    let description: String
+    let wordCount: Int
     let ld: String
 
-    init(title: String, post: String) {
+    init(title: String, post: String, description: String, wordCount: Int) {
         self.title = title
         self.post = post
-
-        ld = """
-            {
-                "@context": "https://schema.org",
-                "@type": "ProfilePage",
-                "@id": "https://michaelnisi.com/now#webpage",
-                "url": "https://michaelnisi.com/now",
-                "name": "\(title)",
-                "inLanguage": "en",
-                "isPartOf": { "@id": "https://michaelnisi.com#website" },
-                "mainEntity": { "@id": "https://michaelnisi.com#person" }
-            }  
-            """
+        self.description = description
+        self.wordCount = wordCount
+        ld =
+            NowLinkedData(
+                name: title,
+                description: description,
+                wordCount: wordCount
+            )
+            .json
     }
 }

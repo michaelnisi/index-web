@@ -36,4 +36,8 @@ extension String {
     func isValidFilename() -> Bool {
         self.wholeMatch(of: #/^.+/\d{4}-\d{2}-\d{2}-[a-z0-9-]+\.md$/#) != nil
     }
+
+    var inPartialsDirectory: String {
+        "Partials/\(self)"
+    }
 }

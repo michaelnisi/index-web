@@ -4,12 +4,10 @@ import Markdown
 private struct HTMLVisitor: MarkupVisitor {
     typealias Result = String
 
-    // Required fallback
     mutating func defaultVisit(_ markup: any Markup) -> String {
         markup.children.map { visit($0) }.joined()
     }
 
-    // Required overrides for node types we want to handle
     mutating func visitDocument(_ doc: Document) -> String {
         doc.children.map { visit($0) }.joined(separator: "\n")
     }
@@ -23,16 +21,17 @@ private struct HTMLVisitor: MarkupVisitor {
     }
 
     mutating func visitText(_ t: Text) -> String {
-        escape(t.string)
+        t.string.escape()
     }
 
     mutating func visitInlineCode(_ ic: InlineCode) -> String {
-        "<code>\(escape(ic.code))</code>"
+        "<code>\(ic.code.escape())</code>"
     }
 
     mutating func visitCodeBlock(_ cb: CodeBlock) -> String {
         let lang = cb.language.map { " class=\"language-\($0)\"" } ?? ""
-        return "<pre><code\(lang)>\(escape(cb.code))</code></pre>"
+
+        return "<pre><code\(lang)>\(cb.code.escape())</code></pre>"
     }
 
     mutating func visitSoftBreak(_ _: SoftBreak) -> String { "\n" }
@@ -46,16 +45,18 @@ private struct HTMLVisitor: MarkupVisitor {
     }
 
     mutating func visitLink(_ l: Link) -> String {
-        let d = escape(l.destination ?? "#")
-        let t = l.title.map { " title=\"\(escape($0))\"" } ?? ""
+        let d = l.destination?.escape() ?? "#"
+        let t = l.title.map { " title=\"\($0.escape())\"" } ?? ""
         let body = l.children.map { visit($0) }.joined()
+
         return "<a href=\"\(d)\"\(t)>\(body)</a>"
     }
 
     mutating func visitImage(_ i: Image) -> String {
-        let src = escape(i.source ?? "")
-        let titleAttr = i.title.map { " title=\"\(escape($0))\"" } ?? ""
-        let altText = escape(plainText(i))
+        let src = i.source?.escape() ?? ""
+        let titleAttr = i.title.map { " title=\"\($0.escape())\"" } ?? ""
+        let altText = i.plainText.escape()
+
         return "<img class=\"inline_image\" src=\"\(src)\" alt=\"\(altText)\"\(titleAttr)>"
     }
 
@@ -63,51 +64,26 @@ private struct HTMLVisitor: MarkupVisitor {
     mutating func visitBlockQuote(_ q: BlockQuote) -> String {
         "<blockquote>\(q.children.map { visit($0) }.joined())</blockquote>"
     }
-
-    // --- helper ---
-    private func plainText(_ markup: any Markup) -> String {
-        if let t = markup as? Text {
-            return t.string
-        }
-        return markup.children.map { plainText($0) }.joined()
-    }
-    private func escape(_ s: String) -> String {
-        s.replacingOccurrences(of: "&", with: "&amp;")
-            .replacingOccurrences(of: "<", with: "&lt;")
-            .replacingOccurrences(of: ">", with: "&gt;")
-            .replacingOccurrences(of: "\"", with: "&quot;")
-    }
 }
 
-private func plainText(_ markup: any Markup) -> String {
-    if let t = markup as? Text { return t.string }
-    return markup.children.map { plainText($0) }.joined()
-}
+enum MarkdownHTMLTransformer {
+    static func content(from markdown: String, absoluteURL: String, date: Date) -> Content {
+        var visitor = HTMLVisitor()
+        let document = Document(parsing: markdown)
+        let html = visitor.visit(document)
+        let firstTopLevelHeading = document.children.compactMap { $0 as? Heading }.first
+        let title = firstTopLevelHeading.map(\.plainText) ?? ""
+        let description = document.description()
+        let fullPlain = document.plainText
+        let wordCount = fullPlain.split { $0.isWhitespace || $0.isNewline }.filter { !$0.isEmpty }.count
 
-public enum MarkdownHTMLTransformer {
-    @available(*, deprecated, message: "use htmlAndTitle")
-    public static func html(from markdown: String) -> String {
-        var v = HTMLVisitor()
-        let doc = Document(parsing: markdown)
-
-        return v.visit(doc)
-    }
-
-    public struct HTMLAndTitle {
-        public let html: String
-        public let title: String
-        public init(html: String, title: String) {
-            self.html = html
-            self.title = title
-        }
-    }
-
-    public static func htmlAndTitle(from markdown: String) -> HTMLAndTitle {
-        var v = HTMLVisitor()
-        let doc = Document(parsing: markdown)
-        let html = v.visit(doc)
-        let firstTopLevelHeading = doc.children.compactMap { $0 as? Heading }.first
-        let title = firstTopLevelHeading.map { plainText($0) } ?? ""
-        return HTMLAndTitle(html: html, title: title)
+        return .init(
+            html: html,
+            date: date,
+            title: title,
+            absoluteURL: absoluteURL,
+            description: description,
+            wordCount: wordCount
+        )
     }
 }

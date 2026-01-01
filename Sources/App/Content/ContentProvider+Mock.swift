@@ -19,14 +19,7 @@ private func getPage(path: String) async throws -> Content {
 
 extension Content {
     static let mock: Content = {
-        let html = MarkdownHTMLTransformer.htmlAndTitle(from: markdownSource)
-
-        return .init(
-            html: html.html,
-            date: .now,
-            title: html.title,
-            absoluteURL: "https://michaelnisi.com/example"
-        )
+        MarkdownHTMLTransformer.content(from: markdownSource, absoluteURL: "https://michaelnisi.com/example", date: .now)
     }()
 }
 

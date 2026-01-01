@@ -1,9 +1,18 @@
-{{<page}} {{$body}} {{>
-    header}}
+{{< page}}
+  {{$body}}
+    {{> header}}
     <main>
-        {{#posts}} {{{ content }}}
-        <a href="{{link}}">{{link}}</a>
+      <ul class="articles">
+        {{#posts}}
+          <li>
+            <article>
+              {{{content}}}
+              <a href="{{link}}">{{link}}</a>
+            </article>
+          </li>
         {{/posts}}
+      </ul>
     </main>
-    {{> footer}} {{/body}} {{/page}}
-</page}}>
+    {{> footer}}
+  {{/body}}
+{{/page}}

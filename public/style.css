@@ -10,30 +10,30 @@
 :root {
     --base-bg: #002b36;
     --base-fg: #fdf6e3;
-    
+
     --heading-color: #eee8d5;
     --muted-color: #93a1a1;
     --link-color: #268bd2;
-    
+
     --inline-code-bg: #073642;
     --inline-code-fg: #b58900;
     --block-code-bg: #002b36;
-    
+
     --accent-color: #cb4b16;
 }
 
 :root.light {
     --base-bg: #fdf6e3;
     --base-fg: #002b36;
-    
+
     --heading-color: #073642;
     --muted-color: #586e75;
     --link-color: #268bd2;
-    
+
     --inline-code-bg: #eee8d5;
     --inline-code-fg: #d33682;
     --block-code-bg: #fdf6e3;
-    
+
     --accent-color: #d33682;
 }
 
@@ -46,7 +46,7 @@
 html {
     background-color: var(--base-bg);
     color: var(--base-fg);
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 body {
@@ -63,6 +63,49 @@ body {
 
 main {
     grid-column: 1 / span 4;
+}
+
+.articles, .archive {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.archive p {
+    margin: 0;
+    padding: 0;
+    padding-bottom: 0.5rem;
+}
+
+.archive h2 {
+    margin: 0;
+    padding: 0;
+    padding-bottom: 0.25rem;
+}
+
+.archive article {
+    padding-bottom: 1rem;
+}
+
+.articles article {
+    padding-bottom: 4rem;
+}
+
+.post-description {
+    margin: 0;
+    padding: 0;
+    padding-bottom: 0.5rem;
+}
+
+.post-meta {
+    margin: 0;
+    padding: 0;
+    color: var(--muted-color);
+    font-size: 0.875rem;
+}
+
+.word-count {
+    color: var(--muted-color);
 }
 
 @media (min-width: 900px) {
@@ -82,7 +125,9 @@ main {
     }
 }
 
-h1, h2, h3 {
+h1,
+h2,
+h3 {
     font-weight: 600;
     margin-top: 3rem;
     margin-bottom: 1rem;
@@ -102,13 +147,13 @@ h2 {
 header {
     font-size: 0.875rem;
     color: var(--muted-color);
+/*    margin-bottom: 3rem;*/
 }
 
-header h3 {
+.header-brand {
     font-size: 1rem;
     color: var(--accent-color);
-    margin-top: 0;
-    margin-bottom: 0;
+    font-weight: bold
 }
 
 p,
@@ -232,5 +277,6 @@ footer img {
 }
 
 @media (prefers-color-scheme: light) {
-    :root {}
+    :root {
+    }
 }

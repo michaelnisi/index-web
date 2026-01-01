@@ -12,6 +12,7 @@ struct WebsiteController {
         router.get("/posts/**", use: postHandler)
         router.get("/now", use: nowHandler)
         router.get("/about", use: aboutHandler)
+        router.get("/archive", use: archiveHandler)
     }
 }
 
@@ -22,5 +23,11 @@ struct HTML: ResponseGenerator {
         let buffer = ByteBuffer(string: self.html)
 
         return .init(status: .ok, headers: [.contentType: "text/html"], body: .init(byteBuffer: buffer))
+    }
+}
+
+extension String {
+    static func title(_ page: String) -> String {
+        "Michael Nisi — \(page)"
     }
 }

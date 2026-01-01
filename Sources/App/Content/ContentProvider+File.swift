@@ -12,29 +12,19 @@ extension ContentProvider {
 private func getPagePartial(matching path: String) async throws -> Content {
     let file = try PageFile(string: path)
     let markdown = try await file.handle()
-    let html = MarkdownHTMLTransformer.htmlAndTitle(from: markdown)
     let absoluteURL: String = .init(urlString: path)
+    let date: Date = .now
 
-    return .init(
-        html: html.html,
-        date: .distantPast,
-        title: html.title,
-        absoluteURL: absoluteURL
-    )
+    return MarkdownHTMLTransformer.content(from: markdown, absoluteURL: absoluteURL, date: date)
 }
 
 private func getPostPartial(matching path: String) async throws -> Content {
     let file = try PostFile(string: path)
     let markdown = try await file.handle()
-    let html = MarkdownHTMLTransformer.htmlAndTitle(from: markdown)
     let absoluteURL: String = .init(urlString: path)
+    let date = file.date
 
-    return .init(
-        html: html.html,
-        date: file.date,
-        title: html.title,
-        absoluteURL: absoluteURL
-    )
+    return MarkdownHTMLTransformer.content(from: markdown, absoluteURL: absoluteURL, date: date)
 }
 
 private struct PageFile {
@@ -161,5 +151,21 @@ extension URL {
         comps.day = day
 
         return comps.calendar?.date(from: comps)
+    }
+}
+
+extension String {
+    /// Creates absolute URL String from potential `urlString`.
+    fileprivate init(urlString: String) {
+        var components = URLComponents(string: urlString) ?? .init()
+        if components.host == nil && components.path.isEmpty {
+            components.path = urlString
+        }
+        components.scheme = "https"
+        components.host = "michaelnisi.com"
+        if !components.path.hasPrefix("/") {
+            components.path = "/" + components.path
+        }
+        self = components.url?.absoluteString ?? "https://michaelnisi.com" + components.path
     }
 }
