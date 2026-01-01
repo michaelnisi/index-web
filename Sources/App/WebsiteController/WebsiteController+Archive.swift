@@ -32,7 +32,7 @@ extension WebsiteController {
             return acc.sorted()
         }
 
-        let data = ArchiveData(title: "Michael Nisi – Archive", posts: posts)
+        let data = ArchiveData(title: .title("Archive"), posts: posts)
 
         guard let html = mustacheLibrary.render(data, withTemplate: "archive") else {
             throw HTTPError(.internalServerError, message: "Failed to render template.")
@@ -66,7 +66,7 @@ private struct ArchiveData {
 
 private let dateFormatter: DateFormatter = {
     let formatter = DateFormatter()
-    formatter.locale = .init(identifier: "en_US")
+    formatter.locale = .init(identifier: "en_US_POSIX")
     formatter.dateStyle = .long
 
     return formatter

@@ -25,3 +25,9 @@ struct HTML: ResponseGenerator {
         return .init(status: .ok, headers: [.contentType: "text/html"], body: .init(byteBuffer: buffer))
     }
 }
+
+extension String {
+    static func title(_ page: String) -> String {
+        "Michael Nisi — \(page)"
+    }
+}
