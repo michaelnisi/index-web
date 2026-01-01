@@ -60,7 +60,7 @@ private struct ArchiveData {
     init(title: String, posts: [Post]) {
         self.title = title
         self.posts = posts
-        ld = IndexLinkedData(title: title).json
+        ld = ArchiveLinkedData(name: title).json
     }
 }
 

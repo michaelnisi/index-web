@@ -1,7 +1,7 @@
 import Foundation
 
 struct IndexLinkedData: LinkedData {
-    let context: String
+    let context = "https://schema.org"
     let graph: [GraphElement]
 
     enum CodingKeys: String, CodingKey {
@@ -107,7 +107,6 @@ struct IndexLinkedData: LinkedData {
     }
 
     init(title: String) {
-        self.context = "https://schema.org"
         let imageURL = "https://res.cloudinary.com/duiiv2f8o/image/upload/v1762078766/IMG_0126_xws0m4.jpg"
         let site = WebSite(
             type: "WebSite",

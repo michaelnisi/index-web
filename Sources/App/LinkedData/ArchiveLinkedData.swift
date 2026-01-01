@@ -1,14 +1,12 @@
 import Foundation
 
-struct NowLinkedData: LinkedData {
-    let context = "https://schema.org"
-    let type = "ProfilePage"
-    let id = "https://michaelnisi.com/now#webpage"
-    let url = "https://michaelnisi.com/now"
+struct ArchiveLinkedData: LinkedData {
+    let context: String = "https://schema.org"
+    let type: String = "WebPage"
+    let id: String = "https://michaelnisi.com/archive)#webpage"
+    let url = "https://michaelnisi.com/archive"
     let name: String
-    let description: String
-    let wordCount: Int
-    let inLanguage = "en"
+    let inLanguage: String = "en"
     let isPartOf = LinkedDataReference(id: "https://michaelnisi.com#website")
     let mainEntity = LinkedDataReference(id: "https://michaelnisi.com#person")
 
@@ -18,16 +16,12 @@ struct NowLinkedData: LinkedData {
         case id = "@id"
         case url
         case name
-        case description
-        case wordCount
         case inLanguage
         case isPartOf
         case mainEntity
     }
 
-    init(name: String, description: String, wordCount: Int) {
+    init(name: String) {
         self.name = name
-        self.description = description
-        self.wordCount = wordCount
     }
 }

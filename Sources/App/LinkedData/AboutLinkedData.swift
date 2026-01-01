@@ -1,16 +1,16 @@
 import Foundation
 
 struct AboutLinkedData: LinkedData {
-    let context: String
-    let type: String
-    let id: String
-    let url: String
-    let inLanguage: String
+    let context = "https://schema.org"
+    let type = "ProfilePage"
+    let id = "https://michaelnisi.com/about#webpage"
+    let url = "https://michaelnisi.com/about"
+    let inLanguage = "en"
     let name: String
     let description: String
     let wordCount: Int
-    let isPartOf: LinkedDataReference
-    let mainEntity: LinkedDataReference
+    let isPartOf = LinkedDataReference(id: "https://michaelnisi.com#website")
+    let mainEntity = LinkedDataReference(id: "https://michaelnisi.com#person")
 
     private enum CodingKeys: String, CodingKey {
         case context = "@context"
@@ -26,15 +26,8 @@ struct AboutLinkedData: LinkedData {
     }
 
     init(name: String, description: String, wordCount: Int) {
-        self.context = "https://schema.org"
-        self.type = "ProfilePage"
-        self.id = "https://michaelnisi.com/about#webpage"
-        self.url = "https://michaelnisi.com/about"
-        self.inLanguage = "en"
         self.name = name
         self.description = description
         self.wordCount = wordCount
-        self.isPartOf = LinkedDataReference(id: "https://michaelnisi.com#website")
-        self.mainEntity = LinkedDataReference(id: "https://michaelnisi.com#person")
     }
 }

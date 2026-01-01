@@ -8,7 +8,7 @@ extension WebsiteController {
         }
 
         let content = try await ContentProvider.file.post(matching: path)
-        let data = PostData(content: content)
+        let data = PostData(title: "Michael Nisi – \(content.title)", content: content)
 
         guard let html = mustacheLibrary.render(data, withTemplate: "article") else {
             throw HTTPError(.internalServerError, message: "Failed to render template.")
@@ -23,13 +23,13 @@ private struct PostData {
     let post: String
     let ld: String
 
-    init(content: Content) {
-        self.title = "Michael Nisi – \(content.title)"
+    init(title: String, content: Content) {
+        self.title = title
         self.post = content.html
         ld =
             PostLinkedData(
                 absoluteURL: content.absoluteURL,
-                title: content.title,
+                name: content.title,
                 description: content.description,
                 wordCount: content.wordCount
             ).json
