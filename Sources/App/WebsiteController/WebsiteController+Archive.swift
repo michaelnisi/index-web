@@ -2,7 +2,7 @@ import Foundation
 import Hummingbird
 
 extension WebsiteController {
-    @Sendable func indexHandler(request: Request, context: some RequestContext) async throws -> HTML {
+    @Sendable func archiveHandler(request: Request, context: some RequestContext) async throws -> HTML {
         let posts: [IndexData.Post] = try await withThrowingTaskGroup(of: IndexData.Post.self) { group in
             guard
                 let posts = markdownTree.allNodes(matching: "posts")
@@ -34,7 +34,7 @@ extension WebsiteController {
 
         let data = IndexData(title: "Michael Nisi — Software Engineer", posts: posts)
 
-        guard let html = mustacheLibrary.render(data, withTemplate: "index") else {
+        guard let html = mustacheLibrary.render(data, withTemplate: "archive") else {
             throw HTTPError(.internalServerError, message: "Failed to render template.")
         }
 
@@ -49,6 +49,9 @@ private struct IndexData {
         let title: String
         let url: String
         let link: String
+        let description: String
+        let wordCount: Int
+        let dateString: String
     }
 
     let title: String
@@ -62,6 +65,14 @@ private struct IndexData {
     }
 }
 
+private let dateFormatter: DateFormatter = {
+    let formatter = DateFormatter()
+    formatter.locale = .init(identifier: "en_US")
+    formatter.dateStyle = .long
+
+    return formatter
+}()
+
 extension IndexData.Post {
     init(content: Content, link: String) {
         self.content = content.html
@@ -69,6 +80,9 @@ extension IndexData.Post {
         title = content.title
         url = content.absoluteURL
         self.link = link
+        description = content.description
+        wordCount = content.wordCount
+        dateString = dateFormatter.string(from: date)
     }
 
     fileprivate static func < (lhs: Self, rhs: Self) -> Bool {

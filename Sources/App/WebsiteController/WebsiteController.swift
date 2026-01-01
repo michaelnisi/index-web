@@ -12,6 +12,7 @@ struct WebsiteController {
         router.get("/posts/**", use: postHandler)
         router.get("/now", use: nowHandler)
         router.get("/about", use: aboutHandler)
+        router.get("/archive", use: archiveHandler)
     }
 }
 

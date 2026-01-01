@@ -26,7 +26,6 @@ private struct PostData {
     init(content: Content) {
         self.title = "Michael Nisi – \(content.title)"
         self.post = content.html
-
         ld =
             PostLinkedData(
                 absoluteURL: content.absoluteURL,

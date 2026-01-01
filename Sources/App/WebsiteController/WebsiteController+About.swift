@@ -30,7 +30,7 @@ private struct AboutData {
         self.post = post
         self.description = description
         self.wordCount = wordCount
-        self.ld =
+        ld =
             AboutLinkedData(
                 name: title,
                 description: description,

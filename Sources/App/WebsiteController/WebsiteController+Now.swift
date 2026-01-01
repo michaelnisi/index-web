@@ -30,7 +30,7 @@ private struct NowData {
         self.post = post
         self.description = description
         self.wordCount = wordCount
-        self.ld =
+        ld =
             NowLinkedData(
                 name: title,
                 description: description,
