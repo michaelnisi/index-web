@@ -1,5 +1,6 @@
 import Foundation
 import Hummingbird
+import HummingbirdCompression
 import Logging
 import Mustache
 
@@ -38,6 +39,8 @@ private func buildRouter(logger: Logger) async throws -> Router<AppRequestContex
         LogRequestsMiddleware(logger.logLevel)
         FileMiddleware(logger: logger)
         LogErrorsMiddleware()
+        RequestDecompressionMiddleware()
+        ResponseCompressionMiddleware(minimumResponseSizeToCompress: 512)
     }
 
     guard let directory = Bundle.module.resourcePath else {

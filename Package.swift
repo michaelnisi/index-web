@@ -11,15 +11,18 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/hummingbird-project/hummingbird.git", from: "2.0.0"),
-        .package(url: "https://github.com/apple/swift-argument-parser.git", from: "1.3.0"),
         .package(url: "https://github.com/hummingbird-project/swift-mustache.git", from: "2.0.0"),
-        .package(url: "https://github.com/apple/swift-markdown", from: "0.4.0"),
+        .package(url: "https://github.com/hummingbird-project/hummingbird-compression.git", from: "2.0.0"),
+        .package(url: "https://github.com/apple/swift-argument-parser.git", from: "1.3.0"),
+        .package(url: "https://github.com/apple/swift-markdown.git", from: "0.4.0"),
+      
     ],
     targets: [
         .executableTarget(name: "App",
             dependencies: [
-                .product(name: "ArgumentParser", package: "swift-argument-parser"),
                 .product(name: "Hummingbird", package: "hummingbird"),
+                .product(name: "HummingbirdCompression", package: "hummingbird-compression"),
+                .product(name: "ArgumentParser", package: "swift-argument-parser"),
                 .product(name: "Mustache", package: "swift-mustache"),
                 .product(name: "Markdown", package: "swift-markdown"),
             ],

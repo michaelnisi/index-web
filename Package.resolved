@@ -1,5 +1,5 @@
 {
-  "originHash" : "4940889f8aef0161af89395ab0d8296617bb32398a868f75f2f6749ece93aa84",
+  "originHash" : "fb0f03da490320de46694f4ee177909dae0d3aba9511554e6b9f0a395a365cc0",
   "pins" : [
     {
       "identity" : "async-http-client",
@@ -11,12 +11,30 @@
       }
     },
     {
+      "identity" : "compress-nio",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/adam-fowler/compress-nio.git",
+      "state" : {
+        "revision" : "e1caa19077dda4b00441142ef57da3db02acd466",
+        "version" : "1.4.2"
+      }
+    },
+    {
       "identity" : "hummingbird",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/hummingbird-project/hummingbird.git",
       "state" : {
         "revision" : "afb173a6a3be887a3484ba58ca4789efa2858e43",
         "version" : "2.15.0"
+      }
+    },
+    {
+      "identity" : "hummingbird-compression",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/hummingbird-project/hummingbird-compression",
+      "state" : {
+        "revision" : "947b17b1805f7cc1b83536261abf1e26d3bdfebd",
+        "version" : "2.0.0"
       }
     },
     {
