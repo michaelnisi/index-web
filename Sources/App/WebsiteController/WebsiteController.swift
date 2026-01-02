@@ -27,33 +27,28 @@ struct HTML: ResponseGenerator {
     let html: String
 
     public func response(from request: Request, context: some RequestContext) throws -> Response {
-        let headers: HTTPFields = [
-            .contentType: "text/html; charset=utf-8",
-            .cacheControl: "public, max-age=86400, stale-while-revalidate=604800, stale-if-error=604800",
-            .connection: "keep-alive",
-        ]
-
-        if request.method == .head {
-            // I would like to add content length, etc. here but I think how
-            // the compression middleware works in Hummingbird that's not possible.
-            return .init(
-                status: .ok,
-                headers: headers
-            )
-        } else {
-            let buffer = ByteBuffer(string: self.html)
-
-            return .init(
-                status: .ok,
-                headers: headers,
-                body: .init(byteBuffer: buffer)
-            )
-        }
+        request.method == .head ? .head() : .get(html: html)
     }
 }
 
 extension String {
     static func title(_ page: String) -> String {
         "Michael Nisi — \(page)"
+    }
+}
+
+extension Response {
+    fileprivate static let headers: HTTPFields = [
+        .contentType: "text/html; charset=utf-8",
+        .cacheControl: "public, max-age=86400, stale-while-revalidate=604800, stale-if-error=604800",
+        .connection: "keep-alive",
+    ]
+    
+    fileprivate static func head() -> Response {
+        .init(status: .ok, headers: headers)
+    }
+    
+    fileprivate static func get(html: String) -> Response {
+        .init(status: .ok, headers: headers, body: .init(byteBuffer: ByteBuffer(string: html)))
     }
 }
