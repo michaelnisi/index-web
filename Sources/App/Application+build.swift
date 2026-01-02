@@ -1,5 +1,6 @@
 import Foundation
 import Hummingbird
+import HummingbirdCompression
 import Logging
 import Mustache
 
@@ -12,7 +13,7 @@ public protocol AppArguments {
 typealias AppRequestContext = BasicRequestContext
 
 public func buildApplication(_ arguments: some AppArguments) async throws -> some ApplicationProtocol {
-    let serverName = "Index"
+    let serverName = "Index/v4"
 
     let logger = {
         var logger = Logger(label: serverName)
@@ -36,8 +37,10 @@ private func buildRouter(logger: Logger) async throws -> Router<AppRequestContex
 
     router.addMiddleware {
         LogRequestsMiddleware(logger.logLevel)
-        FileMiddleware(logger: logger)
+        FileMiddleware(cacheControl: .allMediaTypes(maxAge: 86400), logger: logger)
         LogErrorsMiddleware()
+        RequestDecompressionMiddleware()
+        ResponseCompressionMiddleware(minimumResponseSizeToCompress: 512)
     }
 
     guard let directory = Bundle.module.resourcePath else {
@@ -84,5 +87,19 @@ extension FileNode {
         let files = MetadataValue.array(paths.map(MetadataValue.string))
 
         logger.debug("Using file tree", metadata: { ["files": files] }())
+    }
+}
+
+extension MediaType.Category {
+    fileprivate static let all: [MediaType.Category] = [.application, .audio, .example, .font, .message, .model, .multipart, .text, .video]
+}
+
+extension MediaType {
+    fileprivate static let all: [MediaType] = MediaType.Category.all.map { MediaType(type: $0) }
+}
+
+extension CacheControl {
+    fileprivate static func allMediaTypes(maxAge: Int) -> CacheControl {
+        .init(MediaType.all.map { ($0, [.public, .maxAge(maxAge)]) })
     }
 }
