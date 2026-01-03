@@ -3,9 +3,11 @@ import HTTPTypes
 import Hummingbird
 import NIOCore
 
-public struct WeakETagMiddleware<Context: RequestContext>: RouterMiddleware {
+public struct ETagVaryMiddleware<Context: RequestContext>: RouterMiddleware {
     public init() {}
 
+    /// Ensures "Vary: Accept-Encoding" is present on 200 OK responses that include an ETag.
+    /// This avoids caches mixing compressed and uncompressed variants under the same ETag.
     public func handle(
         _ request: Request,
         context: Context,

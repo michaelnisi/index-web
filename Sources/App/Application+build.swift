@@ -40,7 +40,7 @@ private func buildRouter(logger: Logger) async throws -> Router<AppRequestContex
         LogRequestsMiddleware(logger.logLevel)
         RequestDecompressionMiddleware()
         FileMiddleware(cacheControl: .allMediaTypes(maxAge: 86400), logger: logger)
-        WeakETagMiddleware()
+        ETagVaryMiddleware()
         ResponseCompressionMiddleware(minimumResponseSizeToCompress: 512)
     }
 
