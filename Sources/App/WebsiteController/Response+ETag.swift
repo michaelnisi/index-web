@@ -1,11 +1,11 @@
-import CryptoKit
+import Crypto
 import Foundation
 import Hummingbird
 import Logging
 import Mustache
 
 extension Response {
-    static func conditionalHTML(html: String, request: Request) -> Response {
+    static func ifNoneMatch(html: String, request: Request) -> Response {
         let buffer = ByteBuffer(string: html)
         let tag = weakETag(for: buffer)
 

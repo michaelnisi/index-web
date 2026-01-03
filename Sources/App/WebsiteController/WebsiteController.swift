@@ -1,4 +1,3 @@
-import CryptoKit
 import Foundation
 import Hummingbird
 import Logging
@@ -28,7 +27,7 @@ struct HTML: ResponseGenerator {
     let html: String
 
     public func response(from request: Request, context: some RequestContext) throws -> Response {
-        .conditionalHTML(html: html, request: request)
+        .ifNoneMatch(html: html, request: request)
     }
 }
 
