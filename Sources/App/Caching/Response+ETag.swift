@@ -46,7 +46,7 @@ extension Response {
             headers[.vary] = "Accept-Encoding"
         }
     }
-    
+
     fileprivate static let headers: HTTPFields = [
         .contentType: "text/html; charset=utf-8",
         .cacheControl: "public, max-age=86400, stale-while-revalidate=604800, stale-if-error=604800",

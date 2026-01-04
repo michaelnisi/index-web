@@ -60,7 +60,7 @@ private func buildRouter(logger: Logger) async throws -> Router<AppRequestContex
     markdownFiles.logPaths(logger: logger)
 
     let cache = KeyValueStore<String, String>()
-    
+
     WebsiteController(
         markdownTree: markdownFiles,
         mustacheLibrary: templates,
