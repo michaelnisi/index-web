@@ -13,10 +13,6 @@ extension Response {
         hdrs[.eTag] = tag
         ensureVaryAcceptEncoding(&hdrs)
 
-        if request.method == .head {
-            return .init(status: .ok, headers: hdrs)
-        }
-
         if let ifNoneMatch = request.headers[.ifNoneMatch] {
             let candidates = ifNoneMatch.split(separator: ",").map { $0.trimmingCharacters(in: .whitespaces) }
             if candidates.contains(tag) {

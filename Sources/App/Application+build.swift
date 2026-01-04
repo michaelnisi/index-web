@@ -44,6 +44,7 @@ private func buildRouter(logger: Logger) async throws -> Router<AppRequestContex
         FileMiddleware(cacheControl: .allMediaTypes(maxAge: 86400), logger: logger)
         ETagVaryMiddleware()
         ResponseCompressionMiddleware(minimumResponseSizeToCompress: 512)
+        HeadMiddleware()
     }
 
     guard let directory = Bundle.module.resourcePath else {
