@@ -11,7 +11,7 @@ public struct HeadMiddleware<Context: RequestContext>: RouterMiddleware {
         context: Context,
         next: (Request, Context) async throws -> Response
     ) async throws -> Response {
-        var response = try await next(request, context)
+        let response = try await next(request, context)
 
         guard request.method == .head else {
             return response
