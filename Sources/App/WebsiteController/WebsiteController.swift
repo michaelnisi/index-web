@@ -26,7 +26,13 @@ struct WebsiteController {
 
 extension WebsiteController {
     func cachedHTML(request: Request) async -> String? {
-        await cache.get(request.uri.path)
+        if let cached = await cache.get(request.uri.path) {
+            logger.debug("cache hit")
+
+            return cached
+        }
+
+        return nil
     }
 
     func cacheHTML(request: Request, html: String) async {
