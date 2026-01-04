@@ -7,6 +7,7 @@ struct WebsiteController {
     let markdownTree: FileNode
     let mustacheLibrary: MustacheLibrary
     let logger: Logger
+    let cache: KeyValueStore<String, String>
 
     func addRoutes(to router: Router<some RequestContext>) {
         router.get("/", use: indexHandler)
@@ -20,6 +21,16 @@ struct WebsiteController {
         router.head("/now", use: nowHandler)
         router.head("/about", use: aboutHandler)
         router.head("/archive", use: archiveHandler)
+    }
+}
+
+extension WebsiteController {
+    func cachedHTML(request: Request) async -> String? {
+        await cache.get(request.uri.path)
+    }
+
+    func cacheHTML(request: Request, html: String) async {
+        await cache.set(request.uri.path, value: html)
     }
 }
 

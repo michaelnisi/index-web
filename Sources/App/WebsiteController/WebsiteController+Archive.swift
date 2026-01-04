@@ -3,6 +3,10 @@ import Hummingbird
 
 extension WebsiteController {
     @Sendable func archiveHandler(request: Request, context: some RequestContext) async throws -> HTML {
+        if let cached = await cachedHTML(request: request) {
+            return HTML(html: cached)
+        }
+
         let posts: [ArchiveData.Post] = try await withThrowingTaskGroup(of: ArchiveData.Post.self) { group in
             guard
                 let posts = markdownTree.allNodes(matching: "posts")
@@ -37,6 +41,8 @@ extension WebsiteController {
         guard let html = mustacheLibrary.render(data, withTemplate: "archive") else {
             throw HTTPError(.internalServerError, message: "Failed to render template.")
         }
+
+        await cacheHTML(request: request, html: html)
 
         return HTML(html: html)
     }

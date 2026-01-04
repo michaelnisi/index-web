@@ -3,6 +3,10 @@ import Hummingbird
 
 extension WebsiteController {
     @Sendable func indexHandler(request: Request, context: some RequestContext) async throws -> HTML {
+        if let cached = await cachedHTML(request: request) {
+            return HTML(html: cached)
+        }
+
         let posts: [IndexData.Post] = try await withThrowingTaskGroup(of: IndexData.Post.self) { group in
             guard
                 let posts = markdownTree.allNodes(matching: "posts")
@@ -37,6 +41,8 @@ extension WebsiteController {
         guard let html = mustacheLibrary.render(data, withTemplate: "index") else {
             throw HTTPError(.internalServerError, message: "Failed to render template.")
         }
+
+        await cacheHTML(request: request, html: html)
 
         return HTML(html: html)
     }

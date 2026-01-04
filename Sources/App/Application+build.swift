@@ -25,11 +25,13 @@ public func buildApplication(_ arguments: some AppArguments) async throws -> som
     let router = try await buildRouter(logger: logger)
     let address = BindAddress.hostname(arguments.hostname, port: arguments.port)
 
-    return Application(
+    let app = Application(
         router: router,
         configuration: .init(address: address, serverName: serverName),
         logger: logger
     )
+
+    return app
 }
 
 private func buildRouter(logger: Logger) async throws -> Router<AppRequestContext> {
@@ -57,10 +59,16 @@ private func buildRouter(logger: Logger) async throws -> Router<AppRequestContex
 
     markdownFiles.logPaths(logger: logger)
 
+    let cache = KeyValueStore<String, String>(initialValues: [
+        "env": "prod",
+        "region": "eu-central-1",
+    ])
+
     WebsiteController(
         markdownTree: markdownFiles,
         mustacheLibrary: templates,
-        logger: logger
+        logger: logger,
+        cache: cache
     )
     .addRoutes(to: router)
 
