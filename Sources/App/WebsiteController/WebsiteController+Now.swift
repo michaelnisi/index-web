@@ -3,6 +3,10 @@ import Hummingbird
 
 extension WebsiteController {
     @Sendable func nowHandler(request: Request, context: some RequestContext) async throws -> HTML {
+        if let cached = await cachedHTML(request: request) {
+            return HTML(html: cached)
+        }
+
         guard let (_, path) = markdownTree.findWithPath(path: "Partials/now.md") else {
             throw HTTPError(.notFound)
         }
@@ -13,6 +17,8 @@ extension WebsiteController {
         guard let html = mustacheLibrary.render(data, withTemplate: "article") else {
             throw HTTPError(.internalServerError, message: "Failed to render template.")
         }
+
+        await cacheHTML(request: request, html: html)
 
         return HTML(html: html)
     }
