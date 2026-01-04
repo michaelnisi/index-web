@@ -36,10 +36,11 @@ private func buildRouter(logger: Logger) async throws -> Router<AppRequestContex
     let router = Router(context: AppRequestContext.self)
 
     router.addMiddleware {
-        LogRequestsMiddleware(logger.logLevel)
-        FileMiddleware(cacheControl: .allMediaTypes(maxAge: 86400), logger: logger)
         LogErrorsMiddleware()
+        LogRequestsMiddleware(logger.logLevel)
         RequestDecompressionMiddleware()
+        FileMiddleware(cacheControl: .allMediaTypes(maxAge: 86400), logger: logger)
+        ETagVaryMiddleware()
         ResponseCompressionMiddleware(minimumResponseSizeToCompress: 512)
     }
 
