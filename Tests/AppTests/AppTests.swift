@@ -17,7 +17,7 @@ struct AppTests {
 
         try await app.test(.router) { client in
             try await client.execute(uri: "/", method: .get) { response in
-                #expect(Bool(true))
+                #expect(response.status == .ok)
             }
         }
     }

@@ -8,7 +8,13 @@ extension WebsiteController {
         }
 
         let content = try await ContentProvider.file.page(matching: path)
-        let data = AboutData(title: .title("About"), post: content.html, description: content.description, wordCount: content.wordCount)
+        let data = AboutData(
+            title: .title("About"),
+            canonical: .canonicalURL(for: request.uri.path),
+            post: content.html,
+            description: content.description,
+            wordCount: content.wordCount
+        )
 
         guard let html = mustacheLibrary.render(data, withTemplate: "article") else {
             throw HTTPError(.internalServerError, message: "Failed to render template.")
@@ -21,13 +27,15 @@ extension WebsiteController {
 private struct AboutData {
     let title: String
     let post: String
+    let canonical: String
     let description: String
     let wordCount: Int
     let ld: String
 
-    init(title: String, post: String, description: String, wordCount: Int) {
+    init(title: String, canonical: String, post: String, description: String, wordCount: Int) {
         self.title = title
         self.post = post
+        self.canonical = canonical
         self.description = description
         self.wordCount = wordCount
         ld =

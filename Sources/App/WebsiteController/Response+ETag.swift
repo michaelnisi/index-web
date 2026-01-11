@@ -13,15 +13,15 @@ extension Response {
         hdrs[.eTag] = tag
         ensureVaryAcceptEncoding(&hdrs)
 
-        if request.method == .head {
-            return .init(status: .ok, headers: hdrs)
-        }
-
         if let ifNoneMatch = request.headers[.ifNoneMatch] {
             let candidates = ifNoneMatch.split(separator: ",").map { $0.trimmingCharacters(in: .whitespaces) }
             if candidates.contains(tag) {
                 return .init(status: .notModified, headers: hdrs)
             }
+        }
+
+        if request.method == .head {
+            return .init(status: .ok, headers: hdrs)
         }
 
         return .init(status: .ok, headers: hdrs, body: .init(byteBuffer: buffer))
@@ -46,7 +46,7 @@ extension Response {
             headers[.vary] = "Accept-Encoding"
         }
     }
-    
+
     fileprivate static let headers: HTTPFields = [
         .contentType: "text/html; charset=utf-8",
         .cacheControl: "public, max-age=86400, stale-while-revalidate=604800, stale-if-error=604800",

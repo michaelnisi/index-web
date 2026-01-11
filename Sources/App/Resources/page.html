@@ -3,18 +3,12 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta
-            name="description"
-            content="Strong types and single fins. Bring back the personal web."
-        />
+        <meta name="description" content="{{description}}" />
 
-        <meta property="og:title" content="Michael Nisi — Software Engineer" />
-        <meta
-            property="og:description"
-            content="Strong types and single fins. Bring back the personal web."
-        />
+        <meta property="og:title" content="{{title}}" />
+        <meta property="og:description" content="{{description}}" />
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://michaelnisi.com/" />
+        <meta property="og:url" content="{{canonical}}" />
         <meta
             property="og:image"
             content="https://res.cloudinary.com/duiiv2f8o/image/upload/v1766926585/open-graph-image_fwfkze.jpg"
@@ -23,24 +17,22 @@
         <meta property="og:image:height" content="630" />
 
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Michael Nisi — Software Engineer" />
-        <meta
-            name="twitter:description"
-            content="Strong types and single fins. Bring back the personal web."
-        />
+        <meta name="twitter:title" content="{{title}}" />
+        <meta name="twitter:description" content="{{description}}" />
         <meta
             name="twitter:image"
             content="https://res.cloudinary.com/duiiv2f8o/image/upload/v1766926585/open-graph-image_fwfkze.jpg"
         />
 
-        <title>{{{ title }}}</title>
+        <title>{{title}}</title>
 
+        <link rel="canonical" href="{{canonical}}" />
         <link rel="icon" href="/favicon.ico?v1" type="image/x-icon" />
         <link rel="stylesheet" href="/style.css" />
 
-        <script src="/highlight.min.js"></script>
-        <script src="/swift.min.js"></script>
-        <script src="/index.js"></script>
+        <script src="/highlight.min.js" defer></script>
+        <script src="/swift.min.js" defer></script>
+        <script src="/index.js" defer></script>
 
         <script type="application/ld+json">
             {{{ ld }}}
