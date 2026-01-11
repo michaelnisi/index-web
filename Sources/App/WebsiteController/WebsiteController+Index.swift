@@ -36,7 +36,11 @@ extension WebsiteController {
             return acc.sorted()
         }
 
-        let data = IndexData(title: .title("Software Engineer"), posts: posts)
+        let data = IndexData(
+            title: .title("Software Engineer"),
+            canonical: .canonicalURL(for: request.uri.path),
+            posts: posts
+        )
 
         guard let html = mustacheLibrary.render(data, withTemplate: "index") else {
             throw HTTPError(.internalServerError, message: "Failed to render template.")
@@ -58,11 +62,15 @@ private struct IndexData {
     }
 
     let title: String
+    let canonical: String
+    let description: String
     let posts: [Post]
     let ld: String
 
-    init(title: String, posts: [Post]) {
+    init(title: String, canonical: String, posts: [Post]) {
         self.title = title
+        self.canonical = canonical
+        description = "Strong types and single fins. Bring back the personal web."
         self.posts = posts
         ld = IndexLinkedData(title: title).json
     }
@@ -73,7 +81,7 @@ extension IndexData.Post {
         self.content = content.html
         date = content.date
         title = content.title
-        url = content.absoluteURL
+        url = content.canonical
         self.link = link
     }
 

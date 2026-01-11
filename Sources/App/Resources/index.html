@@ -1,18 +1,14 @@
-{{< page}}
-  {{$body}}
-    {{> header}}
-    <main>
-      <ul class="articles">
+{{< page}} {{$body}} {{> header}}
+<main>
+    <ul class="articles">
         {{#posts}}
-          <li>
+        <li>
             <article>
-              {{{content}}}
-              <a href="{{link}}">{{link}}</a>
+                {{{content}}}
+                <a href="{{link}}">{{title}}</a>
             </article>
-          </li>
+        </li>
         {{/posts}}
-      </ul>
-    </main>
-    {{> footer}}
-  {{/body}}
-{{/page}}
+    </ul>
+</main>
+{{> footer}} {{/body}} {{/page}}

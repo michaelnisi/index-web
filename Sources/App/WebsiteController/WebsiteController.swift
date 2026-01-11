@@ -52,4 +52,9 @@ extension String {
     static func title(_ page: String) -> String {
         "Michael Nisi — \(page)"
     }
+
+    static func canonicalURL(for path: String) -> String {
+        let normalized = path.hasPrefix("/") ? path : "/" + path
+        return "https://michaelnisi.com" + normalized
+    }
 }

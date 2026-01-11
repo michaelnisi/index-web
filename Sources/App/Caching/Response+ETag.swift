@@ -20,6 +20,10 @@ extension Response {
             }
         }
 
+        if request.method == .head {
+            return .init(status: .ok, headers: headers)
+        }
+
         return .init(status: .ok, headers: headers, body: .init(byteBuffer: buffer))
     }
 }

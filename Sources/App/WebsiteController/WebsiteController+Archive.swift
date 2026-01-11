@@ -36,7 +36,11 @@ extension WebsiteController {
             return acc.sorted()
         }
 
-        let data = ArchiveData(title: .title("Archive"), posts: posts)
+        let data = ArchiveData(
+            title: .title("Archive"),
+            canonical: .canonicalURL(for: request.uri.path),
+            posts: posts
+        )
 
         guard let html = mustacheLibrary.render(data, withTemplate: "archive") else {
             throw HTTPError(.internalServerError, message: "Failed to render template.")
@@ -60,11 +64,15 @@ private struct ArchiveData {
     }
 
     let title: String
+    let canonical: String
+    let description: String
     let posts: [Post]
     let ld: String
 
-    init(title: String, posts: [Post]) {
+    init(title: String, canonical: String, posts: [Post]) {
         self.title = title
+        self.canonical = canonical
+        description = "Archive of posts by Michael Nisi."
         self.posts = posts
         ld = ArchiveLinkedData(name: title).json
     }
@@ -82,7 +90,7 @@ extension ArchiveData.Post {
     init(content: Content, link: String) {
         date = content.date
         title = content.title
-        url = content.absoluteURL
+        url = content.canonical
         self.link = link
         description = content.description
         wordCount = content.wordCount

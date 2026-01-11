@@ -1,19 +1,23 @@
-{{< page}} {{$body}} {{> header}}
-<main>
-    <h1>Archive</h1>
-    <ul class="archive">
-        {{#posts}}
-        <li>
-            <article>
-                <h2><a href="{{link}}">{{title}}</a></h2>
-                <p class="post-description">{{description}}</p>
-                <p class="post-meta">
-                    <span class="date">{{dateString}}</span> ·
-                    <span class="word-count">{{wordCount}} words</span>
-                </p>
-            </article>
-        </li>
-        {{/posts}}
-    </ul>
-</main>
-{{> footer}} {{/body}} {{/page}}
+{{< page}}
+  {{$body}}
+    {{> header}}
+    <main>
+        <h1>Archive</h1>
+        <ul class="archive">
+            {{#posts}}
+                <li>
+                    <article>
+                        <h2><a href="{{link}}">{{title}}</a></h2>
+                        <p class="post-description">{{description}}</p>
+                        <p class="post-meta">
+                            <span class="date">{{dateString}}</span> ·
+                            <span class="word-count">{{wordCount}} words</span>
+                        </p>
+                    </article>
+                </li>
+            {{/posts}}
+        </ul>
+    </main>
+    {{> footer}}
+  {{/body}}
+{{/page}}
