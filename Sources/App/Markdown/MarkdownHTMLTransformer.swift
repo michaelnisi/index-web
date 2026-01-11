@@ -67,7 +67,7 @@ private struct HTMLVisitor: MarkupVisitor {
 }
 
 enum MarkdownHTMLTransformer {
-    static func content(from markdown: String, absoluteURL: String, date: Date) -> Content {
+    static func content(from markdown: String, canonical: String, date: Date) -> Content {
         var visitor = HTMLVisitor()
         let document = Document(parsing: markdown)
         let html = visitor.visit(document)
@@ -81,7 +81,7 @@ enum MarkdownHTMLTransformer {
             html: html,
             date: date,
             title: title,
-            absoluteURL: absoluteURL,
+            canonical: canonical,
             description: description,
             wordCount: wordCount
         )

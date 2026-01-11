@@ -25,9 +25,9 @@ struct PostLinkedData: LinkedData {
         case mainEntity
     }
 
-    init(absoluteURL: String, name: String, description: String, wordCount: Int) {
-        self.id = "\(absoluteURL)#webpage"
-        self.url = absoluteURL
+    init(canonical: String, name: String, description: String, wordCount: Int) {
+        self.id = "\(canonical)#webpage"
+        self.url = canonical
         self.name = name
         self.description = description
         self.wordCount = wordCount
