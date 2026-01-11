@@ -48,6 +48,14 @@ struct HTML: ResponseGenerator {
     }
 }
 
+private let dateFormatter: DateFormatter = {
+    let formatter = DateFormatter()
+    formatter.locale = .init(identifier: "en_US_POSIX")
+    formatter.dateStyle = .long
+
+    return formatter
+}()
+
 extension String {
     static func title(_ page: String) -> String {
         "Michael Nisi — \(page)"
@@ -56,5 +64,9 @@ extension String {
     static func canonicalURL(for path: String) -> String {
         let normalized = path.hasPrefix("/") ? path : "/" + path
         return "https://michaelnisi.com" + normalized
+    }
+
+    static func date(date: Date) -> String {
+        dateFormatter.string(from: date)
     }
 }

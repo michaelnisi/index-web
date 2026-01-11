@@ -33,12 +33,16 @@ private struct PostData {
     let post: String
     let canonical: String
     let description: String
+    let wordCount: Int
+    let dateString: String
     let ld: String
 
     init(title: String, canonical: String, content: Content) {
         self.title = title
         self.post = content.html
         self.canonical = canonical
+        wordCount = content.wordCount
+        dateString = .date(date: content.date)
         description = content.description
         ld =
             PostLinkedData(

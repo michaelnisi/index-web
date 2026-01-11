@@ -78,14 +78,6 @@ private struct IndexData {
     }
 }
 
-private let dateFormatter: DateFormatter = {
-    let formatter = DateFormatter()
-    formatter.locale = .init(identifier: "en_US_POSIX")
-    formatter.dateStyle = .long
-
-    return formatter
-}()
-
 extension IndexData.Post {
     init(content: Content, link: String) {
         self.content = content.html
@@ -94,7 +86,7 @@ extension IndexData.Post {
         url = content.canonical
         self.link = link
         wordCount = content.wordCount
-        dateString = dateFormatter.string(from: date)
+        dateString = .date(date: content.date)
     }
 
     fileprivate static func < (lhs: Self, rhs: Self) -> Bool {

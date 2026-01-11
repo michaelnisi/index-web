@@ -3,6 +3,10 @@
     {{> header}}
     <main>
       {{{post}}}
+      <p class="post-meta">
+          <span class="date">{{dateString}}</span> ·
+          <span class="word-count">{{wordCount}} words</span>
+      </p>
     </main>
     {{> footer}}
   {{/body}}
