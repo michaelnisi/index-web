@@ -59,6 +59,8 @@ private struct IndexData {
         let title: String
         let url: String
         let link: String
+        let wordCount: Int
+        let dateString: String
     }
 
     let title: String
@@ -83,6 +85,8 @@ extension IndexData.Post {
         title = content.title
         url = content.canonical
         self.link = link
+        wordCount = content.wordCount
+        dateString = .date(date: content.date)
     }
 
     fileprivate static func < (lhs: Self, rhs: Self) -> Bool {

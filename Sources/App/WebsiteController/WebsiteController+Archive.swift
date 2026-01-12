@@ -78,14 +78,6 @@ private struct ArchiveData {
     }
 }
 
-private let dateFormatter: DateFormatter = {
-    let formatter = DateFormatter()
-    formatter.locale = .init(identifier: "en_US_POSIX")
-    formatter.dateStyle = .long
-
-    return formatter
-}()
-
 extension ArchiveData.Post {
     init(content: Content, link: String) {
         date = content.date
@@ -94,7 +86,7 @@ extension ArchiveData.Post {
         self.link = link
         description = content.description
         wordCount = content.wordCount
-        dateString = dateFormatter.string(from: date)
+        dateString = .date(date: content.date)
     }
 
     fileprivate static func < (lhs: Self, rhs: Self) -> Bool {
