@@ -20,7 +20,7 @@ extension WebsiteController {
             wordCount: content.wordCount
         )
 
-        guard let html = mustacheLibrary.render(data, withTemplate: "article") else {
+        guard let html = mustacheLibrary.render(data, withTemplate: "info") else {
             throw HTTPError(.internalServerError, message: "Failed to render template.")
         }
 
@@ -35,7 +35,6 @@ private struct AboutData {
     let post: String
     let canonical: String
     let description: String
-    let wordCount: Int
     let ld: String
 
     init(title: String, canonical: String, post: String, description: String, wordCount: Int) {
@@ -43,7 +42,6 @@ private struct AboutData {
         self.post = post
         self.canonical = canonical
         self.description = description
-        self.wordCount = wordCount
         ld =
             AboutLinkedData(
                 name: title,

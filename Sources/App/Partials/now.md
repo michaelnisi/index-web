@@ -1,11 +1,9 @@
 # Now
 
-*Updated December 6th, 2025, from my little attic overlooking the beach in San Vicente de la Barquera, Cantabria.*
+*Updated January 15th, 2026, from my study in Walsrode, Germany.*
 
-## Surfing
-Winter is here. Shorter days, storms, and big swells make it harder to find those clean longboard sessions. I surf when I can — and when I can’t, I let the ocean do its thing and spend the extra time on everything else.
+The holidays were slower than planned. Some dental issues turned meals into a rather frugal affair — an odd silver lining being that I didn’t gain any weight over Christmas.
 
-## Programming
-The last releases of the year are out the door. I like this quieter stretch: maintenance, tidying up loose ends, regrouping, and sketching plans for the new year.
+Up here in northern Germany the year began with a brief return of real winter: snow, ice, that special hush it brings. As usual, it lasted only a few days. Now the thaw has set in, the snow is dissolving into grey memory, and the temperature is back above zero.
 
-Tracing has fascinated me since my Erlang days. Mobile apps are distributed systems, but observability tooling rarely reflects that. This holiday season I’m diving deeper into OpenTelemetry and Datadog to improve day-to-day visibility. Maintaining mobile apps still involves far too much inference and not enough data.
+I didn’t manage to motivate myself to drive north to Denmark for icy waves. Still, I miss the water. I miss the ritual. And I’m counting the days until I head back to Spain at the end of January.
