@@ -36,7 +36,7 @@ extension WebsiteController {
     }
 
     func cacheHTML(request: Request, html: String) async {
-        await cache.set(request.uri.path, value: html)
+        await cache.updateValue(html, forKey: request.uri.path)
     }
 }
 

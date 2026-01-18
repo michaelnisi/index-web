@@ -1,0 +1,13 @@
+# Stack Underflow
+
+> People were just happy to finally have a tool that didn’t tell them their questions were stupid.
+
+Victor Tangermann about [AI Has Basically Killed Stack Overflow](https://futurism.com/artificial-intelligence/ai-has-basically-killed-stack-overflow)
+
+In music, as in life, a single moment rarely defines anything. What matters is the movement that follows. A step that feels misplaced, a choice that seems off, a hesitation that interrupts the rhythm — none of these are final. Meaning is created in the continuation, in how you choose to respond to what just happened. What we call a “mistake” becomes part of the texture once we treat it as material rather than failure.
+
+Longboard surfing works exactly the same way. You cross-step, but maybe you plant your foot a little too far inside, or the rail catches earlier than expected. The board wobbles. For a split second it feels wrong — but the wave hasn’t judged you yet. What decides everything is what follows: how you adjust, how you shift your weight, how the line evolves. A misstep isn’t the problem; refusing to flow through it is. Good longboarding isn’t about perfection — it’s about recovering with style, using the unexpected to guide the next move.
+
+Life, like a wave, doesn’t freeze on your mistakes. It keeps unfolding, giving you the chance to respond, reinterpret, and turn tension into direction. The art lies in staying open enough to make the next move meaningful. A wrong step only becomes wrong if you stop. If you keep moving, it becomes part of the story, part of the rhythm, part of the line you’re drawing through the world.
+
+So the real skill — whether in music, surfing, or living — is to treat the imperfect moment not as a verdict but as an opening. Everything depends on how you keep moving.
