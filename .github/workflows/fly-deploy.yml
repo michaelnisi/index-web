@@ -5,6 +5,8 @@ on:
   push:
     branches:
       - main
+permissions:
+  contents: write
 jobs:
   deploy:
     name: Deploy app
@@ -12,7 +14,40 @@ jobs:
     concurrency: deploy-group    # optional: ensure only one action runs at a time
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Validate latest tag
+        run: |
+          latest_tag=$(git tag -l 'v*' --sort=-v:refname | head -n 1)
+          if [ -n "$latest_tag" ] && ! [[ "$latest_tag" =~ ^v[0-9]+$ ]]; then
+            echo "Latest tag '$latest_tag' is invalid. Expected v<integer>."
+            echo "Fix by deleting or renaming the tag to a natural number (v1, v2, ...)."
+            exit 1
+          fi
+      - name: Generate version file
+        run: |
+          latest_tag=$(git tag -l 'v*' --sort=-v:refname | head -n 1)
+          if [ -z "$latest_tag" ]; then
+            latest_tag=dev
+          fi
+          printf '%s\n' "import Foundation" "" "enum AppVersion {" "  static let current = \"$latest_tag\"" "}" > Sources/App/Version.swift
       - uses: superfly/flyctl-actions/setup-flyctl@master
       - run: flyctl deploy --remote-only
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+      - name: Tag release
+        if: ${{ success() && github.ref == 'refs/heads/main' }}
+        run: |
+          latest_tag=$(git tag -l 'v*' --sort=-v:refname | head -n 1)
+          if [ -z "$latest_tag" ]; then
+            next_tag=v1
+          else
+            latest_num=${latest_tag#v}
+            next_tag="v$((latest_num + 1))"
+          fi
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git tag "$next_tag"
+          git push origin "$next_tag"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
