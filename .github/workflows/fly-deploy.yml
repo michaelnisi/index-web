@@ -30,7 +30,7 @@ jobs:
           if [ -z "$latest_tag" ]; then
             latest_tag=dev
           fi
-          printf '%s\n' "import Foundation" "" "enum AppVersion {" "  static let current = \"$latest_tag\"" "}" > Sources/App/Version.swift
+          printf '%s\n' "enum AppVersion {" "  static let current = \"$latest_tag\"" "}" > Sources/App/Version.swift
       - uses: superfly/flyctl-actions/setup-flyctl@master
       - run: flyctl deploy --remote-only
         env:

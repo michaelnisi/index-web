@@ -1,5 +1,3 @@
-import Foundation
-
 actor KeyValueStore<Key: Hashable & Sendable, Value: Sendable> {
     private var storage: [Key: Value] = [:]
 
