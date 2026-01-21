@@ -169,6 +169,7 @@ blockquote {
 blockquote {
     font-size: xxx-large;
     color: var(--muted-color);
+    font-weight: 300;
 }
 
 ul {
