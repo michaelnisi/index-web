@@ -11,7 +11,7 @@ jobs:
   deploy:
     name: Deploy app
     runs-on: ubuntu-latest
-    if: ${{ github.ref == 'refs/heads/main' && github.actor != 'github-actions[bot]' }}
+    if: ${{ github.ref == 'refs/heads/main' }}
     concurrency: deploy-group # optional: ensure only one action runs at a time
     steps:
       - uses: actions/checkout@v4
@@ -39,22 +39,6 @@ jobs:
         run: |
           set -euo pipefail
           printf '%s\n' "enum Version {" "  static let current = \"$NEXT_TAG\"" "}" > Sources/App/Version.swift
-      - name: Commit version file
-        run: |
-          set -euo pipefail
-          if ! grep -Fq "static let current = \"$NEXT_TAG\"" Sources/App/Version.swift; then
-            echo "Version.swift does not contain expected tag $NEXT_TAG"
-            exit 1
-          fi
-          git add Sources/App/Version.swift
-          if [ -z "$(git status --porcelain)" ]; then
-            echo "No version changes to commit."
-            exit 0
-          fi
-          git config user.name "github-actions"
-          git config user.email "github-actions@github.com"
-          git commit -m "Release $NEXT_TAG"
-          git push origin HEAD:main
       - uses: superfly/flyctl-actions/setup-flyctl@master
       - run: flyctl deploy --remote-only
         env:
