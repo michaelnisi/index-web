@@ -13,7 +13,7 @@ public protocol AppArguments {
 typealias AppRequestContext = BasicRequestContext
 
 public func buildApplication(_ arguments: some AppArguments) async throws -> some ApplicationProtocol {
-    let serverName = "Index/v29"
+    let serverName = "Index/\(Version.current)"
 
     let logger = {
         var logger = Logger(label: serverName)

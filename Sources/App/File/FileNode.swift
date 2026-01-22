@@ -1,5 +1,3 @@
-import Foundation
-
 /// A `FileNode` represents a conceptual file or directory in a tree structure.
 ///
 /// It models the logical layout of content (like markdown files or Mustache templates),

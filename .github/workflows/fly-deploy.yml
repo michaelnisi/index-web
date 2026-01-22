@@ -5,14 +5,50 @@ on:
   push:
     branches:
       - main
+permissions:
+  contents: write
 jobs:
   deploy:
     name: Deploy app
     runs-on: ubuntu-latest
-    concurrency: deploy-group    # optional: ensure only one action runs at a time
+    if: ${{ github.ref == 'refs/heads/main' }}
+    concurrency: deploy-group # optional: ensure only one action runs at a time
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          fetch-tags: true
+      - name: Compute next tag
+        run: |
+          set -euo pipefail
+          latest_tag=$(git tag -l 'v*' --sort=-v:refname | head -n 1)
+          if [ -n "$latest_tag" ] && ! [[ "$latest_tag" =~ ^v[0-9]+$ ]]; then
+            echo "Latest tag '$latest_tag' is invalid. Expected v<integer>."
+            echo "Fix by deleting or renaming the tag to a natural number (v1, v2, ...)."
+            exit 1
+          fi
+          if [ -z "$latest_tag" ]; then
+            next_tag=v1
+          else
+            latest_num=${latest_tag#v}
+            next_tag="v$((latest_num + 1))"
+          fi
+          echo "Next tag: $next_tag"
+          echo "NEXT_TAG=$next_tag" >> "$GITHUB_ENV"
+      - name: Generate version file
+        run: |
+          set -euo pipefail
+          printf '%s\n' "enum Version {" "  static let current = \"$NEXT_TAG\"" "}" > Sources/App/Version.swift
       - uses: superfly/flyctl-actions/setup-flyctl@master
       - run: flyctl deploy --remote-only
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+      - name: Tag release
+        if: ${{ success() && github.ref == 'refs/heads/main' }}
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git tag -a "$NEXT_TAG" -m "Release $NEXT_TAG"
+          git push origin "$NEXT_TAG"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

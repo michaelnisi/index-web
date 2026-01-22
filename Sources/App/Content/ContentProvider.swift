@@ -1,5 +1,3 @@
-import Foundation
-
 struct ContentProvider: Sendable {
     struct Dependencies: Sendable {
         let post: @Sendable (String) async throws -> Content
