@@ -11,7 +11,7 @@ jobs:
   deploy:
     name: Deploy app
     runs-on: ubuntu-latest
-    if: ${{ github.ref == 'refs/heads/main' }}
+    if: ${{ github.ref == 'refs/heads/main' && github.actor != 'github-actions[bot]' }}
     concurrency: deploy-group # optional: ensure only one action runs at a time
     steps:
       - uses: actions/checkout@v4
@@ -34,11 +34,47 @@ jobs:
             next_tag="v$((latest_num + 1))"
           fi
           echo "Next tag: $next_tag"
+          echo "PREV_TAG=$latest_tag" >> "$GITHUB_ENV"
           echo "NEXT_TAG=$next_tag" >> "$GITHUB_ENV"
       - name: Generate version file
         run: |
           set -euo pipefail
           printf '%s\n' "enum Version {" "  static let current = \"$NEXT_TAG\"" "}" > Sources/App/Version.swift
+      - name: Update changelog
+        run: |
+          set -euo pipefail
+          date_str=$(date -u +"%Y-%m-%d")
+          header="## $NEXT_TAG - $date_str"
+          if [ -n "${PREV_TAG:-}" ]; then
+            changes=$(git log "$PREV_TAG"..HEAD --pretty=format:"- %s")
+          else
+            changes=$(git log --pretty=format:"- %s")
+          fi
+          if [ -z "$changes" ]; then
+            changes="- No changes."
+          fi
+          {
+            echo "$header"
+            echo ""
+            echo "$changes"
+            echo ""
+            if [ -f CHANGELOG.md ]; then
+              cat CHANGELOG.md
+            fi
+          } > CHANGELOG.md.new
+          mv CHANGELOG.md.new CHANGELOG.md
+      - name: Commit changelog
+        run: |
+          set -euo pipefail
+          if [ -z "$(git status --porcelain CHANGELOG.md)" ]; then
+            echo "No changelog changes to commit."
+            exit 0
+          fi
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git add CHANGELOG.md
+          git commit -m "Update CHANGELOG for $NEXT_TAG"
+          git push origin HEAD:main
       - uses: superfly/flyctl-actions/setup-flyctl@master
       - run: flyctl deploy --remote-only
         env:
@@ -52,3 +88,8 @@ jobs:
           git push origin "$NEXT_TAG"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Create GitHub release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ env.NEXT_TAG }}
+          generate_release_notes: true
