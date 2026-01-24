@@ -1,10 +1,9 @@
-## v31 - 2026-01-23
-
-- GH-77 Generate release and changelog (#78)
-
 # Changelog
 
 All notable changes to this project will be documented in this file.
+
+## v31 - 2026-01-23
+- GH-77 Generate release and changelog (#78)
 
 ## v30 - 2026-01-22
 - GH-69 Synchronize version name (#76)
