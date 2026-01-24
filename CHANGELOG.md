@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## v32 - 2026-01-24
+- GH-79 Format changelog (#80)
+
 ## v31 - 2026-01-23
 - GH-77 Generate release and changelog (#78)
 
