@@ -53,6 +53,10 @@ jobs:
           set -euo pipefail
           date_str=$(date -u +"%Y-%m-%d")
           header="## $NEXT_TAG - $date_str"
+          if [ -f CHANGELOG.md ] && grep -Fq "## $NEXT_TAG" CHANGELOG.md; then
+            echo "CHANGELOG already contains $NEXT_TAG. Skipping update."
+            exit 0
+          fi
           if [ -n "${PREV_TAG:-}" ]; then
             changes=$(git log "$PREV_TAG"..HEAD --pretty=format:"- %s")
           else
@@ -61,15 +65,40 @@ jobs:
           if [ -z "$changes" ]; then
             changes="- No changes."
           fi
-          {
-            echo "$header"
-            echo ""
-            echo "$changes"
-            echo ""
-            if [ -f CHANGELOG.md ]; then
-              cat CHANGELOG.md
+          if [ -f CHANGELOG.md ] && grep -q "^# Changelog$" CHANGELOG.md; then
+            first_section_line=$(grep -n "^## " CHANGELOG.md | head -n 1 | cut -d: -f1 || true)
+            if [ -n "$first_section_line" ]; then
+              {
+                head -n "$((first_section_line - 1))" CHANGELOG.md
+                echo "$header"
+                echo "$changes"
+                echo ""
+                tail -n +"$first_section_line" CHANGELOG.md
+              } > CHANGELOG.md.new
+            else
+              {
+                cat CHANGELOG.md
+                echo ""
+                echo "$header"
+                echo ""
+                echo "$changes"
+                echo ""
+              } > CHANGELOG.md.new
             fi
-          } > CHANGELOG.md.new
+          else
+            {
+              echo "# Changelog"
+              echo ""
+              echo "All notable changes to this project will be documented in this file."
+                echo ""
+                echo "$header"
+                echo "$changes"
+                echo ""
+                if [ -f CHANGELOG.md ]; then
+                  cat CHANGELOG.md
+              fi
+            } > CHANGELOG.md.new
+          fi
           mv CHANGELOG.md.new CHANGELOG.md
       - name: Commit changelog
         if: ${{ env.SKIP_RELEASE != 'true' }}
