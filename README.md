@@ -1,48 +1,30 @@
 # Index
 
-This repository contains the source code for my personal website, https://michaelnisi.com. It’s a small, fast site focused on strong types, simplicity, and hand-crafted content. The stack is server-side Swift with Hummingbird, Markdown-to-HTML transformation, and Mustache templates for rendering pages.
+Personal blog and website for a software engineer and longboard surfer 🌊. I write about life, tech, and whatever I’m curious about. The site is intentionally small, fast, and clean—built with server-side Swift and tidy templates 🙂.
 
-## Overview
+## Quick start
 
-- Server: Hummingbird (Swift) HTTP server
-- Templating: Mustache templates (e.g., `page.html`, `article`)
-- Content: Markdown files compiled to HTML
-- Rendering: Custom Markdown → HTML transformer
-- SEO: Open Graph, Twitter Card, and JSON-LD structured data
-- Syntax Highlighting: Highlight.js (with Swift support)
-- Assets: Static files (CSS, JS, images) served statically
+```sh
+swift build --quiet
+swift run
+```
 
-The design philosophy is minimalism and performance. Content is written in Markdown and transformed on the server. HTML is assembled using Mustache templates and returned as lightweight pages.
+## Stack
 
-## Project Structure
+- Hummingbird HTTP server
+- Mustache templates
+- Markdown-to-HTML rendering
+- Static assets (CSS/JS/images)
 
-- `Sources/App/` (Swift server code)
-  - `WebsiteController+Post.swift`: Route handler(s) for posts/pages. Finds the matching Markdown content, renders it to HTML, wraps it in a Mustache template, and returns it as an HTTP response. It also injects JSON-LD into the page.
-  - `MarkdownHTMLTransformer.swift`: Custom Markdown renderer using Swift’s `Markdown` package and a `MarkupVisitor` that produces safe, minimal HTML.
-- `Resources/Templates/` (templating)
-  - `page.html`: Base Mustache template (document head, meta tags, scripts, and `{{$body}}` partial for content).
-  - `article.mustache` (or similar): Article/body template used by `WebsiteController+Post`.
-- `Resources/Partials/` (content partials)
-  - Markdown content fragments assembled by the controller (e.g., `Partials/...`).
-- `Public/` (static assets)
-  - `style.css`, `index.js`, `highlight.min.js`, `swift.min.js`, `favicon.ico`, etc.
+## Structure
 
-Note: Exact layout may vary depending on your build setup. The important parts are the Swift server, transformer, templates, and content.
+- `Sources/App/` — Swift server code
+- `Resources/Templates/` — Mustache templates
+- `Resources/Partials/` — Markdown content
+- `Public/` — static assets
 
-## Key Components
+## Notes
 
-### Hummingbird Server and Routing
-
-The `WebsiteController` extensions handle HTTP requests. For posts, the route handler:
-
-1. Resolves a Markdown partial path from the request URI.
-2. Loads/compiles the Markdown into HTML.
-3. Wraps it in an `article` Mustache template.
-4. Returns the final HTML response.
-
-Example (simplified) flow from `WebsiteController+Post.swift`:
-
-- Convert request path into a partials path: `String.partialsPath(_:)`
-- Fetch content via `ContentProvider.file.post(matching:)`
-- Render the Mustache template with `PostData` (contains `post` HTML and JSON-LD `ld`)
-- Return `HTML(html:)` to the client
+- The content is hand-written and rendered on the server 🛠️.
+- The codebase favors clarity and simplicity.
+- See [FLOW.md](FLOW.md) for a high-level request flow diagram.
