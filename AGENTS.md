@@ -58,6 +58,90 @@ If you need to run commands directly without the Makefile:
 - **Compression**: HummingbirdCompression for response compression
 - **Crypto**: Swift Crypto for ETag generation
 
+### Static Site Architecture
+
+**Important**: This is a **static site generator served dynamically**. Unlike traditional dynamic servers that fetch content from databases or external sources, this application:
+
+- **Content lives in the repository**: All Markdown content is in the `Partials/` directory, committed to git alongside code
+- **Single deployment unit**: Each push to `main` deploys both code AND content together
+- **Startup I/O**: The entire content tree is scanned and loaded into memory at application startup
+- **No runtime I/O for content discovery**: Once started, the server uses the in-memory `FileNode` tree to locate content (though files are still read from disk when rendering)
+- **Fast restarts required for content updates**: New content requires a redeployment, not just a file upload
+
+This design trades flexibility for simplicity, performance, and version control of content.
+
+### Publishing Workflow Philosophy
+
+**Everything is a Pull Request**. The entire site — content, code, templates, styles — lives in a single repository. This creates a **frictionless publishing experience** for engineers:
+
+**To publish a new post**:
+1. Create Markdown file in `Partials/posts/`
+2. Open a PR
+3. Merge to `main`
+4. CI/CD automatically: deploys, tags, creates GitHub Release, updates changelog
+
+**To change code**:
+1. Edit Swift files
+2. Open a PR
+3. Merge to `main`
+4. Same automatic deployment flow
+
+**To update styles/templates**:
+1. Edit CSS or Mustache templates
+2. Open a PR
+3. Merge to `main`
+4. Same automatic deployment flow
+
+**Key advantages**:
+- **No context switching**: Blog post or bug fix? Same workflow.
+- **Code and content never out of sync**: They're deployed atomically together.
+- **Full version control**: Every post, every style change, every bug fix in git history.
+- **Pull request workflow**: Review posts and code changes the same way.
+- **Automatic releases**: Merging to `main` is publishing — no manual steps.
+- **Rollback everything**: Reverting a commit rolls back code AND content.
+- **Minimal friction**: The barrier to publishing is as low as possible.
+
+For a software engineer, this feels natural. No separate CMS login, no admin panel, no database migrations, no deploy scripts. Just **git push** and the site updates.
+
+### Comparison to Traditional CMS
+
+**Traditional approach (WordPress, Ghost, etc.)**:
+- Log into admin panel
+- Write post in web editor
+- Click "Publish"
+- Content stored in database
+- Code deployed separately
+- Content and code can be out of sync
+- No version control for content
+- Hard to review before publishing
+- Database backups needed
+- Migrations for schema changes
+
+**This approach (git-based)**:
+- Write post in your favorite editor (VS Code, Vim, etc.)
+- Commit to git
+- Open PR (optional review)
+- Merge to `main`
+- Content and code deployed together
+- Everything versioned in git
+- Pull request workflow for review
+- Full history with git log
+- Rollback with git revert
+- No database to manage
+
+**Trade-offs**:
+- ✅ **Lower friction** for engineers comfortable with git
+- ✅ **Better versioning** and history
+- ✅ **Simpler infrastructure** (no database)
+- ✅ **Atomic deployments** (code + content)
+- ✅ **Free backups** (git is the backup)
+- ❌ **Higher friction** for non-technical users
+- ❌ **No web-based editor** (must use local tools)
+- ❌ **Deployment required** for content changes (no instant publish)
+- ❌ **Requires git knowledge**
+
+For a personal technical blog, the trade-offs heavily favor the git-based approach.
+
 ### Core Concepts
 
 #### 1. Application Entry Point
@@ -115,20 +199,35 @@ enum FileNode {
 }
 ```
 
-- Built from Bundle resources (Markdown files in `Partials/` directory)
-- Used to locate content files based on request paths
-- Provides `find(path:)` to traverse the tree
+**Critical Architecture Detail**: The `FileNode` tree is built **once at application startup** by scanning the file system:
+
+- **When**: During `buildApplication()` in `Application+build.swift`, before the server starts accepting requests
+- **How**: `buildFileTree(at: URL)` recursively scans `Bundle.module.resourcePath/Partials/`
+- **Why**: This creates an in-memory index of all content, enabling fast path lookups without I/O
+- **Trade-off**: Content updates require redeployment (not hot-reloading)
+
+The tree is then used throughout the application's lifetime:
+- Provides `find(path:)` to traverse the tree and locate content files
+- No database queries or dynamic file system scans during request handling
+- Content discovery is O(k) where k is path depth, not O(n) directory scans
+
+**Key Advantage**: Having the complete content catalog in memory enables **zero-I/O sitemap generation**:
+- **Index pages** (`/`) can list all posts without scanning directories
+- **Archive pages** (`/archive`) can organize content by date without filesystem queries
+- **Navigation** can be built from the complete sitemap
+- All aggregate views have instant access to the full content structure
+- This makes generating pages that need "whole site knowledge" trivially fast at runtime
 
 #### 5. Request Handling
 
 **File**: `WebsiteController.swift` and extensions
 
 Routes handled:
-- `/` — Index page (list of posts)
+- `/` — Index page (list of posts) — **uses full sitemap**
 - `/posts/**` — Individual post pages (wildcard matching)
 - `/now` — "Now" page
 - `/about` — About page
-- `/archive` — Archive page
+- `/archive` — Archive page — **uses full sitemap**
 
 Each handler:
 1. Checks cache for pre-rendered HTML
@@ -137,6 +236,8 @@ Each handler:
 4. Renders with Mustache template
 5. Caches the result
 6. Returns `HTML` response with ETag support
+
+**Note**: Index and archive handlers can traverse the entire `FileNode` tree without I/O to build lists of all posts, sorted by date, grouped by year, etc. This "whole site reasoning" is instant because the complete content catalog is already in memory.
 
 #### 6. Caching Strategy
 
@@ -269,9 +370,36 @@ Note: Middleware order matters! They execute in the order added.
 
 ### Working with Content
 
-1. Add Markdown file to `Partials/` directory
-2. Content will be automatically included in the `FileNode` tree
-3. Access via `markdownTree.find(path:)`
+**Publishing workflow** (recommended):
+1. Create a new branch: `git checkout -b new-post`
+2. Add Markdown file to `Partials/posts/YYYY-MM-DD-slug.md`
+3. Commit: `git commit -m "Add post about Swift concurrency"`
+4. Push and open PR: `git push origin new-post`
+5. Review (optional) and merge to `main`
+6. CI/CD automatically:
+   - Deploys to Fly.io
+   - Creates git tag (e.g., `v34`)
+   - Creates GitHub Release
+   - Updates `CHANGELOG.md`
+7. Content is live!
+
+**Alternative (direct push)**:
+```bash
+git add Partials/posts/2025-01-24-new-post.md
+git commit -m "Add new post"
+git push origin main
+# CI/CD deploys → server restarts → FileNode tree rebuilt with new content
+```
+
+**Key points**:
+- **Everything goes through git**: Posts, code, styles, templates
+- **PR workflow is optional but recommended**: Allows review and preview
+- **Merge = publish**: No separate deploy step
+- **Atomic deployments**: Content and code always in sync
+- **Full history**: Every change tracked in git
+- **Easy rollback**: `git revert` or force-push previous commit
+
+This is not a hot-reload system, but it's designed for engineers who think in git commits and pull requests.
 
 ---
 
@@ -284,6 +412,32 @@ Note: Middleware order matters! They execute in the order added.
 ---
 
 ## Deployment Considerations
+
+### Static Site Deployment Model
+
+This application follows a **"code + content"** deployment model:
+
+- **Single artifact**: Content (Markdown) and code (Swift) are deployed together
+- **Atomic updates**: Each deployment includes both application logic and all content
+- **No separate CMS**: Content lives in git, not in a database or S3 bucket
+- **Version control**: Every content change is tracked in git history
+- **Rollbacks are complete**: Rolling back to a previous tag restores both code and content
+
+**Startup sequence**:
+1. Application starts
+2. `buildApplication()` scans `Partials/` directory (I/O operation)
+3. `FileNode` tree built in memory with complete content catalog
+4. Routes and middleware configured
+5. Server begins accepting requests
+
+**Content update workflow**:
+1. Edit/add Markdown files locally
+2. Commit to git
+3. Push to `main` branch
+4. CI/CD pipeline deploys to Fly.io
+5. Server restarts with new content
+
+### Server Configuration
 
 - Server listens on `127.0.0.1:8080` by default
 - Hostname and port configurable via CLI arguments
@@ -617,6 +771,16 @@ ResponseCompressionMiddleware(minimumResponseSizeToCompress: 512)
 ### Purpose
 Models content as a virtual file tree, decoupling logical structure from physical storage.
 
+**Key Architectural Decision**: The FileNode tree represents a **snapshot of content at startup time**. This is fundamentally different from traditional CMS or dynamic servers:
+
+- **Static site approach**: Content is versioned with code in git
+- **Startup-time I/O**: File system is scanned once during application initialization
+- **In-memory index**: The tree lives in memory for the application's lifetime
+- **Fast lookups**: Path resolution is tree traversal, not file system operations
+- **Deployment = Content updates**: New posts require `git push` → redeploy cycle
+
+This design assumes infrequent content updates and prioritizes performance over runtime flexibility.
+
 ### Structure
 ```swift
 enum FileNode {
@@ -627,9 +791,21 @@ enum FileNode {
 
 ### Tree Building
 **Function**: `buildFileTree(at: URL)`
-- Recursively scans file system
-- Creates nested `FileNode` structure
-- Loaded from `Bundle.module.resourcePath`
+- **Timing**: Called during `buildApplication()` at startup, before server accepts connections
+- **I/O Operation**: Recursively scans the file system using `FileManager.default.contentsOfDirectory`
+- Creates nested `FileNode` structure representing the entire content hierarchy
+- Loaded from `Bundle.module.resourcePath/Partials/`
+- **Blocking operation**: Must complete before server starts (intentional design)
+- **One-time cost**: Never rescans during runtime; content is "frozen" until restart
+
+**Why this matters**: Unlike frameworks like WordPress or Ghost that query databases or scan files on each request, this server knows its entire content catalog before handling the first request. This enables:
+
+1. **Sub-millisecond path resolution** for individual content lookups
+2. **Zero-I/O sitemap generation** for index and archive pages
+3. **Instant aggregate views** that need knowledge of all content
+4. **No database queries** or filesystem scans during request handling
+
+However, it requires redeployment for content changes (no hot-reloading).
 
 ### Tree Navigation
 **Function**: `find(path:)`
@@ -649,6 +825,17 @@ markdownTree.find(path: "posts/2025-01-24-my-post.md")
 ### Utility Functions
 - `flattenedPaths(prefix:)`: Returns all paths as flat string array
 - `logPaths(logger:)`: Logs all paths for debugging (called at startup)
+
+**Sitemap Operations**: These utility functions enable zero-I/O sitemap generation:
+- Iterate over all content files without filesystem access
+- Filter and sort posts for index/archive pages
+- Build navigation structures from the complete content catalog
+- Generate feeds (RSS/Atom) with full post lists
+
+Example use cases:
+- **Index page**: `markdownTree.flattenedPaths()` → filter posts → sort by date → render list
+- **Archive page**: Group posts by year/month using in-memory tree traversal
+- **RSS feed**: Iterate all posts, extract metadata, generate XML — all without I/O
 
 ### Usage Example
 ```swift
@@ -837,6 +1024,8 @@ resources: [
 3. **Response Compression**: gzip/Brotli reduces payload size
 4. **Static File Caching**: 24-hour browser cache for assets
 5. **Efficient Routing**: Trie-based router for O(k) lookup (k = path depth)
+6. **Zero-I/O Sitemaps**: Index and archive pages built from in-memory tree without filesystem access
+7. **Startup Content Catalog**: Complete site structure known before first request
 
 ### Potential Bottlenecks
 1. **Unbounded Cache**: In-memory cache grows indefinitely
