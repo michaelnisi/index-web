@@ -22,9 +22,3 @@ swift run
 - `Resources/Templates/` — Mustache templates
 - `Resources/Partials/` — Markdown content
 - `Public/` — static assets
-
-## Notes
-
-- The content is hand-written and rendered on the server 🛠️.
-- The codebase favors clarity and simplicity.
-- See [FLOW.md](FLOW.md) for a high-level request flow diagram.

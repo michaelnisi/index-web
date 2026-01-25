@@ -8,3 +8,4 @@ xcuserdata/
 /.vscode/*
 .env.*
 .env
+.claude/
