@@ -22,6 +22,8 @@ Guide for AI agents working on `index-web` (https://michaelnisi.com).
 
 ## Architecture
 
+Entrypoint: `Sources/App/App.swift`
+
 ### Static Site Served Dynamically
 
 Content (Markdown in `Partials/`) is scanned into an in-memory `FileNode` tree at startup. No runtime I/O for path lookups. New content requires redeployment.
