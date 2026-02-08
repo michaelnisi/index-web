@@ -15,7 +15,7 @@ Guide for AI agents working on `index-web` (https://michaelnisi.com).
 ### When Done
 
 - Build the project to check for compilation errors.
-- Run `swiftformat --config ".swiftformat" {files}` on modified Swift files.
+- Run `swift-format -ri --configuration .swift-format Sources Tests` on modified Swift files.
 - Ask before committing.
 
 ---

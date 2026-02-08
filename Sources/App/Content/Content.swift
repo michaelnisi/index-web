@@ -8,3 +8,13 @@ struct Content {
     let description: String
     let wordCount: Int
 }
+
+extension String {
+    func strippingLeadingH1() -> String {
+        guard let range = range(of: #"^<h1>.*?</h1>\n?"#, options: .regularExpression) else {
+            return self
+        }
+
+        return String(self[range.upperBound...])
+    }
+}

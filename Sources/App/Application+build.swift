@@ -70,6 +70,18 @@ private func buildRouter(logger: Logger) async throws -> Router<AppRequestContex
     )
     .addRoutes(to: router)
 
+    JSONFeedController(
+        markdownTree: markdownFiles,
+        logger: logger
+    )
+    .addRoutes(to: router)
+
+    RSSFeedController(
+        markdownTree: markdownFiles,
+        logger: logger
+    )
+    .addRoutes(to: router)
+
     return router
 }
 
