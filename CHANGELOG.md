@@ -3,7 +3,8 @@
 All notable changes to this project will be documented in this file.
 
 ## v33 - 2026-01-25
-- V33 (#83)
+- GH-81 Add AGENTS.md file
+- GH-82 Shorten README.md
 
 ## v32 - 2026-01-24
 - GH-79 Format changelog (#80)
