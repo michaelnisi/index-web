@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## v34 - 2026-02-14
+- GH-50 Feeds (#85)
+
 ## v33 - 2026-01-25
 - GH-81 Add AGENTS.md file
 - GH-82 Shorten README.md
