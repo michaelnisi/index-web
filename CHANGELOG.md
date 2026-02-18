@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## v35 - 2026-02-18
+- Create 2026-02-18-code.md (#86)
+
 ## v34 - 2026-02-14
 - GH-50 Feeds (#85)
 
