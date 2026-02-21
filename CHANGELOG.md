@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## v36 - 2026-02-21
+- GH-87 Improve Docker development workflow (#89)
+
 ## v35 - 2026-02-18
 - Create 2026-02-18-code.md (#86)
 
