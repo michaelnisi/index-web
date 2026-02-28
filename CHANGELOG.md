@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## v37 - 2026-02-28
+- GH-91 Add sitemap (and robots.txt) (#93)
+
 ## v36 - 2026-02-21
 - GH-87 Improve Docker development workflow (#89)
 
