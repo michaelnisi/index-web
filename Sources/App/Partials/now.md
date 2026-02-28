@@ -1,9 +1,7 @@
 # Now
 
-*Updated January 15th, 2026, from my study in Walsrode, Germany.*
+*Updated February 28th, 2026, from my attic in San Vicente de la Barquera, Cantabria.*
 
-The holidays were slower than planned. Some dental issues turned meals into a rather frugal affair — an odd silver lining being that I didn’t gain any weight over Christmas.
+Just wrapped up a solid week of surfing - the kind where the tide cooperates and you get to paddle out at dawn and again at dusk. The water's still cold but the light at both ends of the day makes it worth it. Being back here sharing waves with friends is all I could ever ask for.
 
-Up here in northern Germany the year began with a brief return of real winter: snow, ice, that special hush it brings. As usual, it lasted only a few days. Now the thaw has set in, the snow is dissolving into grey memory, and the temperature is back above zero.
-
-I didn’t manage to motivate myself to drive north to Denmark for icy waves. Still, I miss the water. I miss the ritual. And I’m counting the days until I head back to Spain at the end of January.
+Large language models have completely changed how I write code. I've barely written any code by myself in the last month - everything goes through Claude now. Xcode 16.3 finally made agentic coding possible with proper Claude integration, which is a drastic change from the copy-paste workflow before. We're finally using Anthropic's Claude at work too, which I'm happy about since I've been working this way on my personal projects for a while.
