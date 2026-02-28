@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## v39 - 2026-02-28
+- GH-94 Correct now page  (#96)
+
 ## v38 - 2026-02-28
 - GH-94 Update now page (#95)
 
