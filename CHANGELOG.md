@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## v40 - 2026-02-28
+- GH-97 Think about an interesting typo (#98)
+
 ## v39 - 2026-02-28
 - GH-94 Correct now page  (#96)
 
