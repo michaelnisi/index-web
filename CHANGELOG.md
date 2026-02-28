@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## v38 - 2026-02-28
+- GH-94 Update now page (#95)
+
 ## v37 - 2026-02-28
 - GH-91 Add sitemap (and robots.txt) (#93)
 
