@@ -1,0 +1,14 @@
+# robots.txt for michaelnisi.com
+
+User-agent: *
+Allow: /
+
+# Sitemaps
+Sitemap: https://michaelnisi.com/sitemap.xml
+
+# Feeds
+# RSS Feed
+# https://michaelnisi.com/feed
+
+# JSON Feed
+# https://michaelnisi.com/feed.json

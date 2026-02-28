@@ -82,6 +82,12 @@ private func buildRouter(logger: Logger) async throws -> Router<AppRequestContex
     )
     .addRoutes(to: router)
 
+    SitemapController(
+        markdownTree: markdownFiles,
+        logger: logger
+    )
+    .addRoutes(to: router)
+
     return router
 }
 
