@@ -7,12 +7,14 @@ If anything in this file conflicts with `AGENTS.md`, this file takes precedence.
 
 If you write or review prose for posts follow these rules:
 
-### Use the Oxford comma
+### Oxford comma
 
-With Oxford comma: "She invited her parents, Oprah, and Sting."
-Without Oxford comma: "She invited her parents, Oprah and Sting."
+Always use the Oxford comma: "music, surfing, and living."
 
-### Em Dash
+### Em dash
 
-Em dash without the buffer of spaces.
-Our style: "Her book—published in March—is excellent."
+No spaces around em dashes: "Her book—published in March—is excellent."
+
+### Attribution dash
+
+Use an en dash for attributions: "– Miles Davis"
