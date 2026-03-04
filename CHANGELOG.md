@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## v41 - 2026-03-04
+- Typography (#103)
+
 ## v40 - 2026-02-28
 - GH-97 Think about an interesting typo (#98)
 
