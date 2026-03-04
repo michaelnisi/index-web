@@ -51,7 +51,7 @@ html {
 
 body {
     font-size: 18px;
-    line-height: 1.25;
+    line-height: 1.6;
     display: grid;
     grid-template-columns: 1fr;
     width: 100%;
@@ -117,7 +117,7 @@ main {
 @media (min-width: 1200px) {
     body {
         font-size: 16px;
-        line-height: 1.5;
+        line-height: 1.7;
         grid-template-columns: repeat(4, 1fr);
         padding-left: 4rem;
         max-width: 1024px;
@@ -168,6 +168,7 @@ blockquote {
 
 blockquote {
     font-size: xxx-large;
+    line-height: 1.2;
     color: var(--muted-color);
     font-weight: 300;
 }
