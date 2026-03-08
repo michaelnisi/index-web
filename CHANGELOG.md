@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## v42 - 2026-03-08
+- GH-104 Write about readiness and improve headline typography (#108)
+
 ## v41 - 2026-03-04
 - Typography (#103)
 
