@@ -16,6 +16,27 @@ extension String {
             .replacingOccurrences(of: ">", with: "&gt;")
             .replacingOccurrences(of: "\"", with: "&quot;")
     }
+
+    /// Returns the last index of a sentence terminator (. ! ?) that is followed
+    /// by a space, end of string, or a quote character—filtering out periods
+    /// embedded in version numbers like "26.3" or abbreviations.
+    func lastSentenceTerminator(in range: Range<String.Index>? = nil) -> String.Index? {
+        let searchRange = range ?? startIndex..<endIndex
+        let terminators: Set<Character> = [".", "!", "?"]
+        var best: String.Index?
+        var i = searchRange.lowerBound
+        while i < searchRange.upperBound {
+            let ch = self[i]
+            if terminators.contains(ch) {
+                let next = index(after: i)
+                if next >= endIndex || self[next].isWhitespace || self[next] == "\"" || self[next] == "'" || self[next] == "\u{201D}" {
+                    best = i
+                }
+            }
+            i = index(after: i)
+        }
+        return best
+    }
 }
 
 extension Document {
@@ -54,10 +75,9 @@ extension Document {
             let limitIndex = rawDescription.index(rawDescription.startIndex, offsetBy: 160)
             let prefix = String(rawDescription[..<limitIndex])
             // Try to find the last sentence terminator before the limit
-            let terminators: [Character] = [".", "!", "?"]
-            if let lastTerminatorIndex = prefix.lastIndex(where: { terminators.contains($0) }) {
-                let end = rawDescription.index(after: lastTerminatorIndex)
-                let sentence = rawDescription[..<end].trimmingCharacters(in: .whitespacesAndNewlines)
+            if let lastTerminatorIndex = prefix.lastSentenceTerminator() {
+                let end = prefix.index(after: lastTerminatorIndex)
+                let sentence = prefix[..<end].trimmingCharacters(in: .whitespacesAndNewlines)
                 // If the sentence is reasonably long, use it; otherwise fall back to word-boundary truncation
                 if sentence.count >= 40 {  // heuristic minimum length
                     description = String(sentence)
@@ -81,8 +101,7 @@ extension Document {
             }
         } else {
             // Already within limit; try to end at a sentence boundary if one exists
-            let terminators: [Character] = [".", "!", "?"]
-            if let lastTerminatorIndex = rawDescription.lastIndex(where: { terminators.contains($0) }) {
+            if let lastTerminatorIndex = rawDescription.lastSentenceTerminator() {
                 let end = rawDescription.index(after: lastTerminatorIndex)
                 description = String(rawDescription[..<end]).trimmingCharacters(in: .whitespacesAndNewlines)
             } else {

@@ -1,7 +1,7 @@
 # Now
 
-*Updated February 28th, 2026, from my attic in San Vicente de la Barquera, Cantabria.*
+*Updated April 13th, 2026, from Munich.*
 
-Just wrapped up a solid week of surfing—the kind where the tide cooperates and you get to paddle out at dawn and again at dusk. The water's still cold but the light at both ends of the day makes it worth it. Being back here sharing waves with friends is all I could ever ask for.
+My father died recently. We hadn't spoken in more than twenty years, which makes grief strange—less about the loss of someone present and more about the permanent closing of a door that was already shut. Still, life insisted on its own timing: a wedding in Schwäbisch Hall with family and close friends, warmth and celebration. Both things happened within a month, and somehow that felt right.
 
-Large language models have completely changed how I write code. I've barely written any code by myself in the last month—everything goes through Claude now. [Xcode 26.3](https://www.apple.com/newsroom/2026/02/xcode-26-point-3-unlocks-the-power-of-agentic-coding/) finally made agentic coding possible with proper Claude integration, which is a drastic change from the copy-paste workflow before. We're finally using Anthropic's Claude at work too, which I'm happy about since I've been working this way on my personal projects for a while.
+At work the EDEKA project is winding down for me. It's been a long run in a legacy codebase, and I'm ready for something different. I find myself thinking about building an app from scratch—the kind of clean-slate problem that reminds you why you got into this in the first place.
