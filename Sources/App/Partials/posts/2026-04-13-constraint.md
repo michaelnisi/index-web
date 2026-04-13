@@ -18,7 +18,7 @@ The constraint hasn't disappeared. It's migrated.
 
 It now lives entirely in the person. Your taste. Your judgment. Your willingness to say no—to the draft that's technically fine, to the image that almost works, to the code that runs but doesn't fit. Steve Jobs put it plainly: "Innovation is saying no to a thousand things." That was always true. Now it's the only thing left that can't be outsourced.
 
-This is what Gide understood before any of it existed. Constraint isn't a cage—it's a condition. It creates the problem, and the problem creates the work. A twelve-bar blues, a fixed board length, a photo that has to say everything in one frame: the limit is where the meaning lives. Loosen the form too much and it stops meaning anything at all.
+This is what Gide understood before any of it existed. Constraint isn't a cage—it's a condition. It creates the problem, and the problem creates the work. A twelve-bar blues, 140 characters, a photo that has to say everything in one frame: the limit is where the meaning lives. Loosen the form too much and it stops meaning anything at all.
 
 In the AI age, Gide's warning sharpens. Liberty to generate anything means death of anything meaningful—unless you bring the constraint back yourself. The skill isn't producing more. It's knowing what to delete. The human as editor, as the one who refuses.
 
