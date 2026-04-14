@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## v45 - 2026-04-14
+- Add feedback on blog post draft
+
 ## v44 - 2026-04-13
 - GH-110 Use better constraint example and fix date typo (#112)
 
