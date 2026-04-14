@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## v46 - 2026-04-14
+- Added feedback on the blog post draft regarding the Provider Pattern.
+
 ## v45 - 2026-04-14
 - Add feedback on blog post draft
 
