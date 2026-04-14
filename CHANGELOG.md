@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## v47 - 2026-04-14
+- GH-114 Delete Copilot slop
+
 ## v46 - 2026-04-14
 - Added feedback on the blog post draft regarding the Provider Pattern.
 
