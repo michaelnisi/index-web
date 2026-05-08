@@ -10,7 +10,7 @@ struct AboutLinkedData: LinkedData {
     let description: String
     let wordCount: Int
     let isPartOf = LinkedDataReference(id: "https://michaelnisi.com#website")
-    let mainEntity = LinkedDataReference(id: "https://michaelnisi.com#person")
+    let mainEntity = TypedLinkedDataReference(type: "Person", id: "https://michaelnisi.com#person")
 
     private enum CodingKeys: String, CodingKey {
         case context = "@context"

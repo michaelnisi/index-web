@@ -8,7 +8,7 @@ struct ArchiveLinkedData: LinkedData {
     let name: String
     let inLanguage: String = "en"
     let isPartOf = LinkedDataReference(id: "https://michaelnisi.com#website")
-    let mainEntity = LinkedDataReference(id: "https://michaelnisi.com#person")
+    let mainEntity = TypedLinkedDataReference(type: "Person", id: "https://michaelnisi.com#person")
 
     enum CodingKeys: String, CodingKey {
         case context = "@context"

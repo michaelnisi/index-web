@@ -9,6 +9,15 @@ struct LinkedDataReference: Codable {
     enum CodingKeys: String, CodingKey { case id = "@id" }
 }
 
+struct TypedLinkedDataReference: Codable {
+    let type: String
+    let id: String
+    enum CodingKeys: String, CodingKey {
+        case type = "@type"
+        case id = "@id"
+    }
+}
+
 extension LinkedData {
     var json: String {
         let encoder = JSONEncoder()
