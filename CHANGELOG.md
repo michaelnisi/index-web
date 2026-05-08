@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## v48 - 2026-05-08
+- GH-116 Add @type to mainEntity in JSON-LD structured data (#117)
+
 ## v47 - 2026-04-14
 - GH-114 Delete Copilot slop
 
