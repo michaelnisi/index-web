@@ -12,6 +12,12 @@ Guide for AI agents working on `index-web` (https://michaelnisi.com).
 - Git tags are the single source of truth for versioning.
 - When editing GitHub Actions, preserve idempotency.
 
+### Git Conventions
+
+- Branch names: `GH-{issue_number}-{short-description}` — e.g. `GH-116-fix-json-ld-main-entity-type`
+- Commit prefix: `GH-{issue_number} {Short description}` — e.g. `GH-116 Add @type to mainEntity in JSON-LD structured data`
+- PR title matches the commit; body opens with `Closes #N`
+
 ### When Done
 
 - Build the project to check for compilation errors.

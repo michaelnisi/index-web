@@ -9,8 +9,8 @@ struct PostLinkedData: LinkedData {
     let description: String
     let wordCount: Int
     let inLanguage: String = "en"
-    let isPartOf = LinkedDataReference(id: "https://michaelnisi.com#website")
-    let mainEntity = LinkedDataReference(id: "https://michaelnisi.com#person")
+    let isPartOf = TypedLinkedDataReference(type: "WebSite", id: "https://michaelnisi.com#website")
+    let mainEntity = TypedLinkedDataReference(type: "Person", id: "https://michaelnisi.com#person")
 
     enum CodingKeys: String, CodingKey {
         case context = "@context"
