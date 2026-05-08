@@ -9,7 +9,7 @@ struct NowLinkedData: LinkedData {
     let description: String
     let wordCount: Int
     let inLanguage = "en"
-    let isPartOf = LinkedDataReference(id: "https://michaelnisi.com#website")
+    let isPartOf = TypedLinkedDataReference(type: "WebSite", id: "https://michaelnisi.com#website")
     let mainEntity = TypedLinkedDataReference(type: "Person", id: "https://michaelnisi.com#person")
 
     enum CodingKeys: String, CodingKey {

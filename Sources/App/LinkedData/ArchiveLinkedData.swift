@@ -7,7 +7,7 @@ struct ArchiveLinkedData: LinkedData {
     let url = "https://michaelnisi.com/archive"
     let name: String
     let inLanguage: String = "en"
-    let isPartOf = LinkedDataReference(id: "https://michaelnisi.com#website")
+    let isPartOf = TypedLinkedDataReference(type: "WebSite", id: "https://michaelnisi.com#website")
     let mainEntity = TypedLinkedDataReference(type: "Person", id: "https://michaelnisi.com#person")
 
     enum CodingKeys: String, CodingKey {
