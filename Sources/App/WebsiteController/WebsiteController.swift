@@ -56,6 +56,14 @@ private let dateFormatter: DateFormatter = {
     return formatter
 }()
 
+private let isoDateFormatter: DateFormatter = {
+    let formatter = DateFormatter()
+    formatter.locale = .init(identifier: "en_US_POSIX")
+    formatter.dateFormat = "yyyy-MM-dd"
+
+    return formatter
+}()
+
 extension String {
     static func title(_ page: String) -> String {
         "Michael Nisi — \(page)"
@@ -68,5 +76,9 @@ extension String {
 
     static func date(date: Date) -> String {
         dateFormatter.string(from: date)
+    }
+
+    static func isoDate(date: Date) -> String {
+        isoDateFormatter.string(from: date)
     }
 }

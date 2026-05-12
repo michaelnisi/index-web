@@ -16,8 +16,7 @@ extension WebsiteController {
             title: .title("About"),
             canonical: .canonicalURL(for: request.uri.path),
             post: content.html,
-            description: content.description,
-            wordCount: content.wordCount
+            description: content.description
         )
 
         guard let html = mustacheLibrary.render(data, withTemplate: "info") else {
@@ -35,19 +34,13 @@ private struct AboutData {
     let post: String
     let canonical: String
     let description: String
-    let ld: String
+    let ogType: String
 
-    init(title: String, canonical: String, post: String, description: String, wordCount: Int) {
+    init(title: String, canonical: String, post: String, description: String) {
         self.title = title
         self.post = post
         self.canonical = canonical
         self.description = description
-        ld =
-            AboutLinkedData(
-                name: title,
-                description: description,
-                wordCount: wordCount
-            )
-            .json
+        ogType = "website"
     }
 }

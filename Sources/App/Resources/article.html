@@ -2,11 +2,13 @@
   {{$body}}
     {{> header}}
     <main>
-      {{{post}}}
-      <p class="post-meta">
-          <span class="date">{{dateString}}</span> ·
-          <span class="word-count">{{wordCount}} words</span>
-      </p>
+      <article>
+        {{{post}}}
+        <p class="post-meta">
+            <time datetime="{{isoDate}}">{{dateString}}</time> ·
+            <span class="word-count">{{wordCount}} words</span>
+        </p>
+      </article>
     </main>
     {{> footer}}
   {{/body}}
