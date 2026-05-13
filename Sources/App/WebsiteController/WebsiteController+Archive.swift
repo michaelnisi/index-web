@@ -61,20 +61,21 @@ private struct ArchiveData {
         let description: String
         let wordCount: Int
         let dateString: String
+        let isoDate: String
     }
 
     let title: String
     let canonical: String
     let description: String
+    let ogType: String
     let posts: [Post]
-    let ld: String
 
     init(title: String, canonical: String, posts: [Post]) {
         self.title = title
         self.canonical = canonical
         description = "Archive of posts by Michael Nisi."
+        ogType = "website"
         self.posts = posts
-        ld = ArchiveLinkedData(name: title).json
     }
 }
 
@@ -87,6 +88,7 @@ extension ArchiveData.Post {
         description = content.description
         wordCount = content.wordCount
         dateString = .date(date: content.date)
+        isoDate = .isoDate(date: content.date)
     }
 
     fileprivate static func < (lhs: Self, rhs: Self) -> Bool {

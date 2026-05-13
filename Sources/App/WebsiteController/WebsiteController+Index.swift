@@ -61,20 +61,21 @@ private struct IndexData {
         let link: String
         let wordCount: Int
         let dateString: String
+        let isoDate: String
     }
 
     let title: String
     let canonical: String
     let description: String
+    let ogType: String
     let posts: [Post]
-    let ld: String
 
     init(title: String, canonical: String, posts: [Post]) {
         self.title = title
         self.canonical = canonical
         description = "Strong types and single fins. Bring back the personal web."
+        ogType = "website"
         self.posts = posts
-        ld = IndexLinkedData(title: title).json
     }
 }
 
@@ -87,6 +88,7 @@ extension IndexData.Post {
         self.link = link
         wordCount = content.wordCount
         dateString = .date(date: content.date)
+        isoDate = .isoDate(date: content.date)
     }
 
     fileprivate static func < (lhs: Self, rhs: Self) -> Bool {
