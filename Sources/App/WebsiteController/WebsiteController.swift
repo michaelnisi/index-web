@@ -51,6 +51,7 @@ struct HTML: ResponseGenerator {
 private let dateFormatter: DateFormatter = {
     let formatter = DateFormatter()
     formatter.locale = .init(identifier: "en_US_POSIX")
+    formatter.timeZone = TimeZone(secondsFromGMT: 0)
     formatter.dateStyle = .long
 
     return formatter
@@ -59,6 +60,7 @@ private let dateFormatter: DateFormatter = {
 private let isoDateFormatter: DateFormatter = {
     let formatter = DateFormatter()
     formatter.locale = .init(identifier: "en_US_POSIX")
+    formatter.timeZone = TimeZone(secondsFromGMT: 0)
     formatter.dateFormat = "yyyy-MM-dd"
 
     return formatter
