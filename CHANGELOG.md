@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## v50 - 2026-05-13
+- GH-120 Clarify why ETagVaryMiddleware coexists with ensureVaryAcceptEncoding (#121)
+
 ## v49 - 2026-05-13
 - GH-118 Remove JSON-LD and improve semantic HTML (#119)
 
