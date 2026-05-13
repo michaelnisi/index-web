@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## v49 - 2026-05-13
+- GH-118 Remove JSON-LD and improve semantic HTML (#119)
+
 ## v48 - 2026-05-08
 - GH-116 Add @type to mainEntity in JSON-LD structured data (#117)
 
