@@ -42,6 +42,9 @@ private func buildRouter(logger: Logger) async throws -> Router<AppRequestContex
         LogRequestsMiddleware(logger.logLevel)
         RequestDecompressionMiddleware()
         FileMiddleware(cacheControl: .allMediaTypes(maxAge: 86400), logger: logger)
+        // Adds Vary: Accept-Encoding to ETag responses from FileMiddleware, which builds
+        // its own responses outside of Response+ETag. HTML and feed responses handle
+        // this themselves via ensureVaryAcceptEncoding.
         ETagVaryMiddleware()
         ResponseCompressionMiddleware(minimumResponseSizeToCompress: 512)
         HeadMiddleware()
