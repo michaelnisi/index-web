@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## v51 - 2026-06-07
+- GH-92 Update favicon (#123)
+
 ## v50 - 2026-05-13
 - GH-120 Clarify why ETagVaryMiddleware coexists with ensureVaryAcceptEncoding (#121)
 
