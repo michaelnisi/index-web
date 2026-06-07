@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## v52 - 2026-06-07
+- Add 2026-06-07-college (#124)
+
 ## v51 - 2026-06-07
 - GH-92 Update favicon (#123)
 
