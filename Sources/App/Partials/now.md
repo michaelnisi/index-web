@@ -1,7 +1,9 @@
 # Now
 
-*Updated April 12th, 2026, from Munich.*
+*Updated June 7th, 2026, from San Vicente de la Barquera.*
 
-My father died recently. We hadn't spoken in more than twenty years, which makes grief strange—less about the loss of someone present and more about the permanent closing of a door that was already shut. Still, life insisted on its own timing: a wedding in Schwäbisch Hall with family and close friends, warmth and celebration. Both things happened within a month, and somehow that felt right.
+Summer brings less consistent surf but more consistent tourist streams to the Atlantic coast. So I'm packing up and heading north to Thy, Denmark—with a short stop in Guéthary, France.
 
-At work the EDEKA project is winding down for me. It's been a long run in a legacy codebase, and I'm ready for something different. I find myself thinking about building an app from scratch—the kind of clean-slate problem that reminds you why you got into this in the first place.
+I'm excited to pick up my new 11'6 glider at Jon's in Zarautz on the way.
+
+Manually typing code into a keyboard had felt wrong to me for years. AI-assisted coding finally makes it feel right—and I've been fiddling with it constantly.
