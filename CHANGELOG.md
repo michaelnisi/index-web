@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## v53 - 2026-06-26
+- Add post on cognitive and intent debt (#127)
+
 ## v52 - 2026-06-07
 - Add 2026-06-07-college (#124)
 
