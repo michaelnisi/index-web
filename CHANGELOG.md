@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## v54 - 2026-06-27
+- GH-122 Add post: The Overton Window in Your Codebase (#126)
+
 ## v53 - 2026-06-26
 - Add post on cognitive and intent debt (#127)
 
