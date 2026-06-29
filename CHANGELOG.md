@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## v55 - 2026-06-29
+- Add dc:creator author name to RSS feed items (#128)
+
 ## v54 - 2026-06-27
 - GH-122 Add post: The Overton Window in Your Codebase (#126)
 
