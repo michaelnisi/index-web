@@ -124,6 +124,17 @@ struct FeedTests {
         }
     }
 
+    @Test("GET /feed items include dc:creator author name")
+    func rssFeedItemsIncludeAuthor() async throws {
+        let app = try await buildApplication(TestArguments())
+        try await app.test(.router) { client in
+            try await client.execute(uri: "/feed", method: .get) { response in
+                let body = String(buffer: response.body)
+                #expect(body.contains("<dc:creator>Michael Nisi</dc:creator>"))
+            }
+        }
+    }
+
     @Test("GET /feed with If-None-Match returns 304")
     func rssFeedConditionalGet() async throws {
         let app = try await buildApplication(TestArguments())

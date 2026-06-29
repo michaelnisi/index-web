@@ -55,7 +55,7 @@ extension RSSFeedController {
     private func buildRSSXML(posts: [FeedPost]) -> String {
         var xml = """
             <?xml version="1.0" encoding="UTF-8"?>
-            <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+            <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:dc="http://purl.org/dc/elements/1.1/">
             <channel>
             <title>Michael Nisi</title>
             <link>https://michaelnisi.com</link>
@@ -79,6 +79,7 @@ extension RSSFeedController {
                 <link>\(post.url)</link>
                 <guid isPermaLink="true">\(post.url)</guid>
                 <pubDate>\(pubDate)</pubDate>
+                <dc:creator>Michael Nisi</dc:creator>
                 <description>\(post.description.xmlEscaped)</description>
                 <content:encoded><![CDATA[\(post.html)]]></content:encoded>
                 </item>
