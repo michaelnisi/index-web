@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## v56 - 2026-07-20
+- GH-129 Add post: On Progressive Disclosure in Swift (#130)
+
 ## v55 - 2026-06-29
 - Add dc:creator author name to RSS feed items (#128)
 
