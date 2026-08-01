@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## v57 - 2026-08-01
+- Update now page for August 2026, Stenbjerg (#132)
+
 ## v56 - 2026-07-20
 - GH-129 Add post: On Progressive Disclosure in Swift (#130)
 
