@@ -1,9 +1,7 @@
 # Now
 
-*Updated June 7th, 2026, from San Vicente de la Barquera.*
+*Updated August 1st, 2026, from Stenbjerg, Denmark.*
 
-Summer brings less consistent surf but more consistent tourist streams to the Atlantic coast. So I'm packing up and heading north to Thy, Denmark—with a short stop in Guéthary, France.
+Endless autumn, that's the summer in Thy, and I love every minute of it. Returning to a place that feels like home has a special kind of beauty. Meeting old and new friends, experiencing familiar places from a matured perspective.
 
-I'm excited to pick up my new 11'6 glider at Jon's in Zarautz on the way.
-
-Manually typing code into a keyboard had felt wrong to me for years. AI-assisted coding finally makes it feel right—and I've been fiddling with it constantly.
+I spend my days working at Block65 in Hanstholm. The combination of gym, co-working space, and community—500m from two of my favorite surf spots, Fakir and Fish Factory—could not be more exciting.
