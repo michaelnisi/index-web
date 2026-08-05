@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## v58 - 2026-08-05
+- Add post: Nobody Knows How the Whole System Works (#133)
+
 ## v57 - 2026-08-01
 - Update now page for August 2026, Stenbjerg (#132)
 
