@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## v59 - 2026-09-23
+- Add post: A Warning About Model Welfare (#134)
+
 ## v58 - 2026-08-05
 - Add post: Nobody Knows How the Whole System Works (#133)
 
