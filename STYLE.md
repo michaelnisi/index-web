@@ -1,8 +1,30 @@
 # Style Guide
 
-How posts on michaelnisi.com are written. Typography rules (Oxford comma, dashes, apostrophes, title case) live in `CLAUDE.md`. This guide covers voice, structure, and form.
+How posts on michaelnisi.com are written: typography, voice, structure, and form.
 
 ---
+
+## Typography
+
+### Oxford comma
+
+Always use the Oxford comma: "music, surfing, and living."
+
+### Em dash
+
+No spaces around em dashes: "Her book—published in March—is excellent."
+
+### Apostrophes
+
+Use only curly apostrophes, never straight ones: "It’s the note you play afterwards."
+
+### Attribution dash
+
+Use an en dash for attributions: "– Miles Davis"
+
+### Title case
+
+Post titles use title case. Capitalize nouns, verbs, adjectives, and adverbs. Lowercase articles, conjunctions, and short prepositions (a, an, the, and, but, or, for, in, of, on, to). Always capitalize the first and last word: "The Quiet Activism of Living Pleasantly"
 
 ## Voice
 
@@ -60,6 +82,7 @@ Code can be the whole post. A fenced block with a language tag, followed by a si
 
 ## Titles
 
+- Title case, per Typography.
 - Short and declarative, or a phrase lifted from the quote: "Ready or Not," "LLMs Are Savants," "Constraint Was Never the Enemy."
 - "On …" is used for reflective pieces: "On the Next Move," "On Progressive Disclosure in Swift."
 - Questions are rare but allowed: "What Drives You Nuts?"
@@ -74,7 +97,7 @@ Code can be the whole post. A fenced block with a language tag, followed by a si
 
 ## Attribution
 
-- Standalone attribution: the name on its own line, after the dash from `CLAUDE.md`. Add context after a comma when useful.
+- Standalone attribution: the name on its own line, after an en dash. Add context after a comma when useful.
   - `– Miles Davis`
   - `– Ludwig Wittgenstein, *Tractatus Logico-Philosophicus*`
   - `– Liane Finck, who drew the cover of the August 2025 issue of [The New York Review of Books](https://…)`
@@ -82,6 +105,10 @@ Code can be the whole post. A fenced block with a language tag, followed by a si
 
 ## Checklist
 
-- [ ] Typography rules in `CLAUDE.md` followed
+- [ ] Title in title case
+- [ ] Oxford commas
+- [ ] Em dashes without spaces
+- [ ] Curly apostrophes only
+- [ ] En dash for attributions
 - [ ] Source linked
 - [ ] Last line earns its place
