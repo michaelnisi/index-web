@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## v60 - 2026-09-23
+- Add writing style guide (#135)
+
 ## v59 - 2026-09-23
 - Add post: A Warning About Model Welfare (#134)
 
