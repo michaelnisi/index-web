@@ -1,6 +1,6 @@
 # Style Guide
 
-How posts on michaelnisi.com are written. The mechanical rules (Oxford comma, dashes, title case) live in `CLAUDE.md`. This guide covers voice, structure, and form.
+How posts on michaelnisi.com are written. Typography rules (Oxford comma, dashes, apostrophes, title case) live in `CLAUDE.md`. This guide covers voice, structure, and form.
 
 ---
 
@@ -9,7 +9,7 @@ How posts on michaelnisi.com are written. The mechanical rules (Oxford comma, da
 - **First person, sparingly.** "I" appears when there is a personal stake—an anecdote, a recommendation, an opinion. Otherwise, the prose speaks directly to the reader as "you."
 - **Calm and certain.** State things plainly. No hedging, no hype, no exclamation marks. "Constraint was never the enemy. It was always the condition."
 - **Warm, not cute.** Humor is dry and understated: "This website is where I put things I feel like sharing—and occasionally embarrass myself."
-- **Generous to others.** When quoting someone, credit them with an adjective or a clause that shows why they are worth reading: "Doug Gregor opens his brilliant Swift Craft 2025 talk…", "I've been appreciating Matteo Collina since early Node.js days."
+- **Generous to others.** When quoting someone, credit them with an adjective or a clause that shows why they are worth reading: "Doug Gregor opens his brilliant Swift Craft 2025 talk…", "I’ve been appreciating Matteo Collina since early Node.js days."
 - **Grounded in practice.** Abstract ideas are anchored in concrete experience: longboard surfing, jazz, Swift code, working with Claude. Craft, attention, and judgment are recurring themes.
 
 ## Post Types
@@ -42,7 +42,7 @@ Longer pieces (300–850 words) built on a single idea.
 
 - **Open with an epigraph**—a blockquote and an en-dash attribution.
 - **Reframe the epigraph** in the first paragraph, then move to the present: "Gide wrote that a century ago, but it lands differently now."
-- **One idea per paragraph.** Paragraphs are short. Single-sentence paragraphs mark turns: "The constraint hasn't disappeared. It's migrated."
+- **One idea per paragraph.** Paragraphs are short. Single-sentence paragraphs mark turns: "The constraint hasn’t disappeared. It’s migrated."
 - **Carry a metaphor through.** Surfing, music, or another physical practice is developed across paragraphs, not dropped in once.
 - **End short.** The last line is brief, often a fragment, and echoes the title or the opening: "Just scale." "Everything depends on how you keep moving." "The window narrows because no one noticed it was moving."
 
@@ -53,14 +53,13 @@ Code can be the whole post. A fenced block with a language tag, followed by a si
 ## Sentences
 
 - **Vary rhythm.** Follow a long, layered sentence with a short one. Fragments are welcome: "Infinite scroll." "Clean. No judgment in it."
-- **Use contrast.** Many key lines turn on a pair: "Not wrong. Not bad. Just… contained." "They're brilliant at structure and terrible at continuity." "Abundance promised freedom and delivered paralysis."
-- **Use em dashes** for asides and pivots—they are a signature of this site. No spaces around them.
+- **Use contrast.** Many key lines turn on a pair: "Not wrong. Not bad. Just… contained." "They’re brilliant at structure and terrible at continuity." "Abundance promised freedom and delivered paralysis."
+- **Use em dashes** for asides and pivots—they are a signature of this site.
 - **Use triplets.** Lists of three give a line its cadence: "music, surfing, and living."
 - **Prefer plain words.** Say "use," not "leverage." Technical terms are fine when precise.
 
 ## Titles
 
-- Title case, per `CLAUDE.md`.
 - Short and declarative, or a phrase lifted from the quote: "Ready or Not," "LLMs Are Savants," "Constraint Was Never the Enemy."
 - "On …" is used for reflective pieces: "On the Next Move," "On Progressive Disclosure in Swift."
 - Questions are rare but allowed: "What Drives You Nuts?"
@@ -72,11 +71,10 @@ Code can be the whole post. A fenced block with a language tag, followed by a si
 - **Italics** for book and work titles (*Tractatus Logico-Philosophicus*, *Universal Principles of Design*) and for occasional emphasis on a single word (*make*, *this*).
 - **Quotes in their original language** are fine; give a translation or paraphrase right after: "Art is born of constraints, lives through struggle, dies of liberty."
 - **Bold** is not used in posts.
-- **Straight vs. curly apostrophes** are currently mixed across posts. Stay consistent within a single post.
 
 ## Attribution
 
-- Standalone attribution: an en dash, a space, then the name. Add context after a comma when useful.
+- Standalone attribution: the name on its own line, after the dash from `CLAUDE.md`. Add context after a comma when useful.
   - `– Miles Davis`
   - `– Ludwig Wittgenstein, *Tractatus Logico-Philosophicus*`
   - `– Liane Finck, who drew the cover of the August 2025 issue of [The New York Review of Books](https://…)`
@@ -84,9 +82,6 @@ Code can be the whole post. A fenced block with a language tag, followed by a si
 
 ## Checklist
 
-- [ ] Title in title case
-- [ ] Oxford commas
-- [ ] Em dashes without spaces
-- [ ] En dash for attributions
+- [ ] Typography rules in `CLAUDE.md` followed
 - [ ] Source linked
 - [ ] Last line earns its place

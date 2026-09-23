@@ -15,6 +15,10 @@ Always use the Oxford comma: "music, surfing, and living."
 
 No spaces around em dashes: "Her book—published in March—is excellent."
 
+### Apostrophes
+
+Use only curly apostrophes, never straight ones: "It’s the note you play afterwards."
+
 ### Attribution dash
 
 Use an en dash for attributions: "– Miles Davis"
