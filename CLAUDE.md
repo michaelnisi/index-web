@@ -5,7 +5,7 @@ If anything in this file conflicts with `AGENTS.md`, this file takes precedence.
 
 ## Writing
 
-If you write or review prose for posts follow these rules:
+If you write or review prose for posts follow these rules. For voice, structure, and post types, see `STYLE.md`.
 
 ### Oxford comma
 
