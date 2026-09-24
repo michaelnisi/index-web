@@ -1,7 +1,9 @@
 # Now
 
-*Updated August 1st, 2026, from Stenbjerg, Denmark.*
+*Updated September 24th, 2026, from Stenbjerg, Denmark.*
 
-Endless autumn, that’s the summer in Thy, and I love every minute of it. Returning to a place that feels like home has a soothing kind of beauty. Meeting old and new friends, experiencing familiar places from a matured perspective.
+Summer ends in autumn, trees shed their leaves, and projects end too. For the last three years, I have worked with a team of amazing people at EDEKA. Now it’s time for all of us to move on.
 
-I spend my days working at [Block65](https://block65.dk/) in Hanstholm. The combination of gym, co-working space, and community—500m from two of my favorite surf spots, Fakir and Fisken—could not be more inspiring.
+Not only projects change, but also the way we work. In the last year, agentic coding changed everything. It’s exciting to witness how we are all getting comfortable in a work life dominated by AI finding intuitions.
+
+As another storm passes through, I’m looking forward to returning to my people in San Vicente.
