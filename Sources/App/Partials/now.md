@@ -6,4 +6,4 @@ Summer ends in autumn. Trees shed their leaves, and projects end too. For the la
 
 Not only projects change—so does the way we work. In the last year, agentic coding transformed it. It’s exciting to watch us all settle into a work life shaped by AI and its emerging intuitions.
 
-Another storm is passing through. I’m looking forward to sharing mellow morning surf with friends at Farolillo again—soon.
+Another storm is passing through. I’m looking forward to sharing mellow morning surf with friends at the Farolillo in San Vicente again—soon.
