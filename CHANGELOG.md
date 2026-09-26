@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## v61 - 2026-09-26
+- Update now page for September 2026, Stenbjerg (#137)
+
 ## v60 - 2026-09-23
 - Add writing style guide (#135)
 
