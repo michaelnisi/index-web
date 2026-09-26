@@ -1,6 +1,6 @@
 # Now
 
-*Updated September 24th, 2026, from Stenbjerg, Denmark.*
+*Updated September 26th, 2026, from Stenbjerg, Denmark.*
 
 Summer ends in autumn. Trees shed their leaves, and projects end too. For the last three years, I worked with an amazing team at EDEKA. Now it’s time for all of us to move on.
 
