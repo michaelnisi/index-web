@@ -8,4 +8,5 @@ xcuserdata/
 /.vscode/*
 .env.*
 .env
-.claude/
+.claude/*
+!.claude/skills/
