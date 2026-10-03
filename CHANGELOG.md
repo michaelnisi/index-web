@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## v63 - 2026-10-03
+- Retry changelog push on non-fast-forward rejection
+
 ## v62 - 2026-10-03
 - Add write-post skill (#136)
 - Add post: Better Analysis, More Conflict (#138)
