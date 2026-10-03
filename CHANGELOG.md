@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## v62 - 2026-10-03
+- Add write-post skill (#136)
+- Add post: Better Analysis, More Conflict (#138)
+
 ## v61 - 2026-09-26
 - Update now page for September 2026, Stenbjerg (#137)
 
