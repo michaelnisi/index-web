@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## v64 - 2026-10-29
+- Update now page for October 2026, San Vicente (#139)
+
 ## v63 - 2026-10-03
 - Retry changelog push on non-fast-forward rejection
 
