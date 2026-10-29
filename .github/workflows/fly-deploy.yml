@@ -118,7 +118,7 @@ jobs:
             fi
             echo "Push rejected (attempt $attempt), rebasing onto latest main..."
             git fetch origin main
-            git rebase origin/main
+            git rebase --autostash origin/main
           done
           echo "Failed to push changelog after multiple attempts."
           exit 1
