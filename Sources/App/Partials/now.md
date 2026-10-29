@@ -1,9 +1,9 @@
 # Now
 
-*Updated September 26th, 2026, from Stenbjerg, Denmark.*
+*Updated October 29th, 2026, from San Vicente, Spain.*
 
-Summer ends in autumn. Trees shed their leaves, and projects end too. For the last three years, I worked with an amazing team at EDEKA. Now it’s time for all of us to move on.
+Autumn is harvest season. Here, the harvest comes from the sea. The North Atlantic wakes up, and storms far out send groundswell across the Bay of Biscay—long, orderly lines that have travelled for days. Some mornings the *viento sur* blows warm off the mountains and grooms the faces clean. It’s a harvest that keeps returning, one storm after another, more than anyone could ride. It can’t be stored, only remembered—the waves, and the friends you shared them with.
 
-Not only projects change—so does the way we work. In the last year, agentic coding transformed it. It’s exciting to watch us settle into a work life shaped by AI and its emerging intuitions.
+Foldable phones aren’t new, but the iPhone Duo puts them center stage. I’m having fun with its new UI paradigm, somewhere between iPhone and iPad.
 
-Another storm is passing through. I’m looking forward to sharing mellow morning surf with friends at the Farolillo in San Vicente again—soon.
+My surf conditions app, [Hanstholm](https://github.com/michaelnisi/hanstholm), is coming along nicely.
