@@ -69,7 +69,6 @@ private struct IndexData {
     let description: String
     let ogType: String
     let posts: [Post]
-    let jsonLD: String
 
     init(title: String, canonical: String, posts: [Post]) {
         self.title = title
@@ -77,45 +76,6 @@ private struct IndexData {
         description = "Strong types and single fins. Bring back the personal web."
         ogType = "website"
         self.posts = posts
-        jsonLD = Self.structuredData(canonical: canonical)
-    }
-
-    /// Identifies the site and its author for search engines.
-    private static func structuredData(canonical: String) -> String {
-        let person: [String: Any] = [
-            "@type": "Person",
-            "@id": "\(canonical)#person",
-            "name": "Michael Nisi",
-            "url": canonical,
-            "jobTitle": "Software Engineer",
-            "sameAs": [
-                "https://github.com/michaelnisi",
-                "https://www.instagram.com/podustle",
-            ],
-        ]
-        let website: [String: Any] = [
-            "@type": "WebSite",
-            "name": "Michael Nisi",
-            "url": canonical,
-            "author": ["@id": "\(canonical)#person"],
-        ]
-        let graph: [String: Any] = [
-            "@context": "https://schema.org",
-            "@graph": [website, person],
-        ]
-
-        guard
-            let data = try? JSONSerialization.data(
-                withJSONObject: graph,
-                options: [.sortedKeys, .withoutEscapingSlashes]
-            ),
-            let json = String(data: data, encoding: .utf8)
-        else {
-            return ""
-        }
-
-        // Prevents the JSON from closing its script element early.
-        return json.replacingOccurrences(of: "</", with: "<\\/")
     }
 }
 
