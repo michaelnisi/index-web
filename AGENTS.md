@@ -12,6 +12,11 @@ Guide for AI agents working on `index-web` (https://michaelnisi.com).
 - Git tags are the single source of truth for versioning.
 - When editing GitHub Actions, preserve idempotency.
 
+### Decisions
+
+- **No JSON-LD or other schema.org structured data.** Removed deliberately in #118 (PR #119) because of the maintenance cost. Keep semantic HTML instead (`<article>`, `<time datetime>`). Don't propose it in issues or PRs.
+- **Check history before proposing features.** Before suggesting something that may have existed before, run `git log -S<term>` and search closed issues. A feature missing from the current tree may have been removed on purpose.
+
 ### Git Conventions
 
 - Branch names: `GH-{issue_number}-{short-description}` — e.g. `GH-116-fix-json-ld-main-entity-type`
