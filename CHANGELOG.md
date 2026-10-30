@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## v65 - 2026-10-30
+- GH-142 Add skill to install Swift toolchain in Linux cloud sessions (#143)
+
 ## v64 - 2026-10-29
 - Update now page for October 2026, San Vicente (#139)
 
