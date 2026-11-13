@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## v69 - 2026-11-13
+- GH-51 Limit posts on home page (#147)
+
 ## v68 - 2026-11-13
 - GH-140 Rank index page above now page for name searches (#141)
 
