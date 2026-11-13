@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## v66 - 2026-11-13
+- Add post: Just Another Historical Continuity (#145)
+
 ## v65 - 2026-10-30
 - GH-142 Add skill to install Swift toolchain in Linux cloud sessions (#143)
 
