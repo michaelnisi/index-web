@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## v67 - 2026-11-13
+- Remove post: Just Another Historical Continuity (#146)
+
 ## v66 - 2026-11-13
 - Add post: Just Another Historical Continuity (#145)
 
