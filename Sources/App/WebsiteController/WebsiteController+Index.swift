@@ -37,7 +37,7 @@ extension WebsiteController {
         }
 
         let data = IndexData(
-            title: .title("Software Engineer"),
+            title: "Michael Nisi — Software Engineer & Surfer",
             canonical: .canonicalURL(for: request.uri.path),
             posts: posts
         )

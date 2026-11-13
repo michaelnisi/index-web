@@ -59,18 +59,23 @@ extension SitemapController {
             """
 
         // Static pages
-        let staticPages: [(loc: String, changefreq: String, priority: String)] = [
-            ("https://michaelnisi.com/", "weekly", "1.0"),
-            ("https://michaelnisi.com/archive", "weekly", "0.7"),
-            ("https://michaelnisi.com/about", "monthly", "0.5"),
-            ("https://michaelnisi.com/now", "monthly", "0.5"),
+        // The index and archive change when a post is added, so they share the newest post's date.
+        // About and now have no reliable modification date, so they omit lastmod.
+        let newestPostDate = posts.first?.lastmod
+        let staticPages: [(loc: String, lastmod: String?, changefreq: String, priority: String)] = [
+            ("https://michaelnisi.com/", newestPostDate, "weekly", "1.0"),
+            ("https://michaelnisi.com/archive", newestPostDate, "weekly", "0.7"),
+            ("https://michaelnisi.com/about", nil, "monthly", "0.5"),
+            ("https://michaelnisi.com/now", nil, "monthly", "0.5"),
         ]
 
         for page in staticPages {
+            let lastmod = page.lastmod.map { "\n<lastmod>\($0)</lastmod>" } ?? ""
+
             xml += """
 
                 <url>
-                <loc>\(page.loc)</loc>
+                <loc>\(page.loc)</loc>\(lastmod)
                 <changefreq>\(page.changefreq)</changefreq>
                 <priority>\(page.priority)</priority>
                 </url>
