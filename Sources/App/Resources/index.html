@@ -18,5 +18,8 @@
         </li>
         {{/posts}}
     </ul>
+    {{#hasOlderPosts}}
+    <p class="older-posts"><a href="/archive">Older posts in the archive</a></p>
+    {{/hasOlderPosts}}
 </main>
 {{> footer}} {{/body}} {{/page}}

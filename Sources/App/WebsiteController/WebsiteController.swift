@@ -8,6 +8,7 @@ struct WebsiteController {
     let mustacheLibrary: MustacheLibrary
     let logger: Logger
     let cache: KeyValueStore<String, String>
+    let homePostLimit: Int
 
     func addRoutes(to router: Router<some RequestContext>) {
         router.get("/", use: indexHandler)

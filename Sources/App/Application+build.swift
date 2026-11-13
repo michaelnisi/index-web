@@ -8,6 +8,13 @@ public protocol AppArguments {
     var hostname: String { get }
     var port: Int { get }
     var logLevel: Logger.Level { get }
+    var homePostLimit: Int { get }
+}
+
+let defaultHomePostLimit = 10
+
+extension AppArguments {
+    var homePostLimit: Int { defaultHomePostLimit }
 }
 
 typealias AppRequestContext = BasicRequestContext
@@ -22,7 +29,7 @@ public func buildApplication(_ arguments: some AppArguments) async throws -> som
         return logger
     }()
 
-    let router = try await buildRouter(logger: logger)
+    let router = try await buildRouter(logger: logger, homePostLimit: arguments.homePostLimit)
     let address = BindAddress.hostname(arguments.hostname, port: arguments.port)
 
     let app = Application(
@@ -34,7 +41,7 @@ public func buildApplication(_ arguments: some AppArguments) async throws -> som
     return app
 }
 
-private func buildRouter(logger: Logger) async throws -> Router<AppRequestContext> {
+private func buildRouter(logger: Logger, homePostLimit: Int) async throws -> Router<AppRequestContext> {
     let router = Router(context: AppRequestContext.self)
 
     router.addMiddleware {
@@ -69,7 +76,8 @@ private func buildRouter(logger: Logger) async throws -> Router<AppRequestContex
         markdownTree: markdownFiles,
         mustacheLibrary: templates,
         logger: logger,
-        cache: cache
+        cache: cache,
+        homePostLimit: homePostLimit
     )
     .addRoutes(to: router)
 

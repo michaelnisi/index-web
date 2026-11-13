@@ -18,6 +18,12 @@ struct AppCommand: AsyncParsableCommand, AppArguments {
             Logger.Level(rawValue: $0)
         } ?? .info
 
+    @Option(help: "Maximum number of posts shown on the home page.")
+    var homePostLimit: Int =
+        environment.get("HOME_POST_LIMIT").flatMap {
+            Int($0)
+        } ?? defaultHomePostLimit
+
     func run() async throws {
         let app = try await buildApplication(self)
 

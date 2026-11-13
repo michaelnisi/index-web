@@ -36,10 +36,13 @@ extension WebsiteController {
             return acc.sorted()
         }
 
+        let shownPosts = Array(posts.prefix(max(homePostLimit, 0)))
+
         let data = IndexData(
             title: "Michael Nisi — Software Engineer & Surfer",
             canonical: .canonicalURL(for: request.uri.path),
-            posts: posts
+            posts: shownPosts,
+            hasOlderPosts: shownPosts.count < posts.count
         )
 
         guard let html = mustacheLibrary.render(data, withTemplate: "index") else {
@@ -69,13 +72,15 @@ private struct IndexData {
     let description: String
     let ogType: String
     let posts: [Post]
+    let hasOlderPosts: Bool
 
-    init(title: String, canonical: String, posts: [Post]) {
+    init(title: String, canonical: String, posts: [Post], hasOlderPosts: Bool) {
         self.title = title
         self.canonical = canonical
         description = "Strong types and single fins. Bring back the personal web."
         ogType = "website"
         self.posts = posts
+        self.hasOlderPosts = hasOlderPosts
     }
 }
 
