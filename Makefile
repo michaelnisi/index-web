@@ -1,5 +1,8 @@
 SWIFT_FORMAT := $(shell which swift-format 2>/dev/null || echo /opt/homebrew/bin/swift-format)
 
+# Pass PORT explicitly to pin the port: make run PORT=9000
+PORT ?= 8080
+
 format:
 		$(SWIFT_FORMAT) -ri --configuration .swift-format Sources Tests
 
@@ -7,7 +10,7 @@ build: format
 		swift build
 
 run: format
-		swift run
+		scripts/run.sh $(PORT) $(if $(filter command line environment,$(origin PORT)),pinned)
 
 test: format
 		swift test
