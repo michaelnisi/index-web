@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## v71 - 2026-11-22
+- GH-113 Add Bluesky to footer (#150)
+
 ## v70 - 2026-11-13
 - GH-148 Make run survive a port already in use (#149)
 
